@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Survey } from './shared/services/survey';
+import { SurveyService } from './shared/services/survey';
 import { FormSurvey } from "./shared/components/form-survey/form-survey";
 
 @Component({
@@ -12,7 +12,7 @@ import { FormSurvey } from "./shared/components/form-survey/form-survey";
 export class App {
   protected readonly title = signal('pollapp');
 
-  db = inject(Survey)
+  db = inject(SurveyService)
 
   ngOnInit(){
     this.db.readDB('surveys')

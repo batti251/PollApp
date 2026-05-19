@@ -1,6 +1,6 @@
 export interface Survey {
-    id: number,
-    name: string,
+    id?: number,
+    surveyName: string,
     endDate?: string,
     description?: string,
     category: string,

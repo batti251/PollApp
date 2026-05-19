@@ -1,12 +1,13 @@
-<form [formGroup]="surveyForm">
-  <label for="survey-name">First Name: </label>
+<form [formGroup]="surveyForm" (ngSubmit)="formSubmit()">
+  <label for="survey-name">Survey Name: </label>
   <input id="survey-name" type="text" formControlName="surveyName" />
 
-  <label for="end-date">Last Name: </label>
-  <input id="end-date" type="text" formControlName="endDate" />
+  <label for="end-date">End Date: </label>
+  <input id="end-date" type="date" formControlName="endDate" />
 
-  <label for="description">Last Name: </label>
+  <label for="description">Description: </label>
   <input id="description" type="text" formControlName="description" />
 
 
+  <button type="submit">Submit</button>
 </form>
