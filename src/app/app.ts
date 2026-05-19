@@ -1,10 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Survey } from './shared/services/survey';
+import { FormSurvey } from "./shared/components/form-survey/form-survey";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, FormSurvey],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
