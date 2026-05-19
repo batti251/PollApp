@@ -26,11 +26,12 @@ export class Survey {
   /**
    * Reads all rows from the DB
    */
-  async readDB() {
+  async readDB(db:string) {
     let { data: surveys, error } = await this.supabase
-      .from('surveys')
+      .from(db)
       .select('*')
     console.log(surveys);
+    console.log(db);
 
   }
 
@@ -38,12 +39,16 @@ export class Survey {
 
 
 
-
+    /**
+     * 
+     * @param channel - the channel, to listen to
+     * @param event - possible Events: '*'|'INSERT'|'UPDATE'|'DELETE'
+     */
     startChannel(channel: RealtimeChannel, event:'*'|'INSERT'|'UPDATE'|'DELETE') {
     channel = this.supabase.channel('custom-all-channel')
       .on(
         'postgres_changes',
-        { event: event, schema: 'public', table: 'surveys' },
+        { event: event, schema: 'public'},
         (payload) => {
           console.log('Change received!', payload)
         }

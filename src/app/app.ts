@@ -15,7 +15,9 @@ export class App {
   db = inject(Survey)
 
   ngOnInit(){
-    this.db.readDB()
+    this.db.readDB('surveys')
+    this.db.readDB('survey-questions')
+    this.db.readDB('survey-questions-answers')
   }
 
   ngOnDestroy(){
