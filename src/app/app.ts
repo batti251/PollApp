@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SurveyService } from './shared/services/survey';
-import { FormSurvey } from "./shared/components/form-survey/form-survey";
+import { FormSurvey } from "./shared/components/survey/form-survey/form-survey";
 
 @Component({
   selector: 'app-root',

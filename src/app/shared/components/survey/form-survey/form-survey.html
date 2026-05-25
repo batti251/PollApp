@@ -1,0 +1,54 @@
+<form [formGroup]="surveyForm" (ngSubmit)="formSubmit()">
+  <label for="survey-name">Survey Name: </label>
+  <input id="survey-name" type="text" formControlName="surveyName" />
+
+  <label for="end-date">End Date: </label>
+  <input id="end-date" type="date" formControlName="endDate" />
+
+  <label for="description">Description: </label>
+  <input id="description" type="text" formControlName="description" />
+
+  <div formArrayName="questions" style="border: 1px solid black;">
+    @for (item of questions.controls; track $index; let questionIndex = $index) {
+
+      <button type="button" (click)="deleteControlFromArray(questions, questionIndex)">delete question</button>
+
+      <section style="border: 1px solid red" [formGroupName]="questionIndex">
+        <h3>Question</h3>
+        <label for="questionInput"></label>
+        <input id="questionInput" type="text" formControlName="questionInput" />
+
+        <label for="multiple-choice">allow multiple answers.</label> <br />
+        <input id="multiple-choice" type="checkbox" formControlName="multipleChoice" /> <br />
+
+        <div formArrayName="answers">
+          @for (
+            item of getAnswers(questionIndex).controls;
+            track $index;
+            let answerIndex = $index;
+            let last = $last
+          ) {
+            <section id="section__answer" [formGroupName]="answerIndex">
+              <label for="answerInput">A: </label> <br />
+              <input id="answerInput" type="text" formControlName="answerInput" /> <br />
+
+              <button (click)="deleteControlFromArray(getAnswers(questionIndex), answerIndex)">Delete Answer</button>
+              <button (click)="addAnswer(questionIndex)">add new answer</button>
+            </section>
+          }
+          @empty {
+            
+      <button (click)="addAnswer(questionIndex)">add answer</button>
+    }
+        </div>
+      </section>
+      
+    <button [hidden]="!$last" type="button" (click)="addQuestion()">add next question</button>
+
+    } @empty {
+      <button>asas</button>
+    }
+  </div>
+
+  <button type="submit">Publish</button>
+</form>

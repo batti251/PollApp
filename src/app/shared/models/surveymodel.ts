@@ -1,11 +1,13 @@
 import { Survey } from "../interfaces/survey";
+import { SurveyQuestions } from "../interfaces/survey-questions";
 
 export class SurveyModel implements Survey{
     surveyName: string;
     endDate?: string;
     description?: string;
-    category: string;
+    category?: string;
     type: 'survey';
+    questions: SurveyQuestions[];
 
 
     constructor(data: Partial<Survey> = {}){
@@ -13,10 +15,8 @@ export class SurveyModel implements Survey{
         this.endDate = data.endDate ?? "";
         this.description = data.description ?? "";
         this.category = data.category ?? "";
-        this.type = 'survey'
+        this.type = 'survey';
+        this.questions = data.questions ?? [];
     }
 }
-
-
-
 

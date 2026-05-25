@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { FormSurvey } from './shared/components/form-survey/form-survey';
+import { FormSurvey } from './shared/components/survey/form-survey/form-survey';
 
 export const routes: Routes = [
 

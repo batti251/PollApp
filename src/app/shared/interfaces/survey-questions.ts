@@ -1,7 +1,8 @@
+import { SurveyQuestionsAnswers } from "./survey-questions-answers";
+
 export interface SurveyQuestions {
-        surveyId: number,
-        questionId: number,
-        text: string,
-        value: string | boolean | number
-        type: 'question'
+        questionInput: string,
+        value: string | boolean | number,
+        multipleChoice: boolean,
+        answers: SurveyQuestionsAnswers[]
 }

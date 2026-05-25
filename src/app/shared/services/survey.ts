@@ -1,7 +1,8 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { Key } from './key';
 import { Survey } from '../interfaces/survey';
+import { SurveyQuestions } from '../interfaces/survey-questions';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,22 @@ export class SurveyService {
 
   supabase = createClient(this.keys.supabaseURL, this.keys.supabaseKey)
   allEvents!: RealtimeChannel;
+
+  survey = signal<Survey>({
+    surveyName: "",
+    endDate: "",
+    description: "",
+    category: "",
+    type: 'survey',
+    questions: []
+  })
+
+  questionSignal = signal<SurveyQuestions>({
+    questionInput: "",
+    value: "",
+    multipleChoice: false,
+    answers:[]
+  })
 
 
   constructor() {
@@ -50,7 +67,8 @@ export class SurveyService {
           endDate: rowData.endDate,
           description: rowData.description,
           category: rowData.category,
-          type: rowData.type
+          type: rowData.type,
+          questions: rowData.questions
         },
       ])
       .select()
