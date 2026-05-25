@@ -14,10 +14,12 @@ import { SurveyModel } from '../../../models/surveymodel';
 export class FormSurvey {
   db = inject(SurveyService)
   formBuilder = inject(FormBuilder)
+  categories =  this.db.category
 
   surveyForm = this.formBuilder.group({
     surveyName: [''],
     endDate: [''],
+    category: [''],
     description: [''],
     questions: this.formBuilder.array([
       this.createNewQuestion()])
@@ -85,6 +87,27 @@ export class FormSurvey {
    */
   deleteControlFromArray(targetArray:FormArray , index:number){
     targetArray.removeAt(index)
+  }
+
+  /**
+   * Resets the Input and FormGroup Value
+   * @param FormGroup 
+   */
+  resetValue(FormGroup: String){
+   switch (FormGroup) {
+    case 'surveyName':
+      this.surveyForm.controls.surveyName.setValue("");
+      break;
+   case 'endDate':
+      this.surveyForm.controls.endDate.setValue("");
+      break;
+      case 'description':
+      this.surveyForm.controls.description.setValue("");
+      break;
+    default: 
+      this.surveyForm.controls.description.setValue("");
+    break;
+   }
   }
 
 

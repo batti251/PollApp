@@ -1,12 +1,25 @@
 <form [formGroup]="surveyForm" (ngSubmit)="formSubmit()">
   <label for="survey-name">Survey Name: </label>
   <input id="survey-name" type="text" formControlName="surveyName" />
+  <button (click)="resetValue('surveyName')">Delete</button>
+
+  <label for="category">
+  <select id="category" type="text" formControlName="category">
+    <option value="" disabled selected hidden>Choose category</option>
+    @for (item of categories; track $index; ) {
+      <option value="{{ item.value }}">{{ item.tag }}</option>
+    }
+  </select>
+    </label>
+
 
   <label for="end-date">End Date: </label>
   <input id="end-date" type="date" formControlName="endDate" />
+  <button (click)="resetValue('endDate')">Delete</button>
 
   <label for="description">Description: </label>
-  <input id="description" type="text" formControlName="description" />
+  <textarea name="description" id="description" formControlName="description" ></textarea>
+  <button (click)="resetValue('description')">Delete</button>
 
   <div formArrayName="questions" style="border: 1px solid black;">
     @for (item of questions.controls; track $index; let questionIndex = $index) {
@@ -15,11 +28,11 @@
 
       <section style="border: 1px solid red" [formGroupName]="questionIndex">
         <h3>Question</h3>
-        <label for="questionInput"></label>
-        <input id="questionInput" type="text" formControlName="questionInput" />
+        <label for="questionInput-{{questionIndex}}"></label>
+        <input id="questionInput-{{questionIndex}}" type="text" formControlName="questionInput" />
 
-        <label for="multiple-choice">allow multiple answers.</label> <br />
-        <input id="multiple-choice" type="checkbox" formControlName="multipleChoice" /> <br />
+        <label for="multiple-choice-{{questionIndex}}">allow multiple answers.</label> <br />
+        <input id="multiple-choice-{{questionIndex}}" type="checkbox" formControlName="multipleChoice" /> <br />
 
         <div formArrayName="answers">
           @for (
@@ -29,11 +42,12 @@
             let last = $last
           ) {
             <section id="section__answer" [formGroupName]="answerIndex">
-              <label for="answerInput">A: </label> <br />
-              <input id="answerInput" type="text" formControlName="answerInput" /> <br />
+              <label for="answerInput-{{answerIndex}}">A: </label> <br />
+              <input id="answerInput-{{answerIndex}}" type="text" formControlName="answerInput" /> <br />
 
               <button (click)="deleteControlFromArray(getAnswers(questionIndex), answerIndex)">Delete Answer</button>
-              <button (click)="addAnswer(questionIndex)">add new answer</button>
+              <button [hidden]="!$last" (click)="addAnswer(questionIndex)">add new answer</button>
+                  
             </section>
           }
           @empty {
@@ -46,7 +60,7 @@
     <button [hidden]="!$last" type="button" (click)="addQuestion()">add next question</button>
 
     } @empty {
-      <button>asas</button>
+      <button type="button" (click)="addQuestion()">add question</button>
     }
   </div>
 

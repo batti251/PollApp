@@ -29,6 +29,15 @@ export class SurveyService {
     answers:[]
   })
 
+  category = [
+    {value: 0 ,tag: "Health & Wellness"}, 
+    {value: 1 ,tag: "Team Activities"}, 
+    {value: 2 ,tag: "Gaming & Entertainment"}, 
+    {value: 3 ,tag: "Education & Learning"}, 
+    {value: 4 ,tag: "Lifestyle & Preferences"}, 
+    {value: 5 ,tag: "Technology & Innovation"} 
+  ]
+
 
   constructor() {
     this.startChannel(this.allEvents, '*')
