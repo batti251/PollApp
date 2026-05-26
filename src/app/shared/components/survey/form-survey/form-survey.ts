@@ -32,7 +32,6 @@ export class FormSurvey {
   createNewQuestion() {
     return this.formBuilder.group({
     questionInput: [''],
-    value: [''],
     multipleChoice: [false],
     answers: this.formBuilder.array([this.createNewAnswer()])
   })
@@ -117,16 +116,7 @@ export class FormSurvey {
    */
   formSubmit() {
     let survey = new SurveyModel(this.surveyForm.value as Partial<Survey>)
-    console.log(survey);
-    /*  console.log(this.db.survey());
-  console.log(this.db.survey()); */
-
-    let newObj = this.db.survey.set(survey)
-    console.log(newObj);
-
-    console.log(this.db.questionSignal());
-
-    /* this.db.addRowDB(survey) */
+    this.db.addRowDB(survey)
   }
 
 }

@@ -6,6 +6,6 @@ export interface Survey {
     endDate?: string,
     description?: string,
     category?: string,
-    type: 'survey'
+    type: 'survey',
     questions: SurveyQuestions[]
 }

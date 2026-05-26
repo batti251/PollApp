@@ -1,7 +1,7 @@
 <form [formGroup]="surveyForm" (ngSubmit)="formSubmit()">
   <label for="survey-name">Survey Name: </label>
   <input id="survey-name" type="text" formControlName="surveyName" />
-  <button (click)="resetValue('surveyName')">Delete</button>
+  <button type="button" (click)="resetValue('surveyName')">Delete</button>
 
   <label for="category">
   <select id="category" type="text" formControlName="category">
@@ -15,11 +15,11 @@
 
   <label for="end-date">End Date: </label>
   <input id="end-date" type="date" formControlName="endDate" />
-  <button (click)="resetValue('endDate')">Delete</button>
+  <button type="button" (click)="resetValue('endDate')">Delete</button>
 
   <label for="description">Description: </label>
   <textarea name="description" id="description" formControlName="description" ></textarea>
-  <button (click)="resetValue('description')">Delete</button>
+  <button type="button" (click)="resetValue('description')">Delete</button>
 
   <div formArrayName="questions" style="border: 1px solid black;">
     @for (item of questions.controls; track $index; let questionIndex = $index) {
@@ -45,14 +45,14 @@
               <label for="answerInput-{{answerIndex}}">A: </label> <br />
               <input id="answerInput-{{answerIndex}}" type="text" formControlName="answerInput" /> <br />
 
-              <button (click)="deleteControlFromArray(getAnswers(questionIndex), answerIndex)">Delete Answer</button>
-              <button [hidden]="!$last" (click)="addAnswer(questionIndex)">add new answer</button>
+              <button type="button" (click)="deleteControlFromArray(getAnswers(questionIndex), answerIndex)">Delete Answer</button>
+              <button [hidden]="!$last" type="button" (click)="addAnswer(questionIndex)">add new answer</button>
                   
             </section>
           }
           @empty {
             
-      <button (click)="addAnswer(questionIndex)">add answer</button>
+      <button type="button" (click)="addAnswer(questionIndex)">add answer</button>
     }
         </div>
       </section>

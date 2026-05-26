@@ -3,6 +3,9 @@ import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { Key } from './key';
 import { Survey } from '../interfaces/survey';
 import { SurveyQuestions } from '../interfaces/survey-questions';
+import { SurveyModel } from '../models/surveymodel';
+import { SurveyQuestionsAnswers } from '../interfaces/survey-questions-answers';
+import { FormArray } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +27,9 @@ export class SurveyService {
 
   questionSignal = signal<SurveyQuestions>({
     questionInput: "",
-    value: "",
     multipleChoice: false,
-    answers:[]
+    answers:[],
+    surveyId: 0
   })
 
   category = [
@@ -77,13 +80,60 @@ export class SurveyService {
           description: rowData.description,
           category: rowData.category,
           type: rowData.type,
-          questions: rowData.questions
+        },
+      ])
+      .select()
+      .single()
+      const surveyId = data.id;
+      const surveyQuestions = rowData.questions;
+      for (const question of surveyQuestions) {
+        await this.insertSurveyQuestions(question, surveyId)
+      }
+  }
+
+  /**
+   * called Function from {@link addRowDB} 
+   * Inserts the SurveyQuestions-Object to Supabase DB
+   * Adds the data to table 'survey-questions' 
+   * @param question -
+   * @param surveyId - given Id from Supabase table [surveys]
+   */
+  async insertSurveyQuestions(question:SurveyQuestions, surveyId:number){
+     const { data, error } = await this.supabase
+      .from('survey-questions')
+      .insert([
+        {
+          questionInput: question.questionInput,
+          multipleChoice: question.multipleChoice,
+          surveyId: surveyId
+        },
+      ])
+      .select()
+      .single()
+      const answers = question.answers;
+      const questionId = data.id
+      for (const answer of answers) {
+         await this.insertQuestionAnswers(answer, questionId)
+      }
+  }
+
+  /**
+   * called Function from {@link insertSurveyQuestions} 
+   * Inserts the SurveyQuestionsAnswers-Object to Supabase DB 
+   * @param answer - SurveyQuestionsAnswers
+   * @param questionId - given Id from Supabase table [survey-questions]
+   */
+  async insertQuestionAnswers(answer:SurveyQuestionsAnswers, questionId:number){
+     const { data, error } = await this.supabase
+      .from('survey-questions-answers')
+      .insert([
+        {
+          answerInput: answer.answerInput,
+          questionId: questionId
         },
       ])
       .select()
   }
-
-
 
   /**
    * Starts the channel to listen to Realtime-Event-Changes
