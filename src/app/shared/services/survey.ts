@@ -15,6 +15,9 @@ export class SurveyService {
 
   supabase = createClient(this.keys.supabaseURL, this.keys.supabaseKey)
   allEvents!: RealtimeChannel;
+  surveyList = signal<Survey[]>([])
+  currentDate = ''
+  expireSoonDate = ''
 
   survey = signal<Survey>({
     surveyName: "",
@@ -43,9 +46,18 @@ export class SurveyService {
 
 
   constructor() {
-    this.startChannel(this.allEvents, '*')
+    this.startChannel(this.allEvents, '*');
+    this.setDates();
   }
 
+  /**
+   * Sets the currentDate and expireSoonDate
+   * Defines expireSoonDate range by 5 days
+   */
+  setDates(){
+    this.currentDate = new Date().toISOString().split('T')[0]
+    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate()+5)).toISOString().split('T')[0]
+  }
 
 
   ngOnDestroy() {
@@ -55,13 +67,30 @@ export class SurveyService {
 
   /**
    * Reads all rows from the DB
+   * @param db - the fetched supabase-table
+   * @returns - the fetched data-rows according to @param db 
    */
-  async readDB(db: string) {
+  async readDB(db: string):Promise<Survey[]|Promise<SurveyQuestions[]|Promise<SurveyQuestionsAnswers[]>>> {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*')
-    console.log(surveys);
-    console.log(db);
+    return surveys ?? []
+  }
+
+  /**
+   * Reads all rows from the DB
+   * It filters only surveys, that are between the currentDate and expireSoonDate range
+   * expireSoonDate is defined here: {@link setDates()}
+   * @param db - the fetched supabase-table
+   * @returns  - the fetched data-rows according to @param db 
+   */
+  async readExpireSoonDB(db: string):Promise<Survey[]> {
+    let { data: surveys, error } = await this.supabase
+      .from(db)
+      .select('*')
+      .gte('endDate', `${this.currentDate}`)
+      .lte('endDate', `${this.expireSoonDate}`)
+      return surveys ?? []
   }
 
   /**
