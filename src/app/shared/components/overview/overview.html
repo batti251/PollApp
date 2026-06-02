@@ -1,7 +1,7 @@
 
     <h2>Ending soon surveys</h2>
-@for (item of toExpire(); track $index) {
-    <div>
+@for (item of toExpire(); track $index; let i = $index) {
+    <div role="link" [routerLink]="['/survey', item.id]">
     <span> Category: {{ item.category }}</span>
     <h3> Survey: {{ item.surveyName }}</h3>
     

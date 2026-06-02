@@ -77,6 +77,19 @@ export class SurveyService {
     return surveys ?? []
   }
 
+    /**
+   * Reads all rows from the DB
+   * @param db - the fetched supabase-table
+   * @returns - the fetched data-rows according to @param db 
+   */
+  async readSingleSurveyDB(db: string, id:string|null):Promise<Survey[]|Promise<SurveyQuestions[]|Promise<SurveyQuestionsAnswers[]>>> {
+    let { data: surveys, error } = await this.supabase
+      .from(db)
+      .select('*')
+      .eq('id', id)
+    return surveys ?? []
+  }
+
   /**
    * Reads all rows from the DB
    * It filters only surveys, that are between the currentDate and expireSoonDate range

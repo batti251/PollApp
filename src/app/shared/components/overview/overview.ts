@@ -4,10 +4,11 @@ import { Survey } from '../../interfaces/survey';
 import { signal } from '@angular/core';
 import { SurveyQuestions } from '../../interfaces/survey-questions';
 import { SurveyQuestionsAnswers } from '../../interfaces/survey-questions-answers';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-overview',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
 })
