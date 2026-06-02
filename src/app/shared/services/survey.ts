@@ -82,10 +82,10 @@ export class SurveyService {
    * @param db - the fetched supabase-table
    * @returns - the fetched data-rows according to @param db 
    */
-  async readSingleSurveyDB(db: string, id:string|null):Promise<Survey[]|Promise<SurveyQuestions[]|Promise<SurveyQuestionsAnswers[]>>> {
+  async readSingleSurveyDB(db: string, id:string|null):Promise<Survey[]|SurveyQuestions[]|SurveyQuestionsAnswers[]> {
     let { data: surveys, error } = await this.supabase
       .from(db)
-      .select('*')
+      .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (id, answerInput))')
       .eq('id', id)
     return surveys ?? []
   }

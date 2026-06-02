@@ -2,23 +2,30 @@ import { Component, inject, signal } from '@angular/core';
 import { SurveyService } from '../../services/survey';
 import { Survey } from '../../interfaces/survey';
 import {ActivatedRoute} from '@angular/router';
+import { SurveyModel } from '../../models/surveymodel';
+import { JsonPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-survey-view',
-  imports: [],
+  imports: [JsonPipe],
   templateUrl: './survey-view.html',
   styleUrl: './survey-view.scss',
 })
 export class SurveyView {
 
   db = inject(SurveyService)
-  surveyList = signal<Survey[]>([])
+  survey = signal<Survey>({
+    surveyName: '',
+    type: 'survey',
+    questions: []
+  })
+  
   private route = inject(ActivatedRoute)
 
 
-   async ngOnInit(){
-    await this.getSingleSurveyDB();
+     ngOnInit(){
+     this.getSingleSurveyDB();
   }
 
   /**
@@ -28,7 +35,7 @@ export class SurveyView {
   async getSingleSurveyDB(){
     let surveyId = this.route.snapshot.paramMap.get('id');
     let dbResponse = await this.db.readSingleSurveyDB('surveys', surveyId) as Survey[]
-    this.surveyList.set(dbResponse) 
+    this.survey.set(dbResponse[0])
   }
 
 
