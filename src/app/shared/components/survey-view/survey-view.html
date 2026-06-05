@@ -1,1 +1,45 @@
+{{ survey() | json }}
 
+<form action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">
+  <div>
+    <span>ends on {{ survey().endDate }}</span>
+    <span>Category: {{ survey().category }}</span>
+  </div>
+
+  <h1>{{ survey().surveyName }}</h1>
+  <p>{{ survey().description }}</p>
+
+  <fieldset formArrayName="responses">
+  @for (item of survey().questions; track item.id; let questionIndex = $index) {
+    <h3>{{ questionIndex + 1 }}. {{ item.questionInput }}</h3>
+
+    <div>
+      @if (item.multipleChoice) {
+        <span> More than one answers are possible</span>
+      } @else {}
+    </div>
+    <br />
+
+    <section [formGroupName]="questionIndex">
+    @for (answers of item.answers; track $index; let i = $index) {
+      @if (item.multipleChoice) {
+            {{answers.id}}
+            <label for="question-{{answers.questionId}}"></label>
+            <input (change)="updateMultipleChoiceAnswers(questionIndex,  answers.id, $event)" id="answer-{{ i }}" type="checkbox" [value]="answers.id"/>
+            {{ answers.answerInput }}
+            <span> {{surveyResponseForm.valid}} </span>
+        } @else {
+            {{answers.id}}
+          <label for="question-{{questionIndex}}"></label>
+          <input id="answer-{{ i }}" type="radio" name="selectedAnswerId" [value]="answers.id" formControlName="selectedAnswerId"/>
+          {{ answers.answerInput }}
+          <span> {{surveyResponseForm.valid}} </span>
+        }
+        <br />
+      }
+    </section>
+}
+</fieldset>
+
+  <button type="submit">Complete survey</button>
+</form>
