@@ -88,7 +88,7 @@ export class SurveyView {
   buildMultipleChoiceFormControl(question: SurveyQuestions) {
     return this.formBuilder.group({
       questionId: question.id,
-      selectedAnswerIds: this.formBuilder.array([])
+      selectedAnswerIds: this.formBuilder.array([], Validators.required)
     })
   }
 
@@ -120,7 +120,13 @@ export class SurveyView {
   }
 
   formSubmit() {
-
+        console.log(this.surveyResponseForm);
+    console.log();
+    console.log(this.survey().questions);
+    if (this.surveyResponseForm.valid) {
+      console.log(this.surveyResponseForm.value);
+    }
+    else console.log("fail");
   }
 
 
