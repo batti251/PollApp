@@ -6,6 +6,7 @@ import { SurveyQuestions } from '../interfaces/survey-questions';
 import { SurveyModel } from '../models/surveymodel';
 import { SurveyQuestionsAnswers } from '../interfaces/survey-questions-answers';
 import { FormArray } from '@angular/forms';
+import { SurveyResponse } from '../interfaces/survey-response';
 
 @Injectable({
   providedIn: 'root',
@@ -31,17 +32,17 @@ export class SurveyService {
   questionSignal = signal<SurveyQuestions>({
     questionInput: "",
     multipleChoice: false,
-    answers:[],
+    answers: [],
     surveyId: 0
   })
 
   category = [
-    {value: 0 ,tag: "Health & Wellness"}, 
-    {value: 1 ,tag: "Team Activities"}, 
-    {value: 2 ,tag: "Gaming & Entertainment"}, 
-    {value: 3 ,tag: "Education & Learning"}, 
-    {value: 4 ,tag: "Lifestyle & Preferences"}, 
-    {value: 5 ,tag: "Technology & Innovation"} 
+    { value: 0, tag: "Health & Wellness" },
+    { value: 1, tag: "Team Activities" },
+    { value: 2, tag: "Gaming & Entertainment" },
+    { value: 3, tag: "Education & Learning" },
+    { value: 4, tag: "Lifestyle & Preferences" },
+    { value: 5, tag: "Technology & Innovation" }
   ]
 
 
@@ -54,9 +55,9 @@ export class SurveyService {
    * Sets the currentDate and expireSoonDate
    * Defines expireSoonDate range by 5 days
    */
-  setDates(){
+  setDates() {
     this.currentDate = new Date().toISOString().split('T')[0]
-    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate()+5)).toISOString().split('T')[0]
+    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate() + 5)).toISOString().split('T')[0]
   }
 
 
@@ -70,19 +71,19 @@ export class SurveyService {
    * @param db - the fetched supabase-table
    * @returns - the fetched data-rows according to @param db 
    */
-  async readDB(db: string):Promise<Survey[]|Promise<SurveyQuestions[]|Promise<SurveyQuestionsAnswers[]>>> {
+  async readDB(db: string): Promise<Survey[] | Promise<SurveyQuestions[] | Promise<SurveyQuestionsAnswers[]>>> {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*')
     return surveys ?? []
   }
 
-    /**
-   * Reads all rows from the DB
-   * @param db - the fetched supabase-table
-   * @returns - the fetched data-rows according to @param db 
-   */
-  async readSingleSurveyDB(db: string, id:string|null):Promise<Survey[]|SurveyQuestions[]|SurveyQuestionsAnswers[]> {
+  /**
+ * Reads all rows from the DB
+ * @param db - the fetched supabase-table
+ * @returns - the fetched data-rows according to @param db 
+ */
+  async readSingleSurveyDB(db: string, id: string | null): Promise<Survey[] | SurveyQuestions[] | SurveyQuestionsAnswers[]> {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput))')
@@ -97,13 +98,13 @@ export class SurveyService {
    * @param db - the fetched supabase-table
    * @returns  - the fetched data-rows according to @param db 
    */
-  async readExpireSoonDB(db: string):Promise<Survey[]> {
+  async readExpireSoonDB(db: string): Promise<Survey[]> {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*')
       .gte('endDate', `${this.currentDate}`)
       .lte('endDate', `${this.expireSoonDate}`)
-      return surveys ?? []
+    return surveys ?? []
   }
 
   /**
@@ -112,7 +113,6 @@ export class SurveyService {
    * @param rowData - survey data
    */
   async addRowDB(rowData: Survey) {
-    console.log(rowData);
     const { data, error } = await this.supabase
       .from('surveys')
       .insert([
@@ -126,11 +126,11 @@ export class SurveyService {
       ])
       .select()
       .single()
-      const surveyId = data.id;
-      const surveyQuestions = rowData.questions;
-      for (const question of surveyQuestions) {
-        await this.insertSurveyQuestions(question, surveyId)
-      }
+    const surveyId = data.id;
+    const surveyQuestions = rowData.questions;
+    for (const question of surveyQuestions) {
+      await this.insertSurveyQuestions(question, surveyId)
+    }
   }
 
   /**
@@ -140,8 +140,8 @@ export class SurveyService {
    * @param question -
    * @param surveyId - given Id from Supabase table [surveys]
    */
-  async insertSurveyQuestions(question:SurveyQuestions, surveyId:number){
-     const { data, error } = await this.supabase
+  async insertSurveyQuestions(question: SurveyQuestions, surveyId: number) {
+    const { data, error } = await this.supabase
       .from('survey-questions')
       .insert([
         {
@@ -152,11 +152,11 @@ export class SurveyService {
       ])
       .select()
       .single()
-      const answers = question.answers;
-      const questionId = data.id
-      for (const answer of answers) {
-         await this.insertQuestionAnswers(answer, questionId)
-      }
+    const answers = question.answers;
+    const questionId = data.id
+    for (const answer of answers) {
+      await this.insertQuestionAnswers(answer, questionId)
+    }
   }
 
   /**
@@ -165,8 +165,8 @@ export class SurveyService {
    * @param answer - SurveyQuestionsAnswers
    * @param questionId - given Id from Supabase table [survey-questions]
    */
-  async insertQuestionAnswers(answer:SurveyQuestionsAnswers, questionId:number){
-     const { data, error } = await this.supabase
+  async insertQuestionAnswers(answer: SurveyQuestionsAnswers, questionId: number) {
+    const { data, error } = await this.supabase
       .from('survey-questions-answers')
       .insert([
         {
@@ -177,6 +177,70 @@ export class SurveyService {
       .select()
   }
 
+  
+  /**
+   * Function Handler for SingleChoice-Answer and MutlipleChoice-Answer
+   * For Each answerId the function {@link increaseSingleAnswerCount} will be called
+   * @param surveyResponses - Array of selected AnswerIds
+   */
+  async sendSurveyResponseToDB(surveyResponses: SurveyResponse[]) {
+    for (const element of surveyResponses) {
+      let selectedAnswerId = element.selectedAnswerId as number
+      if (element.hasOwnProperty('selectedAnswerId')) {
+        await this.increaseSingleAnswerCount(selectedAnswerId)
+      } else {
+        for (const selectedAnswerId of element.selectedAnswerIds as number[]) {
+          await this.increaseSingleAnswerCount(selectedAnswerId)
+        }
+      }
+    }
+  }
+
+  /**
+   * Reads the DB, accordingly to the selectedAnswerId
+   * Increases the current Count by 1 and calls {@link updateSingleAnswerCount}-function to send newCount to DB
+   * @param selectedAnswerId - answer-Id from DB
+   */
+  async increaseSingleAnswerCount(selectedAnswerId: number) {
+    let answersFromDB = await this.readCountDB(selectedAnswerId) as { checkedCount: number }[]
+    let newCount = answersFromDB[0].checkedCount
+    if (answersFromDB.length > 0) {
+      newCount ++
+      await this.updateSingleAnswerDBCount(selectedAnswerId, newCount)
+    } else {
+      newCount = 0 
+      await this.updateSingleAnswerDBCount(selectedAnswerId,newCount)
+    }
+  }
+
+  /**
+   * Sends @param newCount to DB and updates the according row
+   * It updates the table 'survey-questions-answers'
+   * @param selectedAnswerId - answer-Id from DB
+   * @param newCount - the updated Count
+   */
+  async updateSingleAnswerDBCount(selectedAnswerId: number, newCount:number) {
+    const { data, error } = await this.supabase
+      .from('survey-questions-answers')
+      .update({ 'checkedCount': newCount })
+      .eq('id', selectedAnswerId)
+      .select()
+  }
+
+  /**
+   * Reads the current checkedCount colum from table 'survey-questions-answers'
+   * @param selectedAnswerId - answer-Id from DB
+   * @returns - the filtered row, that matches the @param selectedAnswerId
+   */
+  async readCountDB(selectedAnswerId: number) {
+    let { data, error } = await this.supabase
+      .from('survey-questions-answers')
+      .select('checkedCount')
+      .eq('id', selectedAnswerId)
+    return data
+  }
+
+  
   /**
    * Starts the channel to listen to Realtime-Event-Changes
    * @param channel - the channel, to listen to

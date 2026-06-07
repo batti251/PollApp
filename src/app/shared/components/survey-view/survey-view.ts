@@ -6,7 +6,8 @@ import { SurveyModel } from '../../models/surveymodel';
 import { JsonPipe } from '@angular/common';
 import { FormControl, FormBuilder, ɵInternalFormsSharedModule, FormGroup, Validators, ReactiveFormsModule, FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { SurveyQuestions } from '../../interfaces/survey-questions';
-import { iif } from 'rxjs';
+import { SurveyResponse } from '../../interfaces/survey-response';
+
 
 
 @Component({
@@ -123,8 +124,10 @@ export class SurveyView {
         console.log(this.surveyResponseForm);
     console.log();
     console.log(this.survey().questions);
+    console.log(this.surveyResponseForm.value.responses);
+    let responseObj = this.surveyResponseForm.value.responses as SurveyResponse[]
     if (this.surveyResponseForm.valid) {
-      console.log(this.surveyResponseForm.value);
+      this.db.sendSurveyResponseToDB(responseObj)
     }
     else console.log("fail");
   }
