@@ -125,9 +125,10 @@ export class SurveyView {
     console.log();
     console.log(this.survey().questions);
     console.log(this.surveyResponseForm.value.responses);
+    let surveyId = this.survey().id as number
     let responseObj = this.surveyResponseForm.value.responses as SurveyResponse[]
     if (this.surveyResponseForm.valid) {
-      this.db.sendSurveyResponseToDB(responseObj)
+      this.db.sendSurveyResponseToDB(responseObj, surveyId)
     }
     else console.log("fail");
   }

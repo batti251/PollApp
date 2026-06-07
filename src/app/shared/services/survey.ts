@@ -177,13 +177,14 @@ export class SurveyService {
       .select()
   }
 
-  
+
   /**
    * Function Handler for SingleChoice-Answer and MutlipleChoice-Answer
    * For Each answerId the function {@link increaseSingleAnswerCount} will be called
    * @param surveyResponses - Array of selected AnswerIds
    */
-  async sendSurveyResponseToDB(surveyResponses: SurveyResponse[]) {
+  async sendSurveyResponseToDB(surveyResponses: SurveyResponse[], surveyId: number) {
+    await this.increaseSurveyCount(surveyId);
     for (const element of surveyResponses) {
       let selectedAnswerId = element.selectedAnswerId as number
       if (element.hasOwnProperty('selectedAnswerId')) {
@@ -205,11 +206,11 @@ export class SurveyService {
     let answersFromDB = await this.readCountDB(selectedAnswerId) as { checkedCount: number }[]
     let newCount = answersFromDB[0].checkedCount
     if (answersFromDB.length > 0) {
-      newCount ++
+      newCount++
       await this.updateSingleAnswerDBCount(selectedAnswerId, newCount)
     } else {
-      newCount = 0 
-      await this.updateSingleAnswerDBCount(selectedAnswerId,newCount)
+      newCount = 0
+      await this.updateSingleAnswerDBCount(selectedAnswerId, newCount)
     }
   }
 
@@ -219,7 +220,7 @@ export class SurveyService {
    * @param selectedAnswerId - answer-Id from DB
    * @param newCount - the updated Count
    */
-  async updateSingleAnswerDBCount(selectedAnswerId: number, newCount:number) {
+  async updateSingleAnswerDBCount(selectedAnswerId: number, newCount: number) {
     const { data, error } = await this.supabase
       .from('survey-questions-answers')
       .update({ 'checkedCount': newCount })
@@ -240,7 +241,40 @@ export class SurveyService {
     return data
   }
 
-  
+  /**
+   * Reads the DB, accordingly to the surveyId
+   * Increases the current Count by 1 and calls {@link updateSurveysDBCount}-function to send newCount to DB
+   * @param surveyId - survey-Id from DB
+   */
+  async increaseSurveyCount(surveyId: number) {
+    let readCurrentSubmitsCount = await this.readSurveyCountDB(surveyId) as { totalSubmitsCount: number }[]
+    let newSubmitCount = readCurrentSubmitsCount[0].totalSubmitsCount
+    newSubmitCount++
+    await this.updateSurveysDBCount(surveyId, newSubmitCount)
+  }
+
+/**
+ * Sends @param newSubmitCount to DB and updates the 'totalSubmitsCount'-cell
+ * It updates the table 'surveys'
+ * @param surveyId - survey-Id from DB
+ * @param currentSubmitsCount - the increased count (increased by 1)
+ */
+  async updateSurveysDBCount(surveyId: number, newSubmitCount: number) {
+    const { data, error } = await this.supabase
+      .from('surveys')
+      .update({ 'totalSubmitsCount': newSubmitCount })
+      .eq('id', surveyId)
+      .select()
+  }
+
+  async readSurveyCountDB(surveyId: number) {
+    let { data, error } = await this.supabase
+      .from('surveys')
+      .select('totalSubmitsCount')
+      .eq('id', surveyId)
+    return data
+  }
+
   /**
    * Starts the channel to listen to Realtime-Event-Changes
    * @param channel - the channel, to listen to
