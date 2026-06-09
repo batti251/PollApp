@@ -24,18 +24,26 @@
     @for (answers of item.answers; track $index; let i = $index) {
       @if (item.multipleChoice) {
             {{answers.id}}
+            <div>
             <label for="question-{{answers.questionId}}"></label>
             <input (change)="updateMultipleChoiceAnswers(questionIndex,  answers.id, $event)" id="answer-{{ i }}" type="checkbox" [value]="answers.id"/>
             {{ answers.answerInput }}
             <span> {{surveyResponseForm.valid}} </span>
+            </div>
         } @else {
+          <div>
             {{answers.id}}
           <label for="question-{{questionIndex}}"></label>
           <input id="answer-{{ i }}" type="radio" name="selectedAnswerId" [value]="answers.id" formControlName="selectedAnswerId"/>
           {{ answers.answerInput }}
-          <span> {{surveyResponseForm.valid}} </span>
+
+          </div>
         }
         <br />
+      }
+      <b>{{item.id}}</b>
+      @if (submitted && surveyResponses.at(questionIndex).invalid) {
+      <i>You must answer this question!</i>
       }
     </section>
 }
@@ -43,3 +51,26 @@
 
   <button type="submit">Complete survey</button>
 </form>
+
+<dialog id="popover" popover="manual">
+<span class="loader"></span>
+</dialog>
+
+
+@if (errorMessage()) {
+  <dialog [open]="errorMessage()">
+  <h2>Error Message</h2>
+  <p>Please try again later</p>
+</dialog>
+} @else if (successMessage()) {
+  <dialog [open]="successMessage()">
+   <h2>Congratulations</h2>
+  <p>Your answers has been sent to us!
+    Thank you for participating!
+  </p>
+</dialog>
+}
+
+
+
+

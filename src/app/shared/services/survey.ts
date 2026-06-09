@@ -248,10 +248,11 @@ export class SurveyService {
    */
   async increaseSurveyCount(surveyId: number) {
     let readCurrentSubmitsCount = await this.readSurveyCountDB(surveyId) as { totalSubmitsCount: number }[]
-    let newSubmitCount = readCurrentSubmitsCount[0].totalSubmitsCount
-    newSubmitCount++
-    await this.updateSurveysDBCount(surveyId, newSubmitCount)
-  }
+    console.log(readCurrentSubmitsCount);
+      let newSubmitCount = readCurrentSubmitsCount[0].totalSubmitsCount 
+      newSubmitCount++
+      await this.updateSurveysDBCount(surveyId, newSubmitCount)
+    }
 
 /**
  * Sends @param newSubmitCount to DB and updates the 'totalSubmitsCount'-cell
@@ -259,20 +260,23 @@ export class SurveyService {
  * @param surveyId - survey-Id from DB
  * @param currentSubmitsCount - the increased count (increased by 1)
  */
-  async updateSurveysDBCount(surveyId: number, newSubmitCount: number) {
+  async updateSurveysDBCount(surveyId: number, newSubmitCount: number){
     const { data, error } = await this.supabase
       .from('surveys')
       .update({ 'totalSubmitsCount': newSubmitCount })
       .eq('id', surveyId)
       .select()
+      .throwOnError()
   }
 
   async readSurveyCountDB(surveyId: number) {
     let { data, error } = await this.supabase
       .from('surveys')
       .select('totalSubmitsCount')
-      .eq('id', surveyId)
-    return data
+      .eq('id', surveyId) 
+      if (error) {
+        return error
+      } else return data
   }
 
   /**
