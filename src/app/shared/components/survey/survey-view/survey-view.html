@@ -1,5 +1,7 @@
 {{ survey() | json }}
 
+<section style="display: flex;">
+
 <form action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">
   <div>
     <span>ends on {{ survey().endDate }}</span>
@@ -56,6 +58,10 @@
 <span class="loader"></span>
 </dialog>
 
+
+<app-survey-results-live></app-survey-results-live>
+
+</section>
 
 @if (errorMessage()) {
   <dialog [open]="errorMessage()">
