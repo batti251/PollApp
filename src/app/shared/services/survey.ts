@@ -36,6 +36,14 @@ export class SurveyService {
     surveyId: 0
   })
 
+  answerSignal = signal<SurveyQuestionsAnswers>({
+    answerInput: "",
+    questionId: 0,
+    id: 0,
+    checkedCount: 0
+  })
+
+
   category = [
     { value: 0, tag: "Health & Wellness" },
     { value: 1, tag: "Team Activities" },
@@ -44,7 +52,6 @@ export class SurveyService {
     { value: 4, tag: "Lifestyle & Preferences" },
     { value: 5, tag: "Technology & Innovation" }
   ]
-
 
   constructor() {
     this.startChannel(this.allEvents, '*');
@@ -75,6 +82,7 @@ export class SurveyService {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*')
+      .order('id', { ascending: false })
     return surveys ?? []
   }
 
@@ -86,7 +94,7 @@ export class SurveyService {
   async readSingleSurveyDB(db: string, id: string | null): Promise<Survey[] | SurveyQuestions[] | SurveyQuestionsAnswers[]> {
     let { data: surveys, error } = await this.supabase
       .from(db)
-      .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput))')
+      .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput, checkedCount))')
       .eq('id', id)
     return surveys ?? []
   }
@@ -238,6 +246,7 @@ export class SurveyService {
       .from('survey-questions-answers')
       .select('checkedCount')
       .eq('id', selectedAnswerId)
+      .order('id', { ascending: false })
     return data
   }
 
@@ -249,18 +258,18 @@ export class SurveyService {
   async increaseSurveyCount(surveyId: number) {
     let readCurrentSubmitsCount = await this.readSurveyCountDB(surveyId) as { totalSubmitsCount: number }[]
     console.log(readCurrentSubmitsCount);
-      let newSubmitCount = readCurrentSubmitsCount[0].totalSubmitsCount 
-      newSubmitCount++
-      await this.updateSurveysDBCount(surveyId, newSubmitCount)
-    }
+    let newSubmitCount = readCurrentSubmitsCount[0].totalSubmitsCount
+    newSubmitCount++
+    await this.updateSurveysDBCount(surveyId, newSubmitCount)
+  }
 
-/**
- * Sends @param newSubmitCount to DB and updates the 'totalSubmitsCount'-cell
- * It updates the table 'surveys'
- * @param surveyId - survey-Id from DB
- * @param currentSubmitsCount - the increased count (increased by 1)
- */
-  async updateSurveysDBCount(surveyId: number, newSubmitCount: number){
+  /**
+   * Sends @param newSubmitCount to DB and updates the 'totalSubmitsCount'-cell
+   * It updates the table 'surveys'
+   * @param surveyId - survey-Id from DB
+   * @param currentSubmitsCount - the increased count (increased by 1)
+   */
+  async updateSurveysDBCount(surveyId: number, newSubmitCount: number) {
     const { data, error } = await this.supabase
       .from('surveys')
       .update({ 'totalSubmitsCount': newSubmitCount })
@@ -273,10 +282,10 @@ export class SurveyService {
     let { data, error } = await this.supabase
       .from('surveys')
       .select('totalSubmitsCount')
-      .eq('id', surveyId) 
-      if (error) {
-        return error
-      } else return data
+      .eq('id', surveyId)
+    if (error) {
+      return error
+    } else return data
   }
 
   /**
@@ -291,8 +300,12 @@ export class SurveyService {
         { event: event, schema: 'public' },
         (payload) => {
           console.log('Change received!', payload)
+          console.log(this.surveyList());
+
         }
       )
       .subscribe()
   }
+
+
 }

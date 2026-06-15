@@ -15,7 +15,7 @@ import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
   styleUrl: './survey-view.scss',
 })
 export class SurveyView {
-
+  private activatedRoute = inject(ActivatedRoute);
   private route = inject(ActivatedRoute)
   db = inject(SurveyService)
   errorMessage = signal<boolean>(false)
@@ -24,7 +24,7 @@ export class SurveyView {
   private router = inject(Router)
   formBuilder = inject(FormBuilder)
 
-  
+
   surveyResponseForm = this.formBuilder.group({
     responses: this.formBuilder.array<FormGroup>([])
   })
@@ -35,23 +35,54 @@ export class SurveyView {
     description: "",
     category: "",
     type: 'survey',
+    totalSubmitsCount: 0,
     questions: []
   })
+
+  sortedResults: any
+  surveyResults = signal<Survey>({
+    surveyName: "",
+    endDate: "",
+    description: "",
+    category: "",
+    type: 'survey',
+    totalSubmitsCount: 0,
+    questions: []
+  })
+
 
   async ngOnInit() {
     await this.getSingleSurveyDB();
     this.buildSurveyForm()
   }
 
+ 
+
   /**
    * Reads the Supabase-DB according to the given id from the route snapshot
    * It sets the surveyList-Signal to the according id
+   * It renders a sorted Survey, sort by answerId
    */
   async getSingleSurveyDB() {
     let surveyId = this.route.snapshot.paramMap.get('id');
     let dbResponse = await this.db.readSingleSurveyDB('surveys', surveyId) as Survey[]
     this.survey.set(dbResponse[0])
-    console.log(dbResponse[0]);
+    this.surveyResults.set(dbResponse[0]);
+    this.sortedResults = this.surveyResults().questions.map((answer: any) => {
+      answer.answers.sort(this.sortId)
+    })
+  }
+
+  /**
+   * sort function 
+   * @param a 
+   * @param b 
+   * @returns 
+   */
+   sortId(a: any, b: any): any {
+    if (a.id < b.id) {
+      return -1
+    } else 1
   }
 
   /**
@@ -163,9 +194,15 @@ export class SurveyView {
   initUIFeedback(dialog: HTMLDialogElement, errorFromDB: boolean) {
     this.showDialogMessage(errorFromDB)
     this.toggleDialog(dialog)
+    console.log(this.surveyResults());
+    
+
     if (this.successMessage() == true) {
       setTimeout(() => {
-        this.router.navigate([''])
+        
+        /* this.router.navigate(['']) */
+        console.log("page switch");
+        
       }, 2000)
     }
   }

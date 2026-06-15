@@ -7,5 +7,6 @@ export interface Survey {
     description?: string,
     category?: string,
     type: 'survey',
+    totalSubmitsCount?: number,
     questions: SurveyQuestions[]
 }

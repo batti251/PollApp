@@ -1,1 +1,23 @@
-<p>survey-results-live works!</p>
+<h2>Survey results <b>LIVE</b></h2>
+
+@for (item of surveyResults().questions; track $index; let i = $index) {
+  <section style="display: flex; flex-direction: column;">
+  <h3>{{ i }}. {{ item.questionInput }}</h3>
+
+  @for (bitem of item.answers; track $index) {
+    
+    
+
+    <label for="bar"></label>
+  <div style="display: flex;">
+    <span>{{bitem.id}}</span>
+    <progress
+      id="bar"
+      [max]="array[i].total"
+      [value]="bitem.checkedCount"
+    ></progress>
+    <span>{{ ( (bitem?.checkedCount || 0) / (array[i]?.total || 1) ) | percent }}</span>
+  </div>
+}
+</section>
+}

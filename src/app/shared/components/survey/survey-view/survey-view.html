@@ -12,7 +12,7 @@
   <p>{{ survey().description }}</p>
 
   <fieldset formArrayName="responses">
-  @for (item of survey().questions; track item.id; let questionIndex = $index) {
+  @for (item of surveyResults().questions; track item.id; let questionIndex = $index) {
     <h3>{{ questionIndex + 1 }}. {{ item.questionInput }}</h3>
 
     <div>
