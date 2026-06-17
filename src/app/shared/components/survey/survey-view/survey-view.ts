@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { SurveyService } from '../../../services/survey';
-import { Survey } from '../../../interfaces/survey';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JsonPipe } from '@angular/common';
 import { FormBuilder, ɵInternalFormsSharedModule, FormGroup, Validators, ReactiveFormsModule, FormArray, NonNullableFormBuilder } from '@angular/forms';
@@ -15,13 +14,12 @@ import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
   styleUrl: './survey-view.scss',
 })
 export class SurveyView {
-  private activatedRoute = inject(ActivatedRoute);
   private route = inject(ActivatedRoute)
+  private router = inject(Router)
   db = inject(SurveyService)
   errorMessage = signal<boolean>(false)
   successMessage = signal<boolean>(false)
   submitted = false
-  private router = inject(Router)
   formBuilder = inject(FormBuilder)
 
 
@@ -29,60 +27,10 @@ export class SurveyView {
     responses: this.formBuilder.array<FormGroup>([])
   })
 
-  survey = signal<Survey>({
-    surveyName: "",
-    endDate: "",
-    description: "",
-    category: "",
-    type: 'survey',
-    totalSubmitsCount: 0,
-    questions: []
-  })
-
-  sortedResults: any
-  surveyResults = signal<Survey>({
-    surveyName: "",
-    endDate: "",
-    description: "",
-    category: "",
-    type: 'survey',
-    totalSubmitsCount: 0,
-    questions: []
-  })
-
-
   async ngOnInit() {
-    await this.getSingleSurveyDB();
+    let surveyId = this.route.snapshot.paramMap.get('id') as string;
+    await this.db.loadLiveSurvey('surveys', surveyId)
     this.buildSurveyForm()
-  }
-
- 
-
-  /**
-   * Reads the Supabase-DB according to the given id from the route snapshot
-   * It sets the surveyList-Signal to the according id
-   * It renders a sorted Survey, sort by answerId
-   */
-  async getSingleSurveyDB() {
-    let surveyId = this.route.snapshot.paramMap.get('id');
-    let dbResponse = await this.db.readSingleSurveyDB('surveys', surveyId) as Survey[]
-    this.survey.set(dbResponse[0])
-    this.surveyResults.set(dbResponse[0]);
-    this.sortedResults = this.surveyResults().questions.map((answer: any) => {
-      answer.answers.sort(this.sortId)
-    })
-  }
-
-  /**
-   * sort function 
-   * @param a 
-   * @param b 
-   * @returns 
-   */
-   sortId(a: any, b: any): any {
-    if (a.id < b.id) {
-      return -1
-    } else 1
   }
 
   /**
@@ -91,7 +39,7 @@ export class SurveyView {
   buildSurveyForm() {
     this.surveyResponseForm = this.formBuilder.group({
       responses: this.formBuilder.array(
-        this.survey().questions.map(question =>
+        this.db.survey().questions.map(question =>
           this.createAnswerFormGroup(question)
         )
       )
@@ -176,7 +124,7 @@ export class SurveyView {
    * @param dialog
    */
   sendDataToDB(dialog: HTMLDialogElement) {
-    let surveyId = this.survey().id as number
+    let surveyId = this.db.survey().id as number
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
       .then(() => {
         this.initUIFeedback(dialog, false)
@@ -194,15 +142,9 @@ export class SurveyView {
   initUIFeedback(dialog: HTMLDialogElement, errorFromDB: boolean) {
     this.showDialogMessage(errorFromDB)
     this.toggleDialog(dialog)
-    console.log(this.surveyResults());
-    
-
     if (this.successMessage() == true) {
       setTimeout(() => {
-        
-        /* this.router.navigate(['']) */
-        console.log("page switch");
-        
+        this.router.navigate([''])
       }, 2000)
     }
   }

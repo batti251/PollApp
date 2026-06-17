@@ -1,22 +1,23 @@
 <h2>Survey results <b>LIVE</b></h2>
 
-@for (item of surveyResults().questions; track $index; let i = $index) {
-  <section style="display: flex; flex-direction: column;">
-  <h3>{{ i }}. {{ item.questionInput }}</h3>
 
-  @for (bitem of item.answers; track $index) {
+@for (question of db.survey().questions; track $index; let i = $index) {
+  <section style="display: flex; flex-direction: column;">
+  <h3>{{ i }}. {{ question.questionInput }}</h3>
+
+  @for (answer of question.answers; track $index) {
     
     
 
     <label for="bar"></label>
   <div style="display: flex;">
-    <span>{{bitem.id}}</span>
+    <span>{{answer.id}}</span>
     <progress
       id="bar"
-      [max]="array[i].total"
-      [value]="bitem.checkedCount"
+      [max]="totalAnswerCounts[i]?.total"
+      [value]="answer.checkedCount"
     ></progress>
-    <span>{{ ( (bitem?.checkedCount || 0) / (array[i]?.total || 1) ) | percent }}</span>
+    <span>{{ ( (answer?.checkedCount || 0) / (totalAnswerCounts[i]?.total || 1) ) | percent }}</span>
   </div>
 }
 </section>

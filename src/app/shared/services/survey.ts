@@ -19,6 +19,7 @@ export class SurveyService {
   surveyList = signal<Survey[]>([])
   currentDate = ''
   expireSoonDate = ''
+  currentSurveyId = signal<string>("");
 
   survey = signal<Survey>({
     surveyName: "",
@@ -28,6 +29,7 @@ export class SurveyService {
     type: 'survey',
     questions: []
   })
+
 
   questionSignal = signal<SurveyQuestions>({
     questionInput: "",
@@ -59,6 +61,41 @@ export class SurveyService {
   }
 
   /**
+   * Sorts and sets the survey Signal to the according db-read
+   * @param db - the databank name, to load
+   * @param surveyId - the specific survey-Id
+   */
+  async loadLiveSurvey(db:string, surveyId:string){
+   this.currentSurveyId.set(surveyId)
+   let dbResponse = await this.readSingleSurveyDB(db,surveyId) as Survey[]
+   this.sortSurveyResponse(dbResponse)
+   this.survey.set(dbResponse[0])
+  }
+
+
+  /**
+   * Sorts the Survey-Array from the db
+   * @param responseArray - the according Survey-Array
+   */
+  sortSurveyResponse(responseArray:Survey[]){
+    responseArray.forEach(survey => {
+      survey.questions.forEach(question => 
+        question.answers.sort(this.sortId)
+      )
+    })
+  }
+  
+  /**
+   * sort function 
+   * @param a 
+   * @param b 
+   * @returns 
+   */
+   sortId(a: SurveyQuestionsAnswers, b: SurveyQuestionsAnswers): number {
+    return a.id - b.id;
+  }
+
+  /**
    * Sets the currentDate and expireSoonDate
    * Defines expireSoonDate range by 5 days
    */
@@ -78,12 +115,11 @@ export class SurveyService {
    * @param db - the fetched supabase-table
    * @returns - the fetched data-rows according to @param db 
    */
-  async readDB(db: string): Promise<Survey[] | Promise<SurveyQuestions[] | Promise<SurveyQuestionsAnswers[]>>> {
+  async readDB(db: string): Promise<Survey[] | SurveyQuestions[] | SurveyQuestionsAnswers[]> {
     let { data: surveys, error } = await this.supabase
       .from(db)
-      .select('*')
-      .order('id', { ascending: false })
-    return surveys ?? []
+      .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput, checkedCount))')
+      return surveys ?? []
   }
 
   /**
@@ -294,18 +330,16 @@ export class SurveyService {
    * @param event - possible Realtime-Event-Changes: '*'|'INSERT'|'UPDATE'|'DELETE'
    */
   startChannel(channel: RealtimeChannel, event: '*' | 'INSERT' | 'UPDATE' | 'DELETE') {
-    channel = this.supabase.channel('custom-all-channel')
-      .on(
-        'postgres_changes',
-        { event: event, schema: 'public' },
+    channel = this.supabase.channel('custom-all-channel').on('postgres_changes', { event: event, schema: 'public'},
         (payload) => {
-          console.log('Change received!', payload)
-          console.log(this.surveyList());
-
-        }
-      )
-      .subscribe()
+          console.log(payload);
+          
+          if (this.currentSurveyId()) {
+          this.loadLiveSurvey('surveys', this.currentSurveyId())
+          }
+        })
+        .subscribe()
+        /* this.survey.update(list => [...list, tmpProdut]) */
   }
-
 
 }
