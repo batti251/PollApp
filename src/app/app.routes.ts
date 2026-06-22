@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { FormSurvey } from './shared/components/survey/form-survey/form-survey';
-import { Overview } from './shared/components/overview/overview';
+import { SurveyOverview } from './shared/components/survey/survey-overview/survey-overview'; 
 import { Hero } from './shared/components/hero/hero';
 import { SurveyView } from './shared/components/survey/survey-view/survey-view';
 
@@ -13,7 +13,7 @@ export const routes: Routes = [
     }, 
     {
         path: 'overview',
-        component: Overview,
+        component: SurveyOverview,
         title: 'overview'
     }, 
     {

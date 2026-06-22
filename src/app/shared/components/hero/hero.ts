@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Overview } from "../overview/overview";
+import { SurveyOverview } from '../survey/survey-overview/survey-overview'; 
 
 @Component({
   selector: 'app-hero',
-  imports: [RouterLink, Overview],
+  imports: [RouterLink, SurveyOverview],
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })

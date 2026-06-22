@@ -1,19 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { SurveyService } from '../../services/survey';
-import { Survey } from '../../interfaces/survey';
+import { SurveyService } from '../../../services/survey';
+import { Survey } from '../../../interfaces/survey';
 import { signal } from '@angular/core';
-import { SurveyQuestions } from '../../interfaces/survey-questions';
-import { SurveyQuestionsAnswers } from '../../interfaces/survey-questions-answers';
+import { SurveyQuestions } from '../../../interfaces/survey-questions';
+import { SurveyQuestionsAnswers } from '../../../interfaces/survey-questions-answers';
 import { RouterLink } from "@angular/router";
 import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-overview',
   imports: [RouterLink, JsonPipe],
-  templateUrl: './overview.html',
-  styleUrl: './overview.scss',
+  templateUrl: './survey-overview.html',
+  styleUrl: './survey-overview.scss',
 })
-export class Overview {
+export class SurveyOverview {
 
   db = inject(SurveyService)
   list:Survey[] = []
