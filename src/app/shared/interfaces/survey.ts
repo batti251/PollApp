@@ -5,7 +5,7 @@ export interface Survey {
     surveyName: string,
     endDate?: string,
     description?: string,
-    category?: string,
+    category?: number|string,
     type: 'survey',
     totalSubmitsCount?: number,
     questions: SurveyQuestions[]

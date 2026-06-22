@@ -25,7 +25,7 @@ export class SurveyService {
     surveyName: "",
     endDate: "",
     description: "",
-    category: "",
+    category: 0,
     type: 'survey',
     questions: []
   })
@@ -65,33 +65,53 @@ export class SurveyService {
    * @param db - the databank name, to load
    * @param surveyId - the specific survey-Id
    */
-  async loadLiveSurvey(db:string, surveyId:string){
-   this.currentSurveyId.set(surveyId)
-   let dbResponse = await this.readSingleSurveyDB(db,surveyId) as Survey[]
-   this.sortSurveyResponse(dbResponse)
-   this.survey.set(dbResponse[0])
+  async loadLiveSurvey(db: string, surveyId: string) {
+    this.currentSurveyId.set(surveyId)
+    let dbResponse = await this.readSingleSurveyDB(db, surveyId) as Survey[]
+    this.sortSurveyResponse(dbResponse)
+    this.setCategoryName(dbResponse[0])
+    this.survey.set(dbResponse[0])
   }
 
+  /**
+   * sets the surveyList-Signal after {@link readDB} for all Surveys
+   * @param db - the db-tables name
+   */
+  async loadSurveyList(db: string) {
+    let dbResponse = await this.readDB(db) as Survey[]
+    dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
+    this.surveyList.set(dbResponse)
+    console.log(this.surveyList());
+  }
+
+  /**
+   * Turns the category-numbers into the according tag-name
+   * @param dbResponse - the fetched db-entry
+   */
+  setCategoryName(dbResponse: Survey) {
+    let filteredCategory = this.category.filter((x) => x.value == dbResponse.category)
+    dbResponse.category = filteredCategory[0].tag
+  }
 
   /**
    * Sorts the Survey-Array from the db
    * @param responseArray - the according Survey-Array
    */
-  sortSurveyResponse(responseArray:Survey[]){
+  sortSurveyResponse(responseArray: Survey[]) {
     responseArray.forEach(survey => {
-      survey.questions.forEach(question => 
+      survey.questions.forEach(question =>
         question.answers.sort(this.sortId)
       )
     })
   }
-  
+
   /**
    * sort function 
    * @param a 
    * @param b 
    * @returns 
    */
-   sortId(a: SurveyQuestionsAnswers, b: SurveyQuestionsAnswers): number {
+  sortId(a: SurveyQuestionsAnswers, b: SurveyQuestionsAnswers): number {
     return a.id - b.id;
   }
 
@@ -110,6 +130,7 @@ export class SurveyService {
   }
 
 
+
   /**
    * Reads all rows from the DB
    * @param db - the fetched supabase-table
@@ -119,7 +140,7 @@ export class SurveyService {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput, checkedCount))')
-      return surveys ?? []
+    return surveys ?? []
   }
 
   /**
@@ -330,16 +351,16 @@ export class SurveyService {
    * @param event - possible Realtime-Event-Changes: '*'|'INSERT'|'UPDATE'|'DELETE'
    */
   startChannel(channel: RealtimeChannel, event: '*' | 'INSERT' | 'UPDATE' | 'DELETE') {
-    channel = this.supabase.channel('custom-all-channel').on('postgres_changes', { event: event, schema: 'public'},
-        (payload) => {
-          console.log(payload);
-          
-          if (this.currentSurveyId()) {
+    channel = this.supabase.channel('custom-all-channel').on('postgres_changes', { event: event, schema: 'public' },
+      (payload) => {
+        console.log(payload);
+
+        if (this.currentSurveyId()) {
           this.loadLiveSurvey('surveys', this.currentSurveyId())
-          }
-        })
-        .subscribe()
-        /* this.survey.update(list => [...list, tmpProdut]) */
+        }
+      })
+      .subscribe()
+    /* this.survey.update(list => [...list, tmpProdut]) */
   }
 
 }

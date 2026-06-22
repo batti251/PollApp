@@ -4,7 +4,6 @@
     <div role="link" [routerLink]="['/survey', item.id]">
     <span> Category: {{ item.category }}</span>
     <h3> Survey: {{ item.surveyName }}</h3>
-    
     @if (calcExpiryDate(db.currentDate,item.endDate ?? '1') > 1 ) {
         <span>Ends in {{ calcExpiryDate(db.currentDate,item.endDate ?? '1') }} Days</span>        
     } @else {
@@ -13,10 +12,9 @@
     </div>
 }
 
-@for (item of surveyList(); track $index) {
-
+@for (item of db.surveyList(); track $index) {
     <h2>Survey</h2>
-    <div>
+    <div role="link" [routerLink]="['/survey', item.id]">
     <p> Category: {{ item.category }}</p>
     <p>Survey: {{ item.surveyName }}</p>
     </div>
@@ -26,5 +24,4 @@
     } @else {
     <span>Ends in {{ calcExpiryDate(db.currentDate,item.endDate ?? '1') }} Day</span>
     }
-
 } 

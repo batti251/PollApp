@@ -2,6 +2,8 @@
 
 @if(db.survey().questions.length == surveyResponses.length){
 
+  <a routerLink="/newSurvey"> New survey </a>
+
 <section style="display: flex;">
 
 <form action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">

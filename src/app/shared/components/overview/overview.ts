@@ -5,10 +5,11 @@ import { signal } from '@angular/core';
 import { SurveyQuestions } from '../../interfaces/survey-questions';
 import { SurveyQuestionsAnswers } from '../../interfaces/survey-questions-answers';
 import { RouterLink } from "@angular/router";
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-overview',
-  imports: [RouterLink],
+  imports: [RouterLink, JsonPipe],
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
 })
@@ -16,22 +17,13 @@ export class Overview {
 
   db = inject(SurveyService)
   list:Survey[] = []
-  surveyList = signal<Survey[]>([])
   surveyQuestionList  = signal<SurveyQuestions[]>([])
   surveyQAList  = signal<SurveyQuestionsAnswers[]>([])
   toExpire = signal<Survey[]>([])
   
 
   async ngOnInit() {
-   let survey = await this.db.readDB('surveys') as Survey[];
-   let surveyQ = await this.db.readDB('survey-questions') as SurveyQuestions[];
-   let surveyQA = await this.db.readDB('survey-questions-answers') as SurveyQuestionsAnswers[];
-   let expireSoon = await this.db.readExpireSoonDB('surveys') as Survey[];
-    this.surveyList.set(survey) ;
-    this.surveyQuestionList.set(surveyQ) ;
-    this.surveyQAList.set(surveyQA) ;
-    this.toExpire.set(expireSoon);
-   
+   await this.db.loadSurveyList('surveys') 
   }
 
 

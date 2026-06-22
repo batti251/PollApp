@@ -5,7 +5,7 @@ export class SurveyModel implements Survey{
     surveyName: string;
     endDate?: string;
     description?: string;
-    category?: string;
+    category?: number|string;
     type: 'survey';
     totalSubmitsCount?: number;
     questions: SurveyQuestions[];
@@ -15,7 +15,7 @@ export class SurveyModel implements Survey{
         this.surveyName =  data.surveyName ?? "";
         this.endDate = data.endDate ?? "";
         this.description = data.description ?? "";
-        this.category = data.category ?? "";
+        this.category = data.category ?? 0;
         this.type = 'survey';
         this.totalSubmitsCount = data.totalSubmitsCount ?? 0;
         this.questions = data.questions ?? [];
