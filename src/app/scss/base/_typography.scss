@@ -1,0 +1,40 @@
+@use '../../scss/abstracts/index' as *;
+
+.title {
+  @include font($ff: NerkoOne, $fw: 600);
+  text-align: start;
+  color: #FFB770;
+  &--medium {
+    margin-bottom: unset; 
+    font-size: clamp(1.5rem, 5rem, 5vw);
+  }
+}
+
+.list {
+  &--parent {
+    @include dFlex();
+  }
+  
+  &--element {
+    @include dFlex();
+    @include size($w: 50%);
+    @include respond(l){
+        width: 60%
+    }
+    @include respond(m){
+        width: 70%
+    }
+  }
+}
+
+.text {
+  width: 60%;
+  @include font($fs:clamp(1.25rem, 1.5rem, 2vw), $ff: Mulish);
+  &--description {
+    @include size();
+    text-align: justify;
+  }
+  &--white {
+    color: white;
+  }
+}

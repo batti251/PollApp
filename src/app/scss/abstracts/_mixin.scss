@@ -1,0 +1,49 @@
+@use 'variables';
+
+
+@mixin dFlex($d: flex, $jc: center, $ai: center, $fd: column, $g: 0) {
+    display: $d;
+    justify-content: $jc;
+    align-items: $ai;
+    flex-direction: $fd;
+    gap: $g;
+}
+
+@mixin size($w: auto, $h: auto){
+    width: $w;
+    height: $h;
+}
+
+@mixin font($ff: NerkoOne, $fs: clamp(1rem, 1.5rem, 2vw), $fw: 500){
+    font-family: $ff;
+    font-size: $fs;
+    font-weight: $fw;
+}
+
+@mixin fade-out($time: 3s, $ease: ease-in-out){
+    animation: fadeOut $time $ease forwards;
+}
+
+@keyframes fadeOut {
+    from{
+        opacity: 1;
+    }
+    to{
+        opacity: 0;
+    }
+}
+
+
+
+$breakpoints: (
+  zero: 0px,
+  s: 480px,
+  m: 768px,
+  l: 1280px
+);
+
+@mixin respond($maxsize){
+  @media screen and (max-width: map-get($breakpoints, $maxsize)) {
+    @content
+  }
+}

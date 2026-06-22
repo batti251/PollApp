@@ -1,0 +1,9 @@
+@use '../../../scss/abstracts/index' as *;
+
+.hero{
+    @include dFlex($fd: row, $ai: unset, $jc: space-around)
+}
+
+.hero-img{
+    @include size($w: min(440px, 50%))
+}

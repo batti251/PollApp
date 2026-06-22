@@ -1,0 +1,32 @@
+@use './../abstracts/index' as *;
+
+.btn {
+  background-color: #ffcfa1;
+  display: flex;
+  gap: 16px;
+  @include size($w: 90px, $h: 20px);
+  padding: 12px 16px;
+  font-weight: 700;
+
+  &:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+  }
+
+  &__primary {
+    border-radius: 10px;
+     &:hover{
+        width: 116px;
+     }
+    &--regular {
+    &:hover::after{
+        content: url('/assets/img/add_circle.svg');
+      }
+    }
+
+  }
+
+  @include respond(m) {
+    @include size($w: 40px, $h: 66px);
+  }
+}
