@@ -20,6 +20,7 @@ export class SurveyService {
   currentDate = ''
   expireSoonDate = ''
   currentSurveyId = signal<string>("");
+  toExpire = signal<Survey[]>([])
 
   survey = signal<Survey>({
     surveyName: "",
@@ -82,6 +83,13 @@ export class SurveyService {
     dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
     this.surveyList.set(dbResponse)
     console.log(this.surveyList());
+  }
+
+  
+  async loadExpireSoonSurvey(){
+    let dbResponse = await this.readExpireSoonDB('surveys');
+    dbResponse.forEach((survey,index) => this.setCategoryName(dbResponse[index]))
+    this.toExpire.set(dbResponse)
   }
 
   /**
@@ -171,6 +179,7 @@ export class SurveyService {
       .lte('endDate', `${this.expireSoonDate}`)
     return surveys ?? []
   }
+
 
   /**
    * Inserts @param rowData to Supabase DB

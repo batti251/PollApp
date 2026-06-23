@@ -1,27 +1,45 @@
+<p class="text text--info text--white">Ending soon surveys</p>
 
-    <h2>Ending soon surveys</h2>
-@for (item of toExpire(); track $index; let i = $index) {
-    <div role="link" [routerLink]="['/survey', item.id]">
-    <span> Category: {{ item.category }}</span>
-    <h3> Survey: {{ item.surveyName }}</h3>
-    @if (calcExpiryDate(db.currentDate,item.endDate ?? '1') > 1 ) {
-        <span>Ends in {{ calcExpiryDate(db.currentDate,item.endDate ?? '1') }} Days</span>        
-    } @else {
-    <span>Ends in {{ calcExpiryDate(db.currentDate,item.endDate ?? '1') }} Day</span>
-    }
+<section class="surveys">
+<div class="card-carousel">
+  @for (item of db.toExpire(); track $index; let i = $index) {
+    <div class="card" role="link" [routerLink]="['/survey', item.id]">
+      <div class="card-list--paragraph"> 
+      <p class="text card--category">{{ item.category }}</p>
+      <p class="text card--title">{{ item.surveyName }}</p>
+      </div>
+      @if (calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
+        <span class="published">Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span>
+      } @else  if (calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1){
+        <span class="published">Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span>
+      }
+      @else {
+        <span>ausgelaufen</span>
+      }
     </div>
-}
+  }   @empty {
+    <p class="text text--white">There are no Surveys expiring soon!</p>
+  }
+</div>
 
-@for (item of db.surveyList(); track $index) {
-    <h2>Survey</h2>
-    <div role="link" [routerLink]="['/survey', item.id]">
-    <p> Category: {{ item.category }}</p>
-    <p>Survey: {{ item.surveyName }}</p>
+
+
+<div class="card-carousel card-carousel--all">
+  @for (item of db.surveyList(); track $index) {
+    <div class="card-list" role="link" [routerLink]="['/survey', item.id]">
+      <div class="card-list--paragraph">
+      <p class="text text--secondary view--category">{{ item.category }}</p>
+      <p class="text view--title">{{ item.surveyName }}</p>
+      </div>
+      @if (calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
+        <span class="published text text--tertiary">Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span>
+      } @else  if (calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1){
+        <span class="published text text--tertiary">Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span>
+      }
+      @else {
+        <span>ausgelaufen</span>
+      }
     </div>
-
-     @if (calcExpiryDate(db.currentDate,item.endDate ?? '1') > 1 ) {
-        <span>Ends in {{ calcExpiryDate(db.currentDate,item.endDate ?? '1') }} Days</span>        
-    } @else {
-    <span>Ends in {{ calcExpiryDate(db.currentDate,item.endDate ?? '1') }} Day</span>
-    }
-} 
+  }
+</div>
+</section>

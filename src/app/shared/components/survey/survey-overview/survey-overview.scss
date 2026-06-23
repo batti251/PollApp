@@ -1,0 +1,6 @@
+@use '../../../../scss/abstracts/index' as *;
+
+
+.surveys{
+    @include dFlex($jc: unset, $ai: unset, $g: 90px);
+}

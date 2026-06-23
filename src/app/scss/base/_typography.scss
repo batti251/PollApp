@@ -6,7 +6,14 @@
   color: #FFB770;
   &--medium {
     margin-bottom: unset; 
-    font-size: clamp(1.5rem, 5rem, 5vw);
+    font-size: clamp(3.5rem, 6.25rem, 6vw);
+  }
+   &--small {
+    margin-bottom: unset; 
+    font-size: clamp(3rem, 4.5rem, 4vw);
+  }
+  &--center{
+    text-align: center;
   }
 }
 
@@ -28,13 +35,23 @@
 }
 
 .text {
-  width: 60%;
-  @include font($fs:clamp(1.25rem, 1.5rem, 2vw), $ff: Mulish);
+  @include font($fs:clamp(1.25rem, 1.5rem, 2vw));
+  margin: 0;
   &--description {
     @include size();
     text-align: justify;
   }
   &--white {
     color: white;
+  }
+  &--info {
+    @include font($fs:clamp(1.5rem, 2rem, 2vw));
+  }
+  &--secondary {
+    @include font($fs:clamp(1rem, 1rem, 2vw));
+    color: #FFCFA1;
+  }
+  &--tertiary {
+    color: #221227;
   }
 }

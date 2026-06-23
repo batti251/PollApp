@@ -1,0 +1,82 @@
+@use './../abstracts/index' as *;
+
+.card-carousel{
+    @include dFlex($fd: unset, $g: 32px);
+
+    &--all{
+         @include respond(m){
+        flex-direction: column;
+    }
+    }
+    @include respond(s){
+        flex-direction: column;
+    }
+}
+
+.card {
+    background-color: white;
+    @include dFlex($ai: flex-start, $jc: unset, $g: 64px);
+    @include size($w: min(240px, 60%));
+    @include font($fs: 1rem);
+    padding: 40px 18px;
+    border-radius: 0 80px 0 0 ;
+    color: black;
+     &--category{
+        width: 100%;
+        @include font($fs:  clamp(1rem, 0.875rem, 1vw), $fw: 600);
+    }
+    &--title {
+        width: 100%;
+        @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
+    }
+
+    &:hover{
+        background-color: #F4E9FB;
+        cursor: pointer;
+        .published{
+        background-color: #FFB770;
+    }
+
+    }
+}
+
+.card-list {
+    color: white;
+    @include dFlex($ai: flex-end, $jc: unset);
+    @include size($w: min(520px, 60%));
+    @include font($fs: 1rem);
+    padding: 12px 20px;
+    border-radius: 5px 50px 5px 5px ;
+    background-color: #423547;
+     &--category{
+        width: 100%;
+        @include font($fs:  clamp(1rem, 0.875rem, 1vw), $fw: 600);
+    }
+    &--title {
+        width: 100%;
+        @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
+    }
+    &--paragraph{
+        width: 100%;
+        @include dFlex($ai: unset, $g: 8px);
+    }
+    &:hover{
+        cursor: pointer;
+        background-color: #4F4353;
+        .published{
+            background-color: #FFCFA1;
+        }
+    }
+
+    
+  @include respond(m) {
+
+  }
+}
+
+.published {
+    border-radius: 0 14px 0 0 ;
+    background-color: #FFCFA1;
+    padding: 3px 6px;
+    @include font($fs:  clamp(1rem, 0.875rem, 1vw), $fw: 600);
+}

@@ -5,11 +5,10 @@ import { signal } from '@angular/core';
 import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyQuestionsAnswers } from '../../../interfaces/survey-questions-answers';
 import { RouterLink } from "@angular/router";
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-overview',
-  imports: [RouterLink, JsonPipe],
+  imports: [RouterLink],
   templateUrl: './survey-overview.html',
   styleUrl: './survey-overview.scss',
 })
@@ -19,11 +18,13 @@ export class SurveyOverview {
   list:Survey[] = []
   surveyQuestionList  = signal<SurveyQuestions[]>([])
   surveyQAList  = signal<SurveyQuestionsAnswers[]>([])
-  toExpire = signal<Survey[]>([])
   
 
   async ngOnInit() {
    await this.db.loadSurveyList('surveys') 
+   await this.db.loadExpireSoonSurvey()
+   console.log(this.db.toExpire());
+   
   }
 
 
@@ -37,7 +38,6 @@ export class SurveyOverview {
     let newDateA = new Date(dateA)
     let newDateB = new Date(dateB)
     return newDateB.getDate() - newDateA.getDate()
-    
     
   }
 

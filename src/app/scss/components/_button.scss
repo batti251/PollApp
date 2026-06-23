@@ -4,6 +4,7 @@
   background-color: #ffcfa1;
   display: flex;
   gap: 16px;
+  @include font($fs: 1rem);
   @include size($w: 90px, $h: 20px);
   padding: 12px 16px;
   font-weight: 700;
@@ -16,7 +17,7 @@
   &__primary {
     border-radius: 10px;
      &:hover{
-        width: 116px;
+        width: 130px;
      }
     &--regular {
     &:hover::after{
@@ -27,6 +28,5 @@
   }
 
   @include respond(m) {
-    @include size($w: 40px, $h: 66px);
   }
 }
