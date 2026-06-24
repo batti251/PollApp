@@ -9,7 +9,7 @@ export const routes: Routes = [
     {
         path: '',
         component: Hero,
-        title: 'new form'
+        title: 'Poll App'
     }, 
     {
         path: 'overview',

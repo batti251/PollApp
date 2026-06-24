@@ -1,0 +1,11 @@
+@use '../../../scss/abstracts/index' as * ;
+
+
+
+.header-img{
+    @include dFlex($fd: unset, $jc: flex-start, $ai: flex-start, $g: 8px);
+    @include font($ff: NerkoOne, $fw: 400, $fs: clamp(1.325rem, 1.625rem, 2vw));
+    color: #FFB770;
+    line-height: 16px;
+    letter-spacing: 3%;
+} 

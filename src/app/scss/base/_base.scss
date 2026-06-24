@@ -3,19 +3,16 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background-color: #35273A;
 }
 
 body {
   min-height: 100dvh;
-  background: transparent;
 }
 
 app-root {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background: transparent;
 }
 
 main {
@@ -35,5 +32,5 @@ ul {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
