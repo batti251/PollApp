@@ -13,8 +13,17 @@ app-root {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-self: center;
 }
 
+app-hero, app-survey-view, app-form-survey {
+  width: 80vw;
+}
+
+app-header{
+  width: 100%;
+}
 main {
   flex: 1;
 }
