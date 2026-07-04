@@ -3,9 +3,11 @@
 .btn {
   background-color: #ffcfa1;
   display: flex;
+  align-items: center;
+  border: 0;
   gap: 16px;
   @include font($fs: 1rem);
-  @include size($w: 90px, $h: 20px);
+  @include size($w: fit-content, $h: 20px);
   padding: 12px 16px;
   font-weight: 700;
 
@@ -16,15 +18,92 @@
 
   &__primary {
     border-radius: 10px;
-     &:hover{
-        width: 130px;
-     }
     &--regular {
-    &:hover::after{
-        content: url('/assets/img/add_circle.svg');
+      &:hover::after {
+        content: '';
+        @include size($w: 20px, $h: 20px);
+        background-image: url(/assets/img/add_circle.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
       }
     }
+    &--secondary {
+      height: 40px;
+      padding: 8px 12px;
+      background-color: #7b5b55;
+      &::after {
+        content: '';
+        @include size($w: 20px, $h: 20px);
+        background-image: url(/assets/img/add_circle_white.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
 
+  &__delete {
+    background-image: url('/assets/img/delete.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 26px;
+    width: 26px;
+    background-color: unset;
+    &:hover{
+      background-image: url('/assets/img/delete_lila.svg');
+      background-color: #FFB77099;
+    }
+  }
+  &__submit {
+    background-color: #ffcfa1;
+    @include size($w: 99px, $h: 48px);
+    @include dFlex($fd: row, $g: 10px);
+    border-radius: 10px;
+    padding: 0;
+    @include respond(m) {
+      @include size($w: 120px, $h: 48px);
+      background-color: #ffb770;
+      &::after {
+        content: '';
+        @include size($w: 16px, $h: 16px);
+        background-image: url(/assets/img/check_submit.svg);
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+  &__add {
+    background-color: transparent;
+    color: white;
+    padding: 24px 10px;
+    width: 146px;
+    &::after {
+      content: '';
+      @include size($w: 16px, $h: 16px);
+      background-image: url(/assets/img/add_circle_white.svg);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    &:hover{
+      background-color: #FAF5FE33;
+    }
+  }
+  &__cancel {
+    background-color: #72524a;
+    font-family: Nokora;
+    border-radius: 10px;
+    gap: 10px;
+    &::after {
+      content: '';
+      @include size($w: 13px, $h: 13px);
+      background-image: url(/assets/img/close.svg);
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
   }
 
   @include respond(m) {

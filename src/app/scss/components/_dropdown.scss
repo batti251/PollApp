@@ -1,0 +1,42 @@
+@use '../../scss/abstracts/index' as *;
+
+.dropdown {
+  appearance: base-select;
+  border: 0;
+  padding: 0;
+  @include dFlex($fd: row, $jc: unset, $ai: center, $g: 24px);
+  @include font();
+  &::active {
+    background-color: #d9d9d91f;
+    padding: 4px 6px 4px 10px;
+  }
+  &::picker(select) {
+    appearance: base-select;
+    border-radius: 6px;
+    border: 1px thin #433349;
+    padding: 8px 4px;
+    &:open::picker {
+      @include dFlex($jc: unset, $ai: center, $g: 4px);
+    }
+  }
+}
+
+select::picker-icon {
+  font-size: 20px;
+  align-content: center;
+  transition: 150ms ease;
+}
+
+select:open::picker-icon {
+  rotate: 180deg;
+}
+
+.highlight-select {
+  color: #ffb770;
+}
+
+option {
+  &::checkmark {
+    content: '';
+  }
+}

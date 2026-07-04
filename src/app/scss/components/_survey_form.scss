@@ -1,0 +1,125 @@
+@use '../../scss/abstracts/index' as *;
+
+.form {
+  @include dFlex($g: 48px);
+  background-color: #433349;
+  padding: 40px 32px;
+  width: stretch;
+  border-radius: 5px 100px 5px 5px;
+  @include respond(s) {
+    padding: 40px 8px;
+  }
+  &--container {
+    @include dFlex($jc: flex-end, $ai: flex-end, $g: 32px);
+    padding: 0 0 16px 0;
+    @include respond(m) {
+      align-items: center;
+    }
+  }
+  &--group {
+    @include dFlex($jc: unset, $ai: unset, $g: 16px);
+    @include size($w: 42%);
+    @include respond(m) {
+      width: 100%;
+    }
+    &__secondary {
+      gap: 8px;
+      @include size($w: 100%);
+    }
+    &__answers {
+      @include dFlex($jc: unset, $ai: unset, $g: 4px);
+      &-row{
+        @include dFlex($jc: space-between, $ai: unset, $fd: row, $g: 4px);
+        @include respond(s){
+          flex-direction: column;
+        }
+      }
+    }
+  }
+  &--wrap {
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  &--half {
+    width: 42%;
+    @include respond(m) {
+      width: 100%;
+    }
+  }
+  &--meta {
+    @include dFlex($fd: row, $jc: space-between, $ai: unset, $g: 64px);
+    @include size($w: 100%);
+    @include respond(m) {
+      flex-direction: column;
+      gap: 24px;
+      width: 90%;
+    }
+    &__general-row {
+      @include dFlex($ai: flex-start, $jc: space-between, $fd: row, $g: 48px);
+      @include respond(m) {
+        flex-direction: column;
+      }
+    }
+    &__general-column {
+      @include dFlex($ai: flex-start, $jc: space-between, $fd: column, $g: 8px);
+      width: 42%;
+      @include respond(l) {
+        width: 57%;
+      }
+    }
+    &__section {
+      @include dFlex($fd: row, $g: 32px);
+      @include size($w: 100%);
+      @include respond(m) {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+      }
+    }
+  }
+  &--field {
+    @include dFlex($ai: flex-start, $g: 4px);
+    @include size($w: 100%);
+    &__input {
+      @include dFlex($fd: row, $ai: center, $jc: space-between, $g: 8px);
+      @include size($w: 100%);
+    }
+    &__input-end {
+      @include dFlex($fd: column-reverse, $ai: end, $jc: space-between, $g: 8px);
+      @include size($w: 100%);
+    }
+    &__input-top {
+      @include dFlex($fd: row, $ai: unset, $jc: space-between, $g: 8px);
+      @include size($w: 100%);
+    }
+    &__checkbox {
+      @include dFlex($fd: row, $ai: center, $jc: space-between, $g: 4px);
+      @include respond(s) {
+        flex-direction: row;
+      }
+
+      &-group {
+        @include dFlex($fd: row, $ai: center, $jc: space-between, $g: 4px);
+        @include respond(s) {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+}
+
+.input {
+  color: #35273a;
+  width: stretch;
+  padding: 7px 13px;
+  border-radius: 5px 20px 5px 5px;
+  background-color: #fefdff;
+  border: 0;
+  border-color: unset;
+  &--textarea {
+    @include size($h: 108px, $w: stretch);
+  }
+  &--checkbox {
+    width: unset;
+  }
+}

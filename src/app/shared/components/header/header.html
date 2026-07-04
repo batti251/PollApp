@@ -1,9 +1,20 @@
-<header>
-  <figure class="header-img" [class.d-none]="isHidden">
-    <img [src]="imgSrc" alt="" />
-    <figcaption [class.text--tertiary]="isInverted">
-      Poll <br />
-      App
-    </figcaption>
-  </figure>
+<header class="header">
+  @if (!isHidden) {
+    <figure class="header-img">
+      <img [src]="imgSrc" alt="" />
+      <figcaption [class.text--tertiary]="isInverted">
+        Poll <br />
+        App
+      </figcaption>
+    </figure>
+  } @else {
+    <div class="form--field">
+      <span class="survey survey--status">Draft</span>
+      <div class="form--field__input">
+        <h1 class="title title--small">Create new survey</h1>
+        <button type="button" class="text text--white btn btn__primary--secondary btn__cancel">
+          <span [class.d-none]="isMobileBreakpoint">Cancel</span></button>
+      </div>
+    </div>
+  }
 </header>

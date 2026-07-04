@@ -1,0 +1,10 @@
+@use '../abstracts/index' as *;
+
+.survey {
+    padding: 3px 12px;
+    border-radius: 0 14px 0 0;
+    @include font($fs: clamp(1rem, 1rem, 1vw), $fw: 600);
+    &--status{
+        background-color: #FEE9D4;
+    }
+}

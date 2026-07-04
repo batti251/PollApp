@@ -1,0 +1,19 @@
+@use '../../scss/abstracts/index' as *;
+
+input[type='checkbox'] {
+  @include size($w: 16px, $h: 16px);
+  appearance: none;
+  background: url('/assets/img/checkbox_white.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  &:hover {
+    background: url(/assets/img/checkbox_hover.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  &:checked {
+    background: url(/assets/img/checkbox_checked.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}

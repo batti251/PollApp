@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivationEnd, RouterOutlet, Router } from '@angular/router';
+import { ActivationEnd, RouterOutlet, Router, ResolveEnd, NavigationEnd } from '@angular/router';
 import { SurveyService } from './shared/services/survey';
 import { Header } from './shared/components/header/header';
 
@@ -14,31 +14,37 @@ export class App {
   router = inject(Router)
   db = inject(SurveyService)
 
-  ngOnInit(){
+  ngOnInit() {
     this.db.readDB('surveys');
     this.db.readDB('survey-questions');
     this.db.readDB('survey-questions-answers');
     this.changeBackgroundColor();
-    
-    
+
+
   }
 
-  changeBackgroundColor(){
- this.router.events.pipe().subscribe(x => {
+  /**
+   * 
+   */
+  changeBackgroundColor() {
+    this.router.events.pipe().subscribe(x => {
       if (x instanceof ActivationEnd) {
-        let url = x.snapshot.url[0]
-        switch (true) {
-          case url?.path == 'survey' || url?.path == 'newSurvey' :
-          document.body.style.backgroundColor = 'white'
-            break;
-          default: document.body.style.backgroundColor = '#35273a'
-            break;
-        }
+        let currentUrl = x.snapshot.url
+        console.log(currentUrl);
+        
+   
+          switch (true) {
+            case currentUrl.length === 0  || currentUrl[0].path === 'newSurvey' :
+              document.body.style.backgroundColor = '#35273a'
+              break;
+            default: document.body.style.backgroundColor = 'white'
+              break;
+          }
       }
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
 
   }
 }

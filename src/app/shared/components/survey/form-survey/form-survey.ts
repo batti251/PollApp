@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, signal } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { SurveyService } from '../../../services/survey';
 import { Survey } from '../../../interfaces/survey';
@@ -13,8 +13,8 @@ import { SurveyModel } from '../../../models/surveymodel';
 export class FormSurvey {
   db = inject(SurveyService)
   formBuilder = inject(FormBuilder)
-  categories =  this.db.category
-
+  categories = this.db.category
+  isMobileBreakpoint: boolean = false
   surveyForm = this.formBuilder.group({
     surveyName: [''],
     endDate: [''],
@@ -24,33 +24,56 @@ export class FormSurvey {
       this.createNewQuestion()])
   })
 
+  @HostListener("window:resize", [])
+  onResize() {
+    this.detectScreenSize();
+  }
+
+  ngAfterViewInit() {
+    this.detectScreenSize();
+  }
+
+  detectScreenSize() {
+    let screensize = document.body.offsetWidth
+    if (screensize < 768){
+      console.log(screensize);
+      this.isMobileBreakpoint = true
+    } else this.isMobileBreakpoint =false;
+  }
+
   /**
    * Creates a new FormBuild-group for Question
    * @returns 
    */
   createNewQuestion() {
     return this.formBuilder.group({
-    questionInput: [''],
-    multipleChoice: [false],
-    answers: this.formBuilder.array([this.createNewAnswer()])
-  })
+      questionInput: [''],
+      multipleChoice: [false],
+      answers: this.formBuilder.array([this.createNewAnswer()],
+        Validators.maxLength(6)
+      )
+    })
   }
 
   /**
    * Creates a new FormBuild-group for Answer
    * @returns 
    */
-  createNewAnswer():FormGroup {
+  createNewAnswer(): FormGroup {
     return this.formBuilder.group({
-    answerInput: ['']
-  })
+      answerInput: ['']
+    })
   }
 
   /**
    * Gets the 'questions'-FormArray from the surveyForm
    */
-  get questions():FormArray {
+  get questions(): FormArray {
     return this.surveyForm.get('questions') as FormArray
+  }
+
+  get isDirty(): boolean | undefined { 
+    return this.surveyForm.get('category')?.dirty
   }
 
   /**
@@ -58,14 +81,14 @@ export class FormSurvey {
    * @param questionIndex 
    * @returns 
    */
-  getAnswers(questionIndex: number):FormArray {
+  getAnswers(questionIndex: number): FormArray {
     return this.questions.at(questionIndex).get('answers') as FormArray
   }
 
   /**
    * Adds a new FormGroup to the 'question' FormArray control
    */
-  addQuestion(){
+  addQuestion() {
     this.questions.push(this.createNewQuestion())
   }
 
@@ -73,17 +96,17 @@ export class FormSurvey {
    * Adds a new FormGroup to the 'answers' FormArray control
    * @param questionIndex 
    */
-  addAnswer(questionIndex:number) {
+  addAnswer(questionIndex: number) {
     this.getAnswers(questionIndex).push(this.createNewAnswer())
   }
-  
+
   /**
    * Removes the FormGroup-control at the given position and control-Array
    * It's used to delete either a question-field, or answer-field 
    * @param control 
    * @param index 
    */
-  deleteControlFromArray(targetArray:FormArray , index:number){
+  deleteControlFromArray(targetArray: FormArray, index: number) {
     targetArray.removeAt(index)
   }
 
@@ -91,21 +114,21 @@ export class FormSurvey {
    * Resets the Input and FormGroup Value
    * @param FormGroup 
    */
-  resetValue(FormGroup: String){
-   switch (FormGroup) {
-    case 'surveyName':
-      this.surveyForm.controls.surveyName.setValue("");
-      break;
-   case 'endDate':
-      this.surveyForm.controls.endDate.setValue("");
-      break;
+  resetValue(FormGroup: String) {
+    switch (FormGroup) {
+      case 'surveyName':
+        this.surveyForm.controls.surveyName.setValue("");
+        break;
+      case 'endDate':
+        this.surveyForm.controls.endDate.setValue("");
+        break;
       case 'description':
-      this.surveyForm.controls.description.setValue("");
-      break;
-    default: 
-      this.surveyForm.controls.description.setValue("");
-    break;
-   }
+        this.surveyForm.controls.description.setValue("");
+        break;
+      default:
+        this.surveyForm.controls.description.setValue("");
+        break;
+    }
   }
 
 

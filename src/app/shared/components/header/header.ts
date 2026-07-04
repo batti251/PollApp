@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, HostListener, inject } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 
 @Component({
@@ -15,6 +15,25 @@ export class Header {
 
   ngOnInit() {
     this.switchHeaderImg();
+  }
+
+  isMobileBreakpoint: boolean = false;
+
+  @HostListener("window:resize", [])
+  onResize() {
+    this.detectScreenSize();
+  }
+
+  ngAfterViewInit() {
+    this.detectScreenSize();
+  }
+
+  detectScreenSize() {
+    let screensize = document.body.offsetWidth
+    if (screensize < 782) {
+      console.log(screensize);
+      this.isMobileBreakpoint = true;
+    } else this.isMobileBreakpoint = false;
   }
 
 
