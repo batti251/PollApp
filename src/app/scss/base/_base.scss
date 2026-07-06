@@ -48,14 +48,18 @@ ul {
   display: none !important;
 }
 
-.w-100{
+.w-100 {
   width: 100% !important;
 }
 
-input{
-  ::after{
+input {
+  ::after {
     content: ' ';
     width: fit-content;
     background-image: url(/assets/img/checkbox.svg);
+  }
+  &::placeholder {
+    color: red;
+    font-weight: 700;
   }
 }

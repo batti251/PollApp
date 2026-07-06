@@ -13,13 +13,35 @@
                   (click)="resetValue('surveyName')"
                 ></button>
               </div>
-              <input class="input" id="survey-name" type="text" formControlName="surveyName" />
+              <input
+                class="input"
+                [class.text--error]="surveyForm.get('surveyName')?.hasError && formSubmitted"
+                id="survey-name"
+                type="text"
+                formControlName="surveyName"
+                placeholder="{{
+                  surveyForm.get('surveyName')?.hasError && formSubmitted
+                    ? 'This field is obligated !'
+                    : ''
+                }} "
+              />
             </div>
           } @else {
             <div class="form--field">
               <label class="text text--white" for="survey-name">Survey Name</label>
               <div class="form--field__input">
-                <input class="input" id="survey-name" type="text" formControlName="surveyName" />
+                <input
+                  class="input"
+                  [class.text--error]="surveyForm.get('surveyName')?.hasError && formSubmitted"
+                  id="survey-name"
+                  type="text"
+                  formControlName="surveyName"
+                  placeholder="{{
+                    surveyForm.get('surveyName')?.hasError && formSubmitted
+                      ? 'This field is obligated !'
+                      : ''
+                  }} "
+                />
                 <button
                   class="btn btn__delete"
                   type="button"
@@ -67,7 +89,13 @@
               formControlName="category"
             >
               <button>
-                <selectedcontent></selectedcontent>
+                <selectedcontent
+                  [class.text--error]="
+                    surveyForm.get('category')?.hasError &&
+                    formSubmitted &&
+                    surveyForm.get('category')?.pristine
+                  "
+                ></selectedcontent>
               </button>
               <option value="" disabled selected hidden>Choose category</option>
               @for (item of categories; track $index) {
@@ -141,9 +169,15 @@
               <div class="form--field__input">
                 <input
                   class="input"
+                  [class.text--error]="surveyForm.get('questions')?.hasError && formSubmitted"
                   id="questionInput-{{ questionIndex }}"
                   type="text"
                   formControlName="questionInput"
+                  placeholder="{{
+                    surveyForm.get('questions')?.hasError && formSubmitted
+                      ? 'This field is obligated !'
+                      : ''
+                  }}"
                 />
               </div>
             </div>
@@ -154,10 +188,16 @@
                 <div class="form--field__checkbox">
                   <label for="multiple-choice-{{ questionIndex }}"></label>
                   <input
+                    [class.text--error]="surveyForm.get('questions')?.hasError && formSubmitted"
                     class="input input--checkbox"
                     id="multiple-choice-{{ questionIndex }}"
                     type="checkbox"
                     formControlName="multipleChoice"
+                    placeholder="{{
+                      surveyForm.get('questions')?.hasError && formSubmitted
+                        ? 'This field is obligated !'
+                        : ''
+                    }}"
                   />
                   <span class="text text--white text--white__slim">Allow multiple answers.</span>
                 </div>
@@ -193,6 +233,11 @@
                           id="answerInput-{{ answerIndex }}"
                           type="text"
                           formControlName="answerInput"
+                          placeholder="{{
+                            item.get('answerInput')?.hasError && formSubmitted
+                              ? 'This field is obligated !'
+                              : ''
+                          }}"
                         />
                       </div>
                     } @else {
@@ -203,10 +248,16 @@
                             <div class="text text--white text--white__count">A:</div>
                           </div>
                           <input
+                          [class.text--error]="item.get('answerInput')?.hasError && formSubmitted"
                             class="input"
                             id="answerInput-{{ answerIndex }}"
                             type="text"
                             formControlName="answerInput"
+                            placeholder="{{
+                              item.get('answerInput')?.hasError && formSubmitted
+                                ? 'This field is obligated !'
+                                : ''
+                            }}"
                           />
                           <button
                             class="btn btn__delete"
@@ -230,7 +281,7 @@
                         </button>
                       </div>
 
-                      <span [class.d-none]="$index < 2" class="text text--white text--white__xslim"
+                      <span [class.d-none]="$index == 5 || $index < 2" class="text text--white text--white__xslim"
                         >you can add up to 6 answers fields.</span
                       >
                     </div>
@@ -273,3 +324,14 @@
   </div>
   <button type="submit" class="btn btn__submit">Publish</button>
 </form>
+
+<!-- <dialog id="popover" popover="manual">
+<span class="loader"></span>
+</dialog>
+ -->
+
+@if (successMessage()) {
+  <dialog id="popover" popover="auto" class="overlay--published" [open]="successMessage()">
+    <span>Your survey is now published</span>
+  </dialog>
+}

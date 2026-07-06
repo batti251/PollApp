@@ -11,10 +11,20 @@
   }
 }
 
+.underline {
+  border-bottom: 1px solid white;
+  @include size($w: fit-content, $h: fit-content);
+}
 
-  .underline{
-    border-bottom: 1px solid white;
-    @include size($w: fit-content, $h: fit-content)
-  }
+#popover {
+  overflow: hidden;
+}
 
-  
+.overlay--published {
+  @include font($ff: NerkoOne, $fs: clamp(1.5rem, 1.5rem, 2vw), $fw: 400);
+  background-color: #ffcfa1;
+  border: 0;
+  border-radius: 5px 40px 5px 5px;
+  height: fit-content;
+  padding: 10px 16px;
+}

@@ -21,6 +21,7 @@ export class SurveyService {
   expireSoonDate = ''
   currentSurveyId = signal<string>("");
   toExpire = signal<Survey[]>([])
+  newSurveyId = signal<number>(0)
 
   survey = signal<Survey>({
     surveyName: "",
@@ -191,7 +192,7 @@ export class SurveyService {
       .from('surveys')
       .insert([
         {
-          name: rowData.surveyName,
+          surveyName: rowData.surveyName,
           endDate: rowData.endDate,
           description: rowData.description,
           category: rowData.category,
@@ -200,8 +201,10 @@ export class SurveyService {
       ])
       .select()
       .single()
+      console.log(data);
     const surveyId = data.id;
     const surveyQuestions = rowData.questions;
+    this.newSurveyId.set(data.id)
     for (const question of surveyQuestions) {
       await this.insertSurveyQuestions(question, surveyId)
     }

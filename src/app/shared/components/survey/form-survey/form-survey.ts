@@ -1,12 +1,14 @@
-import { Component, EventEmitter, HostListener, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators, FormArray, FormBuilder } from '@angular/forms';
+import { Component, HostListener,inject, signal } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { SurveyService } from '../../../services/survey';
 import { Survey } from '../../../interfaces/survey';
 import { SurveyModel } from '../../../models/surveymodel';
+import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-survey',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, JsonPipe],
   templateUrl: './form-survey.html',
   styleUrl: './form-survey.scss',
 })
@@ -15,10 +17,19 @@ export class FormSurvey {
   formBuilder = inject(FormBuilder)
   categories = this.db.category
   isMobileBreakpoint: boolean = false
+  errorMessage = signal<boolean>(false)
+  successMessage = signal<boolean>(false)
+  formSubmitted:boolean = false
+  router = inject(Router) ;
+
   surveyForm = this.formBuilder.group({
-    surveyName: [''],
+    surveyName: ['', [
+      Validators.required
+    ]],
     endDate: [''],
-    category: [''],
+    category: ['', [
+      Validators.required
+    ]],
     description: [''],
     questions: this.formBuilder.array([
       this.createNewQuestion()])
@@ -33,12 +44,14 @@ export class FormSurvey {
     this.detectScreenSize();
   }
 
+  /**
+   * Live ddetection on the screen width, to detect mobile Breakpoint 
+   */
   detectScreenSize() {
     let screensize = document.body.offsetWidth
-    if (screensize < 768){
-      console.log(screensize);
+    if (screensize < 768) {
       this.isMobileBreakpoint = true
-    } else this.isMobileBreakpoint =false;
+    } else this.isMobileBreakpoint = false;
   }
 
   /**
@@ -47,7 +60,9 @@ export class FormSurvey {
    */
   createNewQuestion() {
     return this.formBuilder.group({
-      questionInput: [''],
+      questionInput: ['', [
+        Validators.required
+      ]],
       multipleChoice: [false],
       answers: this.formBuilder.array([this.createNewAnswer()],
         Validators.maxLength(6)
@@ -72,7 +87,7 @@ export class FormSurvey {
     return this.surveyForm.get('questions') as FormArray
   }
 
-  get isDirty(): boolean | undefined { 
+  get isDirty(): boolean | undefined {
     return this.surveyForm.get('category')?.dirty
   }
 
@@ -107,7 +122,10 @@ export class FormSurvey {
    * @param index 
    */
   deleteControlFromArray(targetArray: FormArray, index: number) {
-    targetArray.removeAt(index)
+    if (index == 0) {
+      console.log(targetArray);
+      targetArray.reset()
+    } else targetArray.removeAt(index)
   }
 
   /**
@@ -136,9 +154,33 @@ export class FormSurvey {
    * Submits the Form-data to the DB
    * Calls {@link addRowDB} for DB INSERT 
    */
-  formSubmit() {
-    let survey = new SurveyModel(this.surveyForm.value as Partial<Survey>)
-    this.db.addRowDB(survey)
+  async formSubmit() {
+    this.formSubmitted = true
+    if (this.surveyForm.invalid) {
+      return
+    } else {
+      let survey = new SurveyModel(this.surveyForm.value as Partial<Survey>)
+      await this.db.addRowDB(survey)
+      this.showPopover()
+    }
   }
 
+  /**
+   * Handler to show Popover, when new survey form is submitted successfully
+   * Afterwards it navigates the user to the recent created survey 
+   * @returns 
+   */
+  showPopover() {
+    let dialog = document.getElementById('popover')
+    dialog?.showPopover();
+    if (this.surveyForm.invalid) {
+      this.successMessage.set(false)
+      return
+    } else {
+      this.successMessage.set(true)
+      setTimeout(() => {
+        this.router.navigate([`survey/${this.db.newSurveyId()}`])
+      }, 1500);
+    }
+  }
 }

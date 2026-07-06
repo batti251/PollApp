@@ -66,7 +66,15 @@
   &--tertiary {
     color: #221227;
   }
+  &--error{
+    color: red;
+    &::placeholder{
+      animation: 0.75s pulse ease-out;
+    }
+  }
 }
+
+
 
 .headline {
   &--secondary {
