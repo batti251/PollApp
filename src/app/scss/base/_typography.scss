@@ -12,8 +12,15 @@
     margin-bottom: unset;
     font-size: clamp(3rem, 4.5rem, 4vw);
   }
+  &--xsmall {
+    margin-bottom: unset;
+    font-size: clamp(1.5rem, 2rem, 3vw);
+  }
   &--center {
     text-align: center;
+  }
+  &--secondary {
+    color: black;
   }
 }
 
@@ -51,8 +58,7 @@
     }
     width: max-content;
     text-align: end;
-
-    @include respond(m){
+    @include respond(m) {
       text-align: start !important;
     }
   }
@@ -66,18 +72,21 @@
   &--tertiary {
     color: #221227;
   }
-  &--error{
+  &--error {
     color: red;
-    &::placeholder{
+    &::placeholder {
       animation: 0.75s pulse ease-out;
     }
   }
 }
 
-
-
 .headline {
   &--secondary {
     width: unset;
   }
+}
+
+.number--percent{
+  @include font($fw: 800, $fs: clamp(1rem, 1rem,1vw));
+  color: #D79451;
 }

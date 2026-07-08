@@ -2,9 +2,12 @@ import { Component, inject } from '@angular/core';
 import { SurveyService } from '../../../services/survey';
 import { ActivatedRoute } from '@angular/router';
 import { PercentPipe} from '@angular/common';
+import { AlphabetPipe } from '../../pipes/alphabet.pipe';
+
+
 @Component({
   selector: 'app-survey-results-live',
-  imports: [PercentPipe],
+  imports: [PercentPipe, AlphabetPipe],
   templateUrl: './survey-results-live.html',
   styleUrl: './survey-results-live.scss',
 })

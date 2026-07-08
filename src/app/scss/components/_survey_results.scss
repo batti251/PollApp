@@ -1,0 +1,44 @@
+@use '../abstracts/index' as *;
+
+.progress {
+  @include dFlex($g: 24px);
+}
+
+.progress-section {
+  @include dFlex($g: 4px, $ai: flex-start);
+}
+
+.progress-element {
+  @include dFlex($fd: row, $g: 8px);
+}
+
+.progress-bar {
+  height: 14px;
+}
+
+.progress-bar[value] {
+  background-color: #ededed;
+  border: none;
+  border-radius: 5em;
+}
+
+.progress-bar[value]::-moz-progress-bar {
+  background: #ededed;
+  border-radius: 5em;
+}
+
+.progress-bar[value]::-webkit-progress-bar {
+  background: #ededed;
+  border-radius: 5em;
+}
+
+.progress-bar[value]::-moz-progress-value {
+  background: #ffb770;
+  border-radius: 0 10px 10px 0;
+}
+
+.progress-bar[value]::-webkit-progress-value {
+  background: #ffb770;
+  border-radius: 0 10px 10px 0;
+}
+
