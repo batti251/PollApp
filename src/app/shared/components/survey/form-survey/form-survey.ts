@@ -5,10 +5,11 @@ import { Survey } from '../../../interfaces/survey';
 import { SurveyModel } from '../../../models/surveymodel';
 import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 
 @Component({
   selector: 'app-form-survey',
-  imports: [ReactiveFormsModule, JsonPipe],
+  imports: [ReactiveFormsModule, JsonPipe, AlphabetPipe],
   templateUrl: './form-survey.html',
   styleUrl: './form-survey.scss',
 })
