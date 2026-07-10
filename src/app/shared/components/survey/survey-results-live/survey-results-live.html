@@ -1,25 +1,38 @@
-<h2 class="title title--xsmall title--secondary">Survey results <b class="title">LIVE</b></h2>
+<h2 class="title title--xsmall title--secondary">
+  Survey results <b class="title--xsmall title">LIVE</b>
+</h2>
 
 <article class="progress">
-@for (question of db.survey().questions; track $index; let i = $index) {
-  <section class="progress-section" style="display: flex; flex-direction: column">
-    <h3 class="text text--secondary text--tertiary">{{ i + 1 }}. {{ question.questionInput }}</h3>
+  @if (db.survey().totalSubmitsCount != null) {
+    @for (question of db.survey().questions; track $index; let i = $index) {
+      <section class="progress--section">
+        <h3 class="text text--secondary text--tertiary">
+          {{ i + 1 }}. {{ question.questionInput }}
+        </h3>
 
-    @for (answer of question.answers; track $index) {
-      <label for="bar"></label>
-      <div class="progress-element">
-        <span class="text text--secondary text--tertiary">{{ $index | alphabet}}</span>
-        <progress
-          id="bar"
-          class="progress-bar"
-          [max]="totalAnswerCounts[i]?.total"
-          [value]="answer.checkedCount"
-        ></progress>
-        <span class="number--percent">{{
-          (answer?.checkedCount || 0) / (totalAnswerCounts[i]?.total || 1) | percent
-        }}</span>
-      </div>
+        @for (answer of question.answers; track $index) {
+          <label for="bar"></label>
+          <div class="progress-element">
+            <span class="text text--secondary text--tertiary">{{ $index | alphabet }}</span>
+            <progress
+              id="bar"
+              class="progress-bar"
+              [max]="totalAnswerCounts[i]?.total"
+              [value]="answer.checkedCount"
+            ></progress>
+            <span class="number--percent">{{
+              (answer?.checkedCount || 0) / (totalAnswerCounts[i]?.total || 1) | percent
+            }}</span>
+          </div>
+        }
+      </section>
     }
-  </section>
-}
+  } @else {
+    <section class="progress--section progress--empty">
+      <h3 class="text text--secondary text--tertiary__purple">
+        Results will be shown here after participants complete the survey
+      </h3>
+      <span class="text text--secondary text--tertiary__purple">There are now answers yet.</span>
+    </section>
+  }
 </article>

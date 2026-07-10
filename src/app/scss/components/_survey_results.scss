@@ -1,11 +1,14 @@
 @use '../abstracts/index' as *;
 
 .progress {
-  @include dFlex($g: 24px);
-}
+  @include dFlex($ai: flex-start, $g: 24px);
 
-.progress-section {
+  &--section {
   @include dFlex($g: 4px, $ai: flex-start);
+}
+  &--empty{
+    gap: 90px;
+  }
 }
 
 .progress-element {

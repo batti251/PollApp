@@ -40,6 +40,12 @@
     }
 }
 
+@keyframes rotate {
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
 
 $breakpoints: (
   zero: 0px,

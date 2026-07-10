@@ -1,14 +1,14 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { SurveyService } from '../../../services/survey';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { JsonPipe } from '@angular/common';
+import { JsonPipe, NgClass } from '@angular/common';
 import { FormBuilder, ɵInternalFormsSharedModule, FormGroup, Validators, ReactiveFormsModule, FormArray, NonNullableFormBuilder } from '@angular/forms';
 import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
-
+import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 @Component({
   selector: 'app-survey-view',
-  imports: [JsonPipe, ɵInternalFormsSharedModule,RouterLink, ReactiveFormsModule, SurveyResultsLive],
+  imports: [JsonPipe, AlphabetPipe, ɵInternalFormsSharedModule, RouterLink, ReactiveFormsModule, SurveyResultsLive, NgClass],
   templateUrl: './survey-view.html',
   styleUrl: './survey-view.scss',
 })
@@ -20,12 +20,44 @@ export class SurveyView {
   successMessage = signal<boolean>(false)
   submitted = false
   formBuilder = inject(FormBuilder)
-
-
+  isMobileBreakpoint = false
+  toggleSurveyResultComponent = false
   surveyResponseForm = this.formBuilder.group({
     responses: this.formBuilder.array<FormGroup>([])
   })
 
+  
+  @HostListener("window:resize", [])
+  onResize() {
+    this.detectScreenSize();
+  }
+
+  ngAfterViewInit() {
+    this.detectScreenSize();
+  }
+
+  /**
+   * Live detection on the screen width, to detect mobile Breakpoint 
+   */
+  detectScreenSize() {
+    let screensize = document.body.offsetWidth
+    if (screensize < 760) {
+      this.isMobileBreakpoint = true
+    } else this.isMobileBreakpoint = false;
+  }
+
+
+  toggleSurveyResults(){
+    let btn = document.getElementById('btn__accordion')
+    btn?.classList.toggle('open');
+    if (this.toggleSurveyResultComponent) {
+      this.toggleSurveyResultComponent = false
+      
+    } else {
+      this.toggleSurveyResultComponent = true
+    } 
+  }
+  
   async ngOnInit() {
     let surveyId = this.route.snapshot.paramMap.get('id') as string;
     await this.db.loadLiveSurvey('surveys', surveyId)

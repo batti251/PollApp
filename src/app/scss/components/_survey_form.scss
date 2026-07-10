@@ -79,6 +79,7 @@
   &--field {
     @include dFlex($ai: flex-start, $g: 4px);
     @include size($w: 100%);
+    border: unset;
     &__input {
       @include dFlex($fd: row, $ai: center, $jc: space-between, $g: 8px);
       @include size($w: 100%);
@@ -86,6 +87,13 @@
     &__input-end {
       @include dFlex($fd: column-reverse, $ai: end, $jc: space-between, $g: 8px);
       @include size($w: 100%);
+    }
+    &__answer{
+      @include dFlex($jc: flex-start, $ai: flex-start, $fd: row, $g: 4px);
+      @include size($w: 100%);
+      &:hover{
+        background-color: #FFCFA166;
+      }
     }
     &__input-top {
       @include dFlex($fd: row, $ai: unset, $jc: space-between, $g: 8px);

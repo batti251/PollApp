@@ -1,86 +1,113 @@
-{{ db.survey() | json }}
+@if (db.survey().questions.length == surveyResponses.length) {
+  <section class="survey--wrap">
+    <form class="survey" action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">
+      <div class="survey--head__navigation">
+        <span class="survey--published">Published</span>
+        <a [routerLink]="['']" class="btn btn__close">X</a>
+      </div>
 
-@if(db.survey().questions.length == surveyResponses.length){
+      <div class="survey--head">
+        <span class="text text--tertiary">Ends on {{ db.survey().endDate }}</span>
+        <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
+      </div>
 
-  <a routerLink="/newSurvey"> New survey </a>
+      <h1 class="title title--small text--tertiary__purple">{{ db.survey().surveyName }}</h1>
+      <p>{{ db.survey().description }}</p>
 
-<section style="display: flex;">
-
-<form action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">
-  <div>
-    <span>ends on {{ db.survey().endDate }}</span>
-    <span>Category: {{ db.survey().category }}</span>
-  </div>
-
-  <h1>{{ db.survey().surveyName }}</h1>
-  <p>{{ db.survey().description }}</p>
-
-  <fieldset formArrayName="responses">
-  @for (item of db.survey().questions; track item.id; let questionIndex = $index) {
-    <h3>{{ questionIndex + 1 }}. {{ item?.questionInput }}</h3>
-
-    <div>
-      @if (item?.multipleChoice) {
-        <span> More than one answers are possible</span>
-      } @else {}
-    </div>
-    <br />
-
-    <section [formGroupName]="questionIndex">
-    @for (answers of item.answers; track $index; let i = $index) {
-      @if (item.multipleChoice) {
-            {{answers.id}}
-            <div>
-            <label for="question-{{answers.questionId}}"></label>
-            <input (change)="updateMultipleChoiceAnswers(questionIndex,  answers.id, $event)" id="answer-{{ i }}" type="checkbox" [value]="answers.id"/>
-            {{ answers.answerInput }}
-            <span> {{surveyResponseForm.valid}} </span>
-            </div>
+      <fieldset class="form--field">
+        <section class="form--wrap" formArrayName="responses">
+          @for (item of db.survey().questions; track item.id; let questionIndex = $index) {
+            <article
+              class="form--meta__general answer answer--wrap text--tertiary__purple"
+              [formGroupName]="questionIndex"
+            >
+              <div class="title--wrap">
+                <h3 class="text--tertiary__purple">
+                  {{ questionIndex + 1 }}. {{ item?.questionInput }}
+                </h3>
+                @if (item?.multipleChoice) {
+                  <div>
+                    <span class="text text--tertiary text--tertiary__purple">
+                      More than one answers are possible</span
+                    >
+                  </div>
+                } @else {}
+              </div>
+              <div class="form--field">
+                @for (answers of item.answers; track $index; let i = $index) {
+                  @if (item.multipleChoice) {
+                    <div class="form--field__answer">
+                      <label for="question-{{ answers.questionId }}"></label>
+                      <input
+                        class="checkbox--purple"
+                        (change)="updateMultipleChoiceAnswers(questionIndex, answers.id, $event)"
+                        id="answer-{{ i }}"
+                        type="checkbox"
+                        [value]="answers.id"
+                      />
+                      <span class="text--tertiary__highlight">{{ i | alphabet }}. </span>
+                      <span class="text--tertiary__purple">{{ answers.answerInput }}</span>
+                    </div>
+                  } @else {
+                    <div class="form--field__answer">
+                      <label for="question-{{ questionIndex }}"></label>
+                      <input
+                        class="checkbox--purple"
+                        id="answer-{{ i }}"
+                        type="radio"
+                        [value]="answers.id"
+                        formControlName="selectedAnswerId"
+                      />
+                      <span class="text--tertiary__highlight">{{ i | alphabet }}. </span>
+                      <span class="text--tertiary__purple">{{ answers.answerInput }}</span>
+                    </div>
+                  }
+                }
+              </div>
+              @if (submitted && surveyResponses.at(questionIndex).invalid) {
+                <i class="text--error">You must answer this question!</i>
+              } @else {
+                <i class="text--error"></i>
+              }
+            </article>
+          }
+        </section>
+      </fieldset>
+      <div class="flex-end btn__wrap">
+        @if (isMobileBreakpoint) {
+          <button type="submit" class="btn btn__submit">Complete</button>
         } @else {
-          <div>
-            {{answers.id}}
-          <label for="question-{{questionIndex}}"></label>
-          <input id="answer-{{ i }}" type="radio" name="selectedAnswerId" [value]="answers.id" formControlName="selectedAnswerId"/>
-          {{ answers.answerInput }}
-
-          </div>
+          <button type="submit" class="btn btn__submit">Complete survey</button>
         }
-        <br />
-      }
-      <b>{{item.id}}</b>
-      @if (submitted && surveyResponses.at(questionIndex).invalid) {
-      <i>You must answer this question!</i>
-      }
-    </section>
+      </div>
+    </form>
+
+    <dialog id="popover" popover="manual">
+      <span class="loader"></span>
+    </dialog>
+
+    <div [class.d-none]="!isMobileBreakpoint">
+      <button
+        id="btn__accordion"
+        class="btn__accordion text text--tertiary__purple"
+        type="button"
+        (click)="toggleSurveyResults()"
+      >
+        Close results
+      </button>
+    </div>
+    <app-survey-results-live [class.d-none]="toggleSurveyResultComponent"></app-survey-results-live>
+  </section>
+
+  @if (errorMessage()) {
+    <dialog [open]="errorMessage()">
+      <h2>Error Message</h2>
+      <p>Please try again later</p>
+    </dialog>
+  } @else if (successMessage()) {
+    <dialog [open]="successMessage()">
+      <h2>Congratulations</h2>
+      <p>Your answers has been sent to us! Thank you for participating!</p>
+    </dialog>
+  }
 }
-</fieldset>
-
-  <button type="submit">Complete survey</button>
-</form>
-
-<dialog id="popover" popover="manual">
-<span class="loader"></span>
-</dialog>
-
-
-<app-survey-results-live></app-survey-results-live>
-
-</section>
-
-@if (errorMessage()) {
-  <dialog [open]="errorMessage()">
-  <h2>Error Message</h2>
-  <p>Please try again later</p>
-</dialog>
-} @else if (successMessage()) {
-  <dialog [open]="successMessage()">
-   <h2>Congratulations</h2>
-  <p>Your answers has been sent to us!
-    Thank you for participating!
-  </p>
-</dialog>
-}
-
-}
-
-

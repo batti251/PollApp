@@ -1,0 +1,50 @@
+@use '../abstracts/index' as *;
+
+.survey {
+  width: min(800px, 90%);
+  background-color: #8e70991a;
+  border-radius: 0 160px 0 0;
+  padding: 40px;
+  &--wrap {
+    @include dFlex($fd: row, $jc: space-between, $ai: unset, $g: 42px);
+    @include respond(m) {
+      flex-direction: column;
+    }
+  }
+  &--head {
+    @include dFlex($fd: row, $jc: space-between);
+    @include respond(m) {
+      flex-direction: column;
+      gap: 16px;
+    }
+    &__navigation{
+        @include dFlex($fd: row, $jc: space-between);
+        width: 90%;
+         @include respond(s) {
+       width: 80%;
+    }
+    }
+  }
+  &--main {
+    @include dFlex();
+    border: unset;
+  }
+  @include respond(m) {
+    padding: 40px 24px;
+  }
+  @include respond(s) {
+    padding: 40px 12px;
+  }
+}
+
+.btn__submit{
+    width: 160px;
+}
+
+.text--error{
+    height: 20px;
+}
+
+#btn__accordion{
+    width: unset;
+}

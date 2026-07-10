@@ -50,9 +50,9 @@
     height: 26px;
     width: 26px;
     background-color: unset;
-    &:hover{
+    &:hover {
       background-image: url('/assets/img/delete_lila.svg');
-      background-color: #FFB77099;
+      background-color: #ffb77099;
     }
   }
   &__submit {
@@ -87,8 +87,8 @@
       background-position: center;
       background-repeat: no-repeat;
     }
-    &:hover{
-      background-color: #FAF5FE33;
+    &:hover {
+      background-color: #faf5fe33;
     }
   }
   &__cancel {
@@ -104,6 +104,33 @@
       background-position: center;
       background-repeat: no-repeat;
     }
+  }
+  &__wrap {
+    margin-top: 24px;
+  }
+  &__accordion {
+    background-color: transparent;
+    color: #35273a;
+    border: unset;
+    align-items: center;
+    @include dFlex($fd: row, $g: 8px);
+    &::after {
+      content: '';
+      @include size($w: 13px, $h: 13px);
+      background-image: url('/assets/img/arrow_drop_down.svg');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    &.open::after {
+      rotate: 180deg;
+    }
+    margin-bottom: 24px;
+  }
+  &__close{
+    border-radius: 10px;
+    justify-content: center;
+    padding: 8px 12px;
   }
 
   @include respond(m) {

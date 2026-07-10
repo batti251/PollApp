@@ -1,27 +1,89 @@
+@use '../../../../scss/abstracts/index' as *;
 
+.title {
+  color: #ee9236;
+  &--wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+}
 
+.text--tertiary {
+  font-size: 1rem;
+  color: #35273a;
+}
 
-
-#popover{
-    overflow: hidden;
+#popover {
+  overflow: hidden;
 }
 
 .loader {
-    width: 48px;
-    height: 48px;
-    border: 5px solid #FFF;
-    border-bottom-color: #FF3D00;
-    border-radius: 50%;
-    display: inline-block;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    }
+  width: 48px;
+  height: 48px;
+  border: 5px solid #fff;
+  border-bottom-color: #ff3d00;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
 
-    @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  &--wrap {
+    width: 42%;
+    @include respond(s) {
+      width: 90%;
     }
-    100% {
-        transform: rotate(360deg);
-    }
-    } 
+  }
+}
+
+.form--wrap {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  width: 100%;
+  @include respond(s) {
+    flex-direction: column;
+  }
+}
+
+input[type='checkbox'] {
+  @include size($w: 20px, $h: 16px);
+  appearance: none;
+  background: url('/assets/img/checkbox_purple.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  &:checked {
+    background: url(/assets/img/checkbox_checked.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+input[type='radio'] {
+  @include size($w: 20px, $h: 16px);
+  appearance: none;
+  background: url('/assets/img/checkbox_purple.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  &:checked {
+    background: url(/assets/img/checkbox_checked.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

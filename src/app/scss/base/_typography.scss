@@ -71,6 +71,14 @@
   }
   &--tertiary {
     color: #221227;
+    &__purple{
+      color: #35273A;
+      width: 100%;
+    }
+    &__highlight{
+      color: #35273A;
+      font-weight: 700;
+    }
   }
   &--error {
     color: red;
