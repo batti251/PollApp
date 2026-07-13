@@ -5,7 +5,8 @@
     border-radius: 0 14px 0 0;
     @include font($fs: clamp(1rem, 1rem, 1vw), $fw: 600);
     &--status{
-        background-color: #FEE9D4;
+        background-color: #FEE9D4 !important;
+        @include size($w: fit-content !important)
     }
     &--published{
         background-color: #FFB770;

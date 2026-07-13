@@ -47,7 +47,7 @@
     }
   }
   &--meta {
-    @include dFlex($fd: row, $jc: space-between, $ai: unset, $g: 64px);
+    @include dFlex($fd: row, $jc: space-evenly, $ai: unset, $g: 64px);
     @include size($w: 100%);
     @include respond(m) {
       flex-direction: column;
@@ -55,7 +55,7 @@
       width: 90%;
     }
     &__general-row {
-      @include dFlex($ai: flex-start, $jc: space-between, $fd: row, $g: 48px);
+      @include dFlex($ai: flex-start, $jc: space-evenly, $fd: row, $g: 64px);
       @include respond(m) {
         flex-direction: column;
       }
@@ -63,12 +63,9 @@
     &__general-column {
       @include dFlex($ai: flex-start, $jc: space-between, $fd: column, $g: 8px);
       width: 42%;
-      @include respond(l) {
-        width: 57%;
-      }
     }
     &__section {
-      @include dFlex($fd: row, $g: 32px);
+      @include dFlex($fd: row, $jc: unset, $g: 32px);
       @include size($w: 100%);
       @include respond(m) {
         flex-direction: column-reverse;

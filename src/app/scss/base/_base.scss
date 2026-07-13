@@ -16,18 +16,17 @@ app-root {
   flex-direction: column;
   align-items: center;
   justify-self: center;
-  gap: 48px;
+  gap: 8px;
 }
 
 app-hero,
 app-survey-view,
-app-form-survey {
+app-form-survey,
+app-header {
   width: 90vw;
+  max-width: 1920px;
 }
 
-app-header {
-  width: 100%;
-}
 main {
   flex: 1;
 }

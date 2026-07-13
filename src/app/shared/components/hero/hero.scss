@@ -3,8 +3,19 @@
 
 .hero {
   @include dFlex($fd: row, $ai: unset, $jc: space-around);
+  &--wrap{
+ @include dFlex($ai: unset, $jc: unset,  $g: 24px);
+  }
 }
 
 .hero-img {
-  @include size($w: min(440px, 50%));
+  @include size($w: min(600px, 50%));
+  background-image: url('/assets/img/hero_img_regular.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: unset;
+  &:hover{
+    background-image: url('/assets/img/hero_img_hover.svg');
+  }
 }

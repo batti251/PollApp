@@ -4,6 +4,7 @@
   appearance: base-select;
   border: 0;
   padding: 0;
+  
   @include dFlex($fd: row, $jc: unset, $ai: center, $g: 24px);
   @include font();
   &::active {

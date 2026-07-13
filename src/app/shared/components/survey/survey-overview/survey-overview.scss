@@ -1,6 +1,9 @@
 @use '../../../../scss/abstracts/index' as *;
 
+.surveys {
+  @include dFlex($jc: unset, $ai: unset, $g: 90px);
+}
 
-.surveys{
-    @include dFlex($jc: unset, $ai: unset, $g: 90px);
+.overview {
+  margin-bottom: 24px;
 }

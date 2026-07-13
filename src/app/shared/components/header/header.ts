@@ -1,9 +1,9 @@
 import { Component, HostListener, inject } from '@angular/core';
-import { ActivationEnd, Router } from '@angular/router';
+import { ActivationEnd, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

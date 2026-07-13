@@ -9,11 +9,11 @@
     </figure>
   } @else {
     <div class="form--field">
-      <span class="survey survey--status">Draft</span>
-      <div class="form--field__input">
+      <span class="survey--status published published--draft">Draft</span>
+      <div class="title--wrap">
         <h1 class="title title--small">Create new survey</h1>
         <button type="button" class="text text--white btn btn__primary--secondary btn__cancel">
-          <span [class.d-none]="isMobileBreakpoint">Cancel</span></button>
+          <a [class.d-none]="isMobileBreakpoint" [routerLink]="['']">Cancel</a></button>
       </div>
     </div>
   }

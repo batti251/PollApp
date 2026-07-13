@@ -1,82 +1,86 @@
 @use './../abstracts/index' as *;
 
-.card-carousel{
-    @include dFlex($fd: unset, $g: 32px);
-
-    &--all{
-         @include respond(m){
-        flex-direction: column;
+.card-carousel {
+  @include dFlex($fd: unset, $g: 32px);
+  flex-wrap: wrap;
+  &--all {
+    @include respond(m) {
+      flex-direction: column;
     }
-    }
-    @include respond(s){
-        flex-direction: column;
-    }
+  }
+  @include respond(s) {
+    flex-direction: column;
+  }
 }
 
 .card {
-    background-color: white;
-    @include dFlex($ai: flex-start, $jc: unset, $g: 64px);
-    @include size($w: min(240px, 60%));
-    @include font($fs: 1rem);
-    padding: 40px 18px;
-    border-radius: 0 80px 0 0 ;
-    color: black;
-     &--category{
-        width: 100%;
-        @include font($fs:  clamp(1rem, 0.875rem, 1vw), $fw: 600);
-    }
-    &--title {
-        width: 100%;
-        @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
-    }
+  background-color: white;
+  @include dFlex($ai: flex-start, $jc: unset, $g: 64px);
+  @include size($w: min(240px, 60%));
+  @include font($fs: 1rem);
+  padding: 40px 18px;
+  border-radius: 0 80px 0 0;
+  color: black;
+  &--category {
+    width: 100%;
+    @include font($fs: clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  }
+  &--title {
+    width: 100%;
+    @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
+  }
 
-    &:hover{
-        background-color: #F4E9FB;
-        cursor: pointer;
-        .published{
-        background-color: #FFB770;
+  &:hover {
+    background-color: #f4e9fb;
+    cursor: pointer;
+    .published {
+      background-color: #ffb770;
     }
-
-    }
+  }
 }
 
 .card-list {
-    color: white;
-    @include dFlex($ai: flex-end, $jc: unset);
-    @include size($w: min(520px, 60%));
-    @include font($fs: 1rem);
-    padding: 12px 20px;
-    border-radius: 5px 50px 5px 5px ;
-    background-color: #423547;
-     &--category{
-        width: 100%;
-        @include font($fs:  clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  color: white;
+  @include dFlex($ai: flex-end, $jc: space-between);
+  @include size($w: min(640px, 40%), $h: 112px);
+  @include font($fs: 1rem);
+  padding: 12px 20px;
+  border-radius: 5px 50px 5px 5px;
+  background-color: #423547;
+  &--category {
+    width: 100%;
+    @include font($fs: clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  }
+  &--title {
+    width: 100%;
+    @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
+  }
+  &--paragraph {
+    width: 100%;
+    @include dFlex($ai: unset, $g: 8px);
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #4f4353;
+    .published {
+      background-color: #ffcfa1;
     }
-    &--title {
-        width: 100%;
-        @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
-    }
-    &--paragraph{
-        width: 100%;
-        @include dFlex($ai: unset, $g: 8px);
-    }
-    &:hover{
-        cursor: pointer;
-        background-color: #4F4353;
-        .published{
-            background-color: #FFCFA1;
-        }
-    }
+  }
 
-    
   @include respond(m) {
-
   }
 }
 
 .published {
-    border-radius: 0 14px 0 0 ;
-    background-color: #FFCFA1;
-    padding: 3px 6px;
-    @include font($fs:  clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  border-radius: 0 14px 0 0;
+  background-color: #ffcfa1;
+  padding: 3px 6px;
+  @include font($fs: clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  width: fit-content;
+  &--draft {
+    background-color: #ffb770;
+    color: #221227;
+    font-weight: bolder;
+    padding: 3px 12px;
+  }
 }
