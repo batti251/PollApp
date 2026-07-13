@@ -7,7 +7,7 @@
       </div>
 
       <div class="survey--head">
-        <span class="text text--tertiary">Ends on {{ db.survey().endDate }}</span>
+        <span [class.d-none]="db.survey().endDate == ''" class="text text--tertiary">Ends on {{ db.survey().endDate }}</span>
         <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
       </div>
 
@@ -100,14 +100,15 @@
   </section>
 
   @if (errorMessage()) {
-    <dialog [open]="errorMessage()">
-      <h2>Error Message</h2>
+    <dialog class="overlay--published" [open]="errorMessage()">
+      <h2>Uuuups, that didn't work!</h2>
       <p>Please try again later</p>
     </dialog>
   } @else if (successMessage()) {
-    <dialog [open]="successMessage()">
-      <h2>Congratulations</h2>
-      <p>Your answers has been sent to us! Thank you for participating!</p>
+    <dialog class="overlay--published" [open]="successMessage()">
+      <h2>Thank You !</h2>
+      <p>Your answers has been sent to us! 
+        Thank you for participating!</p>
     </dialog>
   }
 }

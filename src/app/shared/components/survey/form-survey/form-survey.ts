@@ -124,7 +124,6 @@ export class FormSurvey {
    */
   deleteControlFromArray(targetArray: FormArray, index: number) {
     if (index == 0) {
-      console.log(targetArray);
       targetArray.reset()
     } else targetArray.removeAt(index)
   }

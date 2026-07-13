@@ -3,9 +3,7 @@
 .title {
   color: #ee9236;
   &--wrap {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    @include dFlex($fd: column, $ai: flex-start, $g: 10px);
     h3 {
       margin-bottom: 0;
     }
@@ -37,7 +35,7 @@
   flex-direction: column;
   gap: 24px;
   &--wrap {
-    width: 42%;
+    width: 45%;
     @include respond(s) {
       width: 90%;
     }

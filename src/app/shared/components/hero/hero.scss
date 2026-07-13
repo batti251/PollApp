@@ -1,21 +1,23 @@
 @use '../../../scss/abstracts/index' as *;
 
-
 .hero {
   @include dFlex($fd: row, $ai: unset, $jc: space-around);
-  &--wrap{
- @include dFlex($ai: unset, $jc: unset,  $g: 24px);
+  &--wrap {
+    @include dFlex($ai: unset, $jc: unset, $g: 24px);
+  }
+  @include respond(m){
+    flex-direction: column;
   }
 }
 
 .hero-img {
-  @include size($w: min(600px, 50%));
+  @include size($w: min(600px, 80%), $h: 320px);
   background-image: url('/assets/img/hero_img_regular.svg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
   border: unset;
-  &:hover{
+  &:hover {
     background-image: url('/assets/img/hero_img_hover.svg');
   }
 }
