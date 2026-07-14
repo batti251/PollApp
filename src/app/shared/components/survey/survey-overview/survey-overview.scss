@@ -10,6 +10,10 @@
 
 .btn-wrap{
   @include dFlex($fd: row, $jc: space-between);
+   @include respond(m){
+      flex-direction: column;
+      gap: 24px;
+    }
 }
 
 

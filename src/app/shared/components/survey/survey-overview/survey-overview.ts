@@ -38,11 +38,11 @@ export class SurveyOverview {
   }
 
   filterActiveSurvey(boolean: boolean) {
-    
+
     let currentDate = new Date(new Date().toISOString().split('T')[0]).getTime()
     let tempList = []
     console.log(currentDate);
-    
+
     switch (boolean) {
       case true:
         this.db.surveyList().forEach(e => {
@@ -51,7 +51,7 @@ export class SurveyOverview {
           }
           console.log((currentDate - (new Date(`${e.endDate}`).getTime())));
           console.log(e.endDate);
-          
+
           this.db.filteredSurveyList.set(tempList)
         }
         )
@@ -69,8 +69,6 @@ export class SurveyOverview {
   }
 
 
-
-
   /**
    * Calculates the difference between both given date-strings
    * @param dateA 
@@ -80,10 +78,8 @@ export class SurveyOverview {
   calcExpiryDate(dateA: string, dateB: string): number {
     let newDateA = new Date(dateA)
     let newDateB = new Date(dateB)
-    console.log(new Date(newDateB.getTime()));
-    
-   let diff = newDateB.getTime() - newDateA.getTime()
-    return diff / (1000*60 * 60 * 24)
+    let diff = newDateB.getTime() - newDateA.getTime()
+    return diff / (1000 * 60 * 60 * 24)
   }
 
 

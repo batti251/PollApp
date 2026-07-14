@@ -108,10 +108,16 @@
   &__active{
     border-radius: 20px;
     background-color: #FFB770;
+    @include respond(m){
+      height: 42px;
+    }
   }
   &__past{
     border-radius: 20px;
     background-color: #FEE9D4;
+     @include respond(m){
+      height: 42px;
+    }
   }
   &__wrap {
     margin-top: 24px;

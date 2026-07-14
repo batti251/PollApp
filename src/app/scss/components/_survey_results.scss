@@ -17,6 +17,9 @@
 
 .progress-bar {
   height: 14px;
+  @include respond(m){
+    width: 70vw
+  }
 }
 
 .progress-bar[value] {

@@ -25,8 +25,9 @@ export class SurveyView {
   surveyResponseForm = this.formBuilder.group({
     responses: this.formBuilder.array<FormGroup>([])
   })
+  surveyIsActive = false
 
-  
+
   @HostListener("window:resize", [])
   onResize() {
     this.detectScreenSize();
@@ -47,21 +48,22 @@ export class SurveyView {
   }
 
 
-  toggleSurveyResults(){
+  toggleSurveyResults() {
     let btn = document.getElementById('btn__accordion')
     btn?.classList.toggle('open');
     if (this.toggleSurveyResultComponent) {
       this.toggleSurveyResultComponent = false
-      
+
     } else {
       this.toggleSurveyResultComponent = true
-    } 
+    }
   }
-  
+
   async ngOnInit() {
     let surveyId = this.route.snapshot.paramMap.get('id') as string;
     await this.db.loadLiveSurvey('surveys', surveyId)
     this.buildSurveyForm()
+    this.surveyIsActive = this.calcExpiryDate(this.db.currentDate, this.db.survey().endDate) > 0
   }
 
   /**
@@ -201,6 +203,26 @@ export class SurveyView {
     if (errorFromDB) {
       this.errorMessage.set(true);
     } else this.successMessage.set(true);
+  }
+
+
+
+
+  /**
+   * Calculates the difference between both given date-strings
+   * @param dateA 
+   * @param dateB 
+   * @returns 
+   */
+  calcExpiryDate(dateA: string, dateB: string|undefined): number {
+    if (dateB) {
+      let newDateA = new Date(dateA)
+      let newDateB = new Date(dateB)
+      let diff = newDateB.getTime() - newDateA.getTime()
+      console.log(diff / (1000 * 60 * 60 * 24));
+      
+      return diff / (1000 * 60 * 60 * 24)
+    } else return 0
   }
 
 }

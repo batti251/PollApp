@@ -1,17 +1,27 @@
 @use '../abstracts/index' as *;
 
 .survey {
+  padding: 3px 12px;
+  border-radius: 0 14px 0 0;
+  @include font($fs: clamp(1rem, 1rem, 1vw), $fw: 600);
+  &--status {
+    background-color: #fee9d4 !important;
+    @include size($w: fit-content !important);
+  }
+  &--published {
     padding: 3px 12px;
-    border-radius: 0 14px 0 0;
     @include font($fs: clamp(1rem, 1rem, 1vw), $fw: 600);
-    &--status{
-        background-color: #FEE9D4 !important;
-        @include size($w: fit-content !important)
-    }
-    &--published{
-        background-color: #FFB770;
-        color: #221227;
-        font-weight: bolder;
-    }
-
+    border-radius: 0 14px 0 0;
+    background-color: #ffb770;
+    color: #221227;
+    font-weight: bolder;
+  }
+    &--closed {
+    padding: 3px 12px;
+    @include font($fs: clamp(1rem, 1rem, 1vw), $fw: 600);
+    border-radius: 0 14px 0 0;
+    background-color: #FFCFA1;
+    color: #221227;
+    font-weight: bolder;
+  }
 }

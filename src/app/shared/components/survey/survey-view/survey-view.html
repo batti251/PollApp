@@ -2,13 +2,26 @@
   <section class="survey--wrap">
     <form class="survey" action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">
       <div class="survey--head__navigation">
-        <span class="survey--published">Published</span>
+        @if (calcExpiryDate(db.currentDate, db.survey().endDate) > 0) {
+          <span class="survey--published">Published</span>
+        } @else {
+          <span class="survey--closed">closed</span>
+        }
         <a [routerLink]="['']" class="btn btn__close">X</a>
       </div>
 
       <div class="survey--head">
-        <span [class.d-none]="db.survey().endDate == ''" class="text text--tertiary">Ends on {{ db.survey().endDate }}</span>
-        <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
+        @if (calcExpiryDate(db.currentDate, db.survey().endDate) > 0) {
+          <span [class.d-none]="db.survey().endDate == ''" class="text text--tertiary"
+            >Ends on {{ db.survey().endDate }}</span
+          >
+          <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
+        } @else {
+          <span [class.d-none]="db.survey().endDate == ''" class="text text--tertiary"
+            >Ended on {{ db.survey().endDate }}</span
+          >
+          <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
+        }
       </div>
 
       <h1 class="title title--small text--tertiary__purple">{{ db.survey().surveyName }}</h1>
@@ -74,9 +87,9 @@
         </section>
       </fieldset>
       <div class="flex-end btn__wrap">
-        @if (isMobileBreakpoint) {
+        @if (isMobileBreakpoint && surveyIsActive) {
           <button type="submit" class="btn btn__submit">Complete</button>
-        } @else {
+        } @else if (surveyIsActive) {
           <button type="submit" class="btn btn__submit">Complete survey</button>
         }
       </div>
@@ -107,8 +120,7 @@
   } @else if (successMessage()) {
     <dialog class="overlay--published" [open]="successMessage()">
       <h2>Thank You !</h2>
-      <p>Your answers has been sent to us! 
-        Thank you for participating!</p>
+      <p>Your answers has been sent to us! Thank you for participating!</p>
     </dialog>
   }
 }
