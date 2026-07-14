@@ -7,3 +7,12 @@
 .overview {
   margin-bottom: 24px;
 }
+
+.btn-wrap{
+  @include dFlex($fd: row, $jc: space-between);
+}
+
+
+.btn-group{
+  @include dFlex($fd: row, $jc: space-between, $g:10px );
+}

@@ -85,3 +85,17 @@
     padding: 3px 12px;
   }
 }
+
+.passed {
+  border-radius: 0 14px 0 0;
+  background-color: #FEE9D4;
+  padding: 3px 6px;
+  @include font($fs: clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  width: fit-content;
+  &--draft {
+    background-color: #ffb770;
+    color: #221227;
+    font-weight: bolder;
+    padding: 3px 12px;
+  }
+}

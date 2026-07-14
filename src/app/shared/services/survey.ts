@@ -22,6 +22,7 @@ export class SurveyService {
   currentSurveyId = signal<string>("");
   toExpire = signal<Survey[]>([])
   newSurveyId = signal<number>(0)
+ filteredSurveyList = signal<Survey[]>([])
 
   survey = signal<Survey>({
     surveyName: "",
@@ -60,6 +61,15 @@ export class SurveyService {
   constructor() {
     this.startChannel(this.allEvents, '*');
     this.setDates();
+  }
+
+  filterSurveys(filteredTag:any){
+
+     let y = this.surveyList().filter((x) => {
+      return x.category == filteredTag.tag
+    })
+    
+    this.filteredSurveyList.set(y)
   }
 
   /**
@@ -130,7 +140,7 @@ export class SurveyService {
    */
   setDates() {
     this.currentDate = new Date().toISOString().split('T')[0]
-    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate() + 5)).toISOString().split('T')[0]
+    this.expireSoonDate = new Date(new Date().setTime(new Date().getTime() + 5)).toISOString().split('T')[0]
   }
 
 

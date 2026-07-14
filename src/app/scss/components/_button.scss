@@ -105,6 +105,14 @@
       background-repeat: no-repeat;
     }
   }
+  &__active{
+    border-radius: 20px;
+    background-color: #FFB770;
+  }
+  &__past{
+    border-radius: 20px;
+    background-color: #FEE9D4;
+  }
   &__wrap {
     margin-top: 24px;
   }
