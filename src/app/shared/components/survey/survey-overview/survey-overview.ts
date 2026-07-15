@@ -34,24 +34,17 @@ export class SurveyOverview {
     let filteredTag = this.categories[x]
     this.db.filterSurveys(filteredTag)
     console.log(this.db.filteredSurveyList());
-
   }
 
   filterActiveSurvey(boolean: boolean) {
-
     let currentDate = new Date(new Date().toISOString().split('T')[0]).getTime()
     let tempList = []
-    console.log(currentDate);
-
     switch (boolean) {
       case true:
         this.db.surveyList().forEach(e => {
           if (((currentDate - (new Date(`${e.endDate}`).getTime())) < 0) && e.endDate != "") {
             tempList.push(e)
           }
-          console.log((currentDate - (new Date(`${e.endDate}`).getTime())));
-          console.log(e.endDate);
-
           this.db.filteredSurveyList.set(tempList)
         }
         )

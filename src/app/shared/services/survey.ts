@@ -93,7 +93,6 @@ export class SurveyService {
     let dbResponse = await this.readDB(db) as Survey[]
     dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
     this.surveyList.set(dbResponse)
-    console.log(this.surveyList());
   }
 
   
@@ -159,7 +158,8 @@ export class SurveyService {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput, checkedCount))')
-    return surveys ?? []
+      .order('endDate', {ascending:false})
+      return surveys ?? []
   }
 
   /**

@@ -17,8 +17,8 @@
           >
           <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
         } @else {
-          <span [class.d-none]="db.survey().endDate == ''" class="text text--tertiary"
-            >Ended on {{ db.survey().endDate }}</span
+          <u [class.d-none]="db.survey().endDate == ''" class="text text--tertiary"
+            >Ended on {{ db.survey().endDate }}</u
           >
           <span class="text text--tertiary">Category: {{ db.survey().category }}</span>
         }
