@@ -347,7 +347,6 @@ export class SurveyService {
    */
   async increaseSurveyCount(surveyId: number) {
     let readCurrentSubmitsCount = await this.readSurveyCountDB(surveyId) as { totalSubmitsCount: number }[]
-    console.log(readCurrentSubmitsCount);
     let newSubmitCount = readCurrentSubmitsCount[0].totalSubmitsCount
     newSubmitCount++
     await this.updateSurveysDBCount(surveyId, newSubmitCount)
@@ -368,6 +367,11 @@ export class SurveyService {
       .throwOnError()
   }
 
+  /**
+   * Reads totalSubmitsCount from survey-table
+   * @param surveyId - survey-Id from DB
+   * @returns - returns data, if no error
+   */
   async readSurveyCountDB(surveyId: number) {
     let { data, error } = await this.supabase
       .from('surveys')

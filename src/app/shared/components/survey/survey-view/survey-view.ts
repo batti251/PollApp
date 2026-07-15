@@ -6,6 +6,7 @@ import { FormBuilder, ɵInternalFormsSharedModule, FormGroup, Validators, Reacti
 import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
+
 @Component({
   selector: 'app-survey-view',
   imports: [JsonPipe, AlphabetPipe, ɵInternalFormsSharedModule, RouterLink, ReactiveFormsModule, SurveyResultsLive, NgClass],
@@ -47,13 +48,14 @@ export class SurveyView {
     } else this.isMobileBreakpoint = false;
   }
 
-
+  /**
+   * Toggles survey-result-component on mobile screen
+   */
   toggleSurveyResults() {
     let btn = document.getElementById('btn__accordion')
     btn?.classList.toggle('open');
     if (this.toggleSurveyResultComponent) {
       this.toggleSurveyResultComponent = false
-
     } else {
       this.toggleSurveyResultComponent = true
     }

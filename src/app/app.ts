@@ -19,20 +19,15 @@ export class App {
     this.db.readDB('survey-questions');
     this.db.readDB('survey-questions-answers');
     this.changeBackgroundColor();
-
-
   }
 
   /**
-   * 
+   * Changes backgroundcolor dynamically, according to the current URL
    */
   changeBackgroundColor() {
     this.router.events.pipe().subscribe(x => {
       if (x instanceof ActivationEnd) {
         let currentUrl = x.snapshot.url
-        console.log(currentUrl);
-        
-   
           switch (true) {
             case currentUrl.length === 0  || currentUrl[0].path === 'newSurvey' :
               document.body.style.backgroundColor = '#35273a'
@@ -42,9 +37,5 @@ export class App {
           }
       }
     });
-  }
-
-  ngOnDestroy() {
-
   }
 }

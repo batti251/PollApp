@@ -28,6 +28,9 @@ export class Header {
     this.detectScreenSize();
   }
 
+  /**
+   * Handler to detect window screensize for mobile design
+   */
   detectScreenSize() {
     let screensize = document.body.offsetWidth
     if (screensize < 782) {

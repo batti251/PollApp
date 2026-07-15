@@ -149,7 +149,6 @@ export class FormSurvey {
     }
   }
 
-
   /**
    * Submits the Form-data to the DB
    * Calls {@link addRowDB} for DB INSERT 
