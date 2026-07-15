@@ -9,13 +9,13 @@
             <p class="text card--category">{{ item.category }}</p>
             <p class="text card--title">{{ item.surveyName }}</p>
           </div>
-          @if (calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
+          @if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
             <span class="published"
-              >Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
+              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
             >
-          } @else if (calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
+          } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
             <span class="published"
-              >Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
+              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
             >
           } @else {
             <span>ausgelaufen</span>
@@ -56,15 +56,15 @@
             <p class="text text--secondary view--category">{{ item.category }}</p>
             <p class="text view--title">{{ item.surveyName }}</p>
           </div>
-          @if (calcExpiryDate(db.currentDate, item.endDate ?? '1') > 0) {
+          @if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') > 0) {
             <span class="published text text--tertiary"
-              >Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
+              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
             >
-          } @else if (calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
+          } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
             <span class="published text text--tertiary"
-              >Ends in {{ calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
+              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
             >
-          } @else if (calcExpiryDate(db.currentDate, item.endDate ?? '1') < 0) {
+          } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') < 0) {
             <span class="passed text text--tertiary"
               >closed Survey</span
             >

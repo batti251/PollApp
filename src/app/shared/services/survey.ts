@@ -48,7 +48,6 @@ export class SurveyService {
     checkedCount: 0
   })
 
-
   category = [
     { value: 0, tag: "Health & Wellness" },
     { value: 1, tag: "Team Activities" },
@@ -98,6 +97,20 @@ export class SurveyService {
     this.surveyList.set(dbResponse)
   }
 
+  /**
+   * Calculates the difference between both given date-strings
+   * @param dateA 
+   * @param dateB 
+   * @returns 
+   */
+  calcExpiryDate(dateA: string, dateB: string|undefined): number {
+    if (dateB) {
+      let newDateA = new Date(dateA)
+      let newDateB = new Date(dateB)
+      let diff = newDateB.getTime() - newDateA.getTime()
+      return diff / (1000 * 60 * 60 * 24)
+    } else return 0
+  }
 
   async loadExpireSoonSurvey() {
     let dbResponse = await this.readExpireSoonDB('surveys');
@@ -145,12 +158,9 @@ export class SurveyService {
     this.expireSoonDate = new Date(new Date().setTime(new Date().getTime() + 5)).toISOString().split('T')[0]
   }
 
-
   ngOnDestroy() {
     this.supabase.removeChannel(this.allEvents)
   }
-
-
 
   /**
    * Reads all rows from the DB
@@ -193,7 +203,6 @@ export class SurveyService {
       .lte('endDate', `${this.expireSoonDate}`)
     return surveys ?? []
   }
-
 
   /**
    * Inserts @param rowData to Supabase DB
@@ -266,7 +275,6 @@ export class SurveyService {
       ])
       .select()
   }
-
 
   /**
    * Function Handler for SingleChoice-Answer and MutlipleChoice-Answer
@@ -385,7 +393,5 @@ export class SurveyService {
         }
       })
       .subscribe()
-    /* this.survey.update(list => [...list, tmpProdut]) */
   }
-
 }

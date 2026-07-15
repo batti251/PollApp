@@ -77,20 +77,4 @@ export class SurveyOverview {
     }
     )
   }
-
-
-  /**
-   * Calculates the difference between both given date-strings
-   * @param dateA 
-   * @param dateB 
-   * @returns 
-   */
-  calcExpiryDate(dateA: string, dateB: string): number {
-    let newDateA = new Date(dateA)
-    let newDateB = new Date(dateB)
-    let diff = newDateB.getTime() - newDateA.getTime()
-    return diff / (1000 * 60 * 60 * 24)
-  }
-
-
 }

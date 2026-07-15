@@ -2,7 +2,7 @@
   <section class="survey--wrap">
     <form class="survey" action="" [formGroup]="surveyResponseForm" (ngSubmit)="formSubmit()">
       <div class="survey--head__navigation">
-        @if (calcExpiryDate(db.currentDate, db.survey().endDate) > 0) {
+        @if (db.calcExpiryDate(db.currentDate, db.survey().endDate) > 0) {
           <span class="survey--published">Published</span>
         } @else {
           <span class="survey--closed">closed</span>
@@ -11,7 +11,7 @@
       </div>
 
       <div class="survey--head">
-        @if (calcExpiryDate(db.currentDate, db.survey().endDate) > 0) {
+        @if (db.calcExpiryDate(db.currentDate, db.survey().endDate) > 0) {
           <span [class.d-none]="db.survey().endDate == ''" class="text text--tertiary"
             >Ends on {{ db.survey().endDate }}</span
           >
