@@ -34,10 +34,6 @@ export class SurveyView {
     this.detectScreenSize();
   }
 
-  ngAfterViewInit() {
-    this.detectScreenSize();
-  }
-
   /**
    * Live detection on the screen width, to detect mobile Breakpoint 
    */
@@ -62,10 +58,18 @@ export class SurveyView {
   }
 
   async ngOnInit() {
-    let surveyId = this.route.snapshot.paramMap.get('id') as string;
-    await this.db.loadLiveSurvey('surveys', surveyId)
+    this.detectScreenSize();
+    await this.initLiveSurvey();
     this.buildSurveyForm()
     this.surveyIsActive = this.db.calcExpiryDate(this.db.currentDate, this.db.survey().endDate) > 0
+  }
+
+  /**
+   * Reads current Survey Result on component initialisation
+   */
+  async initLiveSurvey() {
+    let surveyId = this.route.snapshot.paramMap.get('id') as string;
+    await this.db.loadLiveSurvey('surveys', surveyId)
   }
 
   /**

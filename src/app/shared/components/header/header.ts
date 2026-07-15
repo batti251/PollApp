@@ -39,7 +39,9 @@ export class Header {
     } else this.isMobileBreakpoint = false;
   }
 
-
+/**
+ * Switches Header icon and Header UI dynamically, depending on the url-path
+ */
   switchHeaderImg() {
     this.router.events.pipe().subscribe(x => {
       if (x instanceof ActivationEnd) {
