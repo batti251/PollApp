@@ -5,7 +5,7 @@ import { signal } from '@angular/core';
 import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyQuestionsAnswers } from '../../../interfaces/survey-questions-answers';
 import { RouterLink } from "@angular/router";
-import { filter } from 'rxjs';
+import { filter, Timestamp } from 'rxjs';
 
 @Component({
   selector: 'app-overview',
@@ -30,35 +30,52 @@ export class SurveyOverview {
     this.db.filteredSurveyList.set(this.db.surveyList())
   }
 
-  filterSurveys(x: any) {
-    let filteredTag = this.categories[x]
+
+  filterSurveysByCategory(categoryIndex: number) {
+    let filteredTag = this.categories[categoryIndex]
     this.db.filterSurveys(filteredTag)
-    console.log(this.db.filteredSurveyList());
   }
 
-  filterActiveSurvey(boolean: boolean) {
+  /**
+   * calls {@link setfilteredSurveyList} according to @param filterActiveSurvey
+   * if no @param is set, filteredSurveyList will be reset
+   * @param filterActiveSurvey - flag, wether to indicate the filteredSurveyList as active (true), inactive(false), or reset (empty)
+   */
+  filterSurveyOverview(filterActiveSurvey?: boolean) {
     let currentDate = new Date(new Date().toISOString().split('T')[0]).getTime()
-    let tempList = []
-    switch (boolean) {
+    switch (filterActiveSurvey) {
       case true:
-        this.db.surveyList().forEach(e => {
-          if (((currentDate - (new Date(`${e.endDate}`).getTime())) < 0) && e.endDate != "") {
-            tempList.push(e)
-          }
-          this.db.filteredSurveyList.set(tempList)
-        }
-        )
+        this.setfilteredSurveyList(currentDate, true)
+        break;
+      case false:
+        this.setfilteredSurveyList(currentDate, false)
         break;
       default:
-        this.db.surveyList().forEach(e => {
-          if (((currentDate - new Date(`${e.endDate}`).getTime()) > 0) && e.endDate != "") {
-            tempList.push(e)
-          }
-          this.db.filteredSurveyList.set(tempList)
-        }
-        )
-        break;
+        this.db.filteredSurveyList.set(this.db.surveyList())
     }
+  }
+
+
+  /**
+   * Sets filteredSurveyList() according the @param filterActiveSurvey-calculation 
+   * @param currentDate - current Date-object as timestamp
+   * @param filterActiveSurvey - flag, wether to indicate the filteredSurveyList as active (true), inactive(false) 
+   */
+  setfilteredSurveyList(currentDate: number, filterActiveSurvey: boolean) {
+    let tempSurveyList = []
+    this.db.surveyList().forEach(e => {
+      if (filterActiveSurvey) {
+        if (((currentDate - (new Date(`${e.endDate}`).getTime())) < 0) && e.endDate != "") {
+          tempSurveyList.push(e)
+        }
+      } else if (!filterActiveSurvey) {
+        if (((currentDate - new Date(`${e.endDate}`).getTime()) > 0) && e.endDate != "") {
+          tempSurveyList.push(e)
+        }
+      }
+      this.db.filteredSurveyList.set(tempSurveyList)
+    }
+    )
   }
 
 

@@ -28,8 +28,9 @@
 
     <div class="btn-wrap">
       <div class="btn-group">
-        <button class="btn btn__active" (click)="filterActiveSurvey(true)">Active survey</button>
-        <button class="btn btn__past" (click)="filterActiveSurvey(false)">Past survey</button>
+        <button class="btn btn__active" (click)="filterSurveyOverview(true)">Active surveys</button>
+        <button class="btn btn__past" (click)="filterSurveyOverview(false)">Past surveys</button>
+        <button class="btn btn__active" (click)="filterSurveyOverview()">All surveys</button>
       </div>
       <select class="text--white dropdown" id="category" type="text" formControlName="category">
         <button>
@@ -40,7 +41,7 @@
           <option
             class="text text--tertiary"
             value="{{ item.value }}"
-            (click)="filterSurveys(item.value)"
+            (click)="filterSurveysByCategory(item.value)"
           >
             {{ item.tag }}
           </option>
