@@ -37,7 +37,7 @@
           <selectedcontent></selectedcontent>
         </button>
         <option value="" disabled selected hidden>Sort by categories</option>
-        @for (item of categories; track $index) {
+        @for (item of db.category; track $index) {
           <option
             class="text text--tertiary"
             value="{{ item.value }}"

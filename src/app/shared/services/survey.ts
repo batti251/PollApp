@@ -22,7 +22,7 @@ export class SurveyService {
   currentSurveyId = signal<string>("");
   toExpire = signal<Survey[]>([])
   newSurveyId = signal<number>(0)
- filteredSurveyList = signal<Survey[]>([])
+  filteredSurveyList = signal<Survey[]>([])
 
   survey = signal<Survey>({
     surveyName: "",
@@ -63,13 +63,16 @@ export class SurveyService {
     this.setDates();
   }
 
-  filterSurveys(filteredTag:any){
-
-     let y = this.surveyList().filter((x) => {
-      return x.category == filteredTag.tag
+  /**
+   * Sets a filteredSurveyList() according to given @param categoryIndex
+   * @param categoryIndex  - index from category
+   */
+  filterSurveys(categoryIndex: number) {
+    let filteredTag = this.category[categoryIndex]
+    let tempFilteredList = this.surveyList().filter((categoryIndex) => {
+      return categoryIndex.category == filteredTag.tag
     })
-    
-    this.filteredSurveyList.set(y)
+    this.filteredSurveyList.set(tempFilteredList)
   }
 
   /**
@@ -95,10 +98,10 @@ export class SurveyService {
     this.surveyList.set(dbResponse)
   }
 
-  
-  async loadExpireSoonSurvey(){
+
+  async loadExpireSoonSurvey() {
     let dbResponse = await this.readExpireSoonDB('surveys');
-    dbResponse.forEach((survey,index) => this.setCategoryName(dbResponse[index]))
+    dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
     this.toExpire.set(dbResponse)
   }
 
@@ -158,8 +161,8 @@ export class SurveyService {
     let { data: surveys, error } = await this.supabase
       .from(db)
       .select('*, questions: "survey-questions" (id, questionInput, multipleChoice, answers:"survey-questions-answers" (questionId, id, answerInput, checkedCount))')
-      .order('endDate', {ascending:false})
-      return surveys ?? []
+      .order('endDate', { ascending: false })
+    return surveys ?? []
   }
 
   /**
@@ -211,7 +214,7 @@ export class SurveyService {
       ])
       .select()
       .single()
-      console.log(data);
+    console.log(data);
     const surveyId = data.id;
     const surveyQuestions = rowData.questions;
     this.newSurveyId.set(data.id)

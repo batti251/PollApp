@@ -19,21 +19,21 @@ export class SurveyOverview {
   list: Survey[] = []
   surveyQuestionList = signal<SurveyQuestions[]>([])
   surveyQAList = signal<SurveyQuestionsAnswers[]>([])
-  categories = [{ value: 0, tag: "" }];
 
 
   async ngOnInit() {
     await this.db.loadSurveyList('surveys')
     await this.db.loadExpireSoonSurvey()
     console.log(this.db.toExpire());
-    this.categories = this.db.category
     this.db.filteredSurveyList.set(this.db.surveyList())
   }
 
-
+  /**
+   * Function Caller to filter Surveys by categories
+   * @param categoryIndex - index from db.category
+   */
   filterSurveysByCategory(categoryIndex: number) {
-    let filteredTag = this.categories[categoryIndex]
-    this.db.filterSurveys(filteredTag)
+    this.db.filterSurveys(categoryIndex)
   }
 
   /**
@@ -59,7 +59,7 @@ export class SurveyOverview {
   /**
    * Sets filteredSurveyList() according the @param filterActiveSurvey-calculation 
    * @param currentDate - current Date-object as timestamp
-   * @param filterActiveSurvey - flag, wether to indicate the filteredSurveyList as active (true), inactive(false) 
+   * @param filterActiveSurvey - flag, wether to indicate the filteredSurveyList as active (true) or inactive(false) 
    */
   setfilteredSurveyList(currentDate: number, filterActiveSurvey: boolean) {
     let tempSurveyList = []
