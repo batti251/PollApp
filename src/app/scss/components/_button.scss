@@ -108,6 +108,7 @@
   &__active{
     border-radius: 20px;
     background-color: #FFB770;
+    height: 25px;
     @include respond(m){
       height: 42px;
     }
