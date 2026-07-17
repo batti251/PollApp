@@ -95,8 +95,21 @@
       </div>
     </form>
 
-    <dialog id="popover" popover="manual">
-      <span class="loader"></span>
+    <dialog id="popover-loader" popover="manual" closedby="none" class="overlay--loader" [open]="errorMessage() || successMessage()">
+      @if (!errorMessage() && !successMessage()) {
+        <span class="loader"></span>
+      }
+      @else if (errorMessage() && !successMessage()) {
+        <div id="popover-feedback" closedby="none" class="overlay--published">
+          <h2>Uuuups, that didn't work!</h2>
+          <p>Please try again later</p>
+        </div>
+      } @else if (successMessage() && !errorMessage()) {
+        <div id="popover-feedback" class="overlay--published">
+          <h2>Thank You !</h2>
+          <p>Your answers has been sent to us! Thank you for participating!</p>
+        </div>
+      }
     </dialog>
 
     <div [class.d-none]="!isMobileBreakpoint">
@@ -111,16 +124,4 @@
     </div>
     <app-survey-results-live [class.d-none]="toggleSurveyResultComponent"></app-survey-results-live>
   </section>
-
-  @if (errorMessage()) {
-    <dialog class="overlay--published" [open]="errorMessage()">
-      <h2>Uuuups, that didn't work!</h2>
-      <p>Please try again later</p>
-    </dialog>
-  } @else if (successMessage()) {
-    <dialog class="overlay--published" [open]="successMessage()">
-      <h2>Thank You !</h2>
-      <p>Your answers has been sent to us! Thank you for participating!</p>
-    </dialog>
-  }
 }

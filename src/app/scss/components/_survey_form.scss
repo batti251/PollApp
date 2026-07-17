@@ -28,9 +28,9 @@
     }
     &__answers {
       @include dFlex($jc: unset, $ai: unset, $g: 4px);
-      &-row{
+      &-row {
         @include dFlex($jc: space-between, $ai: unset, $fd: row, $g: 4px);
-        @include respond(s){
+        @include respond(s) {
           flex-direction: column;
         }
       }
@@ -63,6 +63,9 @@
     &__general-column {
       @include dFlex($ai: flex-start, $jc: space-between, $fd: column, $g: 8px);
       width: 42%;
+      @include respond(m) {
+        width: 90%;
+      }
     }
     &__section {
       @include dFlex($fd: row, $jc: unset, $g: 32px);
@@ -85,11 +88,11 @@
       @include dFlex($fd: column-reverse, $ai: end, $jc: space-between, $g: 8px);
       @include size($w: 100%);
     }
-    &__answer{
+    &__answer {
       @include dFlex($jc: flex-start, $ai: flex-start, $fd: row, $g: 4px);
       @include size($w: 100%);
-      &:hover{
-        background-color: #FFCFA166;
+      &:hover {
+        background-color: #ffcfa166;
       }
     }
     &__input-top {

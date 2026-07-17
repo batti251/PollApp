@@ -151,10 +151,10 @@ export class SurveyView {
   formSubmit() {
     this.submitted = true
     if (this.surveyResponseForm.valid) {
-      let dialog = document.getElementById('popover') as HTMLDialogElement
-      this.toggleDialog(dialog);
+      let dialog = document.getElementById('popover-loader') as HTMLDialogElement
+      this.toggleLoaderDialog(dialog);
       this.sendDataToDB(dialog);
-    }
+    } else return
   }
 
   /**
@@ -175,16 +175,14 @@ export class SurveyView {
 
   /**
    * Initial Function to show the appropriate UI-Feedback, depending on @param errorFromDB 
-   * @param dialog 
-   * @param errorFromDB 
+   * @param dialog - the dialog-feedback-Element
+   * @param errorFromDB - false: Database Update fulfilled ; true: Database Upload thorws error
    */
   initUIFeedback(dialog: HTMLDialogElement, errorFromDB: boolean) {
+    this.toggleLoaderDialog(dialog)
     this.showDialogMessage(errorFromDB)
-    this.toggleDialog(dialog)
     if (this.successMessage() == true) {
-      setTimeout(() => {
-        this.router.navigate([''])
-      }, 2000)
+      this.navigateToHomepage()
     }
   }
 
@@ -192,13 +190,11 @@ export class SurveyView {
    * Dialog-Handler to show/close the dialog according to the current dialog-state
    * @param dialog 
    */
-  toggleDialog(dialog: HTMLDialogElement) {
+  toggleLoaderDialog(dialog: HTMLDialogElement) {
     if (!dialog.open) {
       dialog.showModal()
     } else
-      setTimeout(() => {
-        dialog.close()
-      }, 500);
+      dialog.close()
   }
 
   /**
@@ -207,7 +203,18 @@ export class SurveyView {
    */
   showDialogMessage(errorFromDB: boolean) {
     if (errorFromDB) {
-      this.errorMessage.set(true);
-    } else this.successMessage.set(true);
+        this.errorMessage.set(true);
+    } else {
+        this.successMessage.set(true);
+    }
+  }
+
+  /**
+   * Sends the user to the root-page
+   */
+  navigateToHomepage() {
+    setTimeout(() => {
+      this.router.navigate([''])
+    }, 1500)
   }
 }
