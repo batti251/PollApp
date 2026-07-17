@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { ActivationEnd, RouterOutlet, Router, ResolveEnd, NavigationEnd } from '@angular/router';
+import { ActivationEnd, RouterOutlet, Router } from '@angular/router';
 import { SurveyService } from './shared/services/survey';
 import { Header } from './shared/components/header/header';
 

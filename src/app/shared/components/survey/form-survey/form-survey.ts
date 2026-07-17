@@ -3,13 +3,12 @@ import { FormGroup, ReactiveFormsModule, Validators, FormArray, FormBuilder } fr
 import { SurveyService } from '../../../services/survey';
 import { Survey } from '../../../interfaces/survey';
 import { SurveyModel } from '../../../models/surveymodel';
-import { JsonPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 
 @Component({
   selector: 'app-form-survey',
-  imports: [ReactiveFormsModule, JsonPipe, AlphabetPipe],
+  imports: [ReactiveFormsModule, AlphabetPipe],
   templateUrl: './form-survey.html',
   styleUrl: './form-survey.scss',
 })

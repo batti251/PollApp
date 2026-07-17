@@ -1,15 +1,14 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { SurveyService } from '../../../services/survey';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { JsonPipe, NgClass } from '@angular/common';
-import { FormBuilder, ɵInternalFormsSharedModule, FormGroup, Validators, ReactiveFormsModule, FormArray, NonNullableFormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 
 @Component({
   selector: 'app-survey-view',
-  imports: [JsonPipe, AlphabetPipe, ɵInternalFormsSharedModule, RouterLink, ReactiveFormsModule, SurveyResultsLive, NgClass],
+  imports: [AlphabetPipe, RouterLink, ReactiveFormsModule, SurveyResultsLive,],
   templateUrl: './survey-view.html',
   styleUrl: './survey-view.scss',
 })

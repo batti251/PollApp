@@ -6,7 +6,7 @@ import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 
 @Component({
   selector: 'app-survey-results-live',
-  imports: [PercentPipe, AlphabetPipe, JsonPipe],
+  imports: [PercentPipe, AlphabetPipe],
   templateUrl: './survey-results-live.html',
   styleUrl: './survey-results-live.scss',
 })
