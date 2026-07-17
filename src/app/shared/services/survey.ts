@@ -223,7 +223,6 @@ export class SurveyService {
       ])
       .select()
       .single()
-    console.log(data);
     const surveyId = data.id;
     const surveyQuestions = rowData.questions;
     this.newSurveyId.set(data.id)
@@ -390,8 +389,6 @@ export class SurveyService {
   startChannel(channel: RealtimeChannel, event: '*' | 'INSERT' | 'UPDATE' | 'DELETE') {
     channel = this.supabase.channel('custom-all-channel').on('postgres_changes', { event: event, schema: 'public' },
       (payload) => {
-        console.log(payload);
-
         if (this.currentSurveyId()) {
           this.loadLiveSurvey('surveys', this.currentSurveyId())
         }

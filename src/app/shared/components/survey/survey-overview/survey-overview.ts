@@ -24,7 +24,6 @@ export class SurveyOverview {
   async ngOnInit() {
     await this.db.loadSurveyList('surveys')
     await this.db.loadExpireSoonSurvey()
-    console.log(this.db.toExpire());
     this.db.filteredSurveyList.set(this.db.surveyList())
   }
 

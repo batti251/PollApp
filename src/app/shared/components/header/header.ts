@@ -34,7 +34,6 @@ export class Header {
   detectScreenSize() {
     let screensize = document.body.offsetWidth
     if (screensize < 782) {
-      console.log(screensize);
       this.isMobileBreakpoint = true;
     } else this.isMobileBreakpoint = false;
   }

@@ -1,4 +1,4 @@
-import { Component, HostListener,inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators, FormArray, FormBuilder } from '@angular/forms';
 import { SurveyService } from '../../../services/survey';
 import { Survey } from '../../../interfaces/survey';
@@ -20,8 +20,8 @@ export class FormSurvey {
   isMobileBreakpoint: boolean = false
   errorMessage = signal<boolean>(false)
   successMessage = signal<boolean>(false)
-  formSubmitted:boolean = false
-  router = inject(Router) ;
+  formSubmitted: boolean = false
+  router = inject(Router);
 
   surveyForm = this.formBuilder.group({
     surveyName: ['', [
@@ -123,12 +123,7 @@ export class FormSurvey {
    * @param index 
    */
   deleteControlFromArray(targetArray: FormArray, index: number) {
-    console.log(targetArray);
-    console.log(index);
-    console.log(targetArray.at(index));
-    
     if (index == 0) {
-      
       targetArray.reset()
     } else targetArray.removeAt(index)
   }
