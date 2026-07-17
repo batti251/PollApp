@@ -95,7 +95,7 @@ This project was created primarily to gain hands-on experience with:
 ## 🔗 Live Demo
 
 🎯 Try Poll App here:  
-👉 https://your-demo-url.com
+👉 https://pollappp.sebastian-buenz.de/
 
 ---
 
@@ -110,7 +110,7 @@ This project was created primarily to gain hands-on experience with:
 1. Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/batti251/PollApp.gitrepository-url>
 ```
 
 2. Install dependencies
