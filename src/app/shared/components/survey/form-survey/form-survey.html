@@ -206,7 +206,7 @@
               <div formArrayName="answers" class="form--group__answers">
                 @for (
                   item of getAnswers(questionIndex).controls;
-                  track $index;
+                  track item.value;
                   let answerIndex = $index;
                   let last = $last
                 ) {
