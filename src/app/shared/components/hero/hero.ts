@@ -8,4 +8,7 @@ import { SurveyOverview } from '../survey/survey-overview/survey-overview';
   templateUrl: './hero.html',
   styleUrl: './hero.scss',
 })
-export class Hero {}
+export class Hero {
+hover_btn = false;
+hover_img = false;
+}

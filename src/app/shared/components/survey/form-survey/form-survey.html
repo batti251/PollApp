@@ -64,13 +64,25 @@
                   (click)="resetValue('endDate')"
                 ></button>
               </div>
-              <input class="input" id="end-date" type="date" min="{{db.currentDate}}" formControlName="endDate" />
+              <input
+                class="input"
+                id="end-date"
+                type="date"
+                min="{{ db.currentDate }}"
+                formControlName="endDate"
+              />
             </div>
           } @else {
             <div class="form--field">
               <label class="text text--white" for="end-date">Set end date <i>(optional)</i></label>
               <div class="form--field__input">
-                <input class="input" id="end-date" type="date" min="db.currentDate" formControlName="endDate" />
+                <input
+                  class="input"
+                  id="end-date"
+                  type="date"
+                  min="db.currentDate"
+                  formControlName="endDate"
+                />
                 <button
                   class="btn btn__delete"
                   type="button"
@@ -220,7 +232,9 @@
                         <label for="answerInput-{{ answerIndex }}"></label>
                         <div class="form--field__input">
                           <div>
-                            <div class="text text--white text--white__count">{{answerIndex | alphabet}}.</div>
+                            <div class="text text--white text--white__count">
+                              {{ answerIndex | alphabet }}.
+                            </div>
                           </div>
                           <button
                             class="btn btn__delete"
@@ -245,10 +259,12 @@
                         <label for="answerInput-{{ answerIndex }}"></label>
                         <div class="form--field__input">
                           <div>
-                            <div class="text text--white text--white__count">{{answerIndex | alphabet}}.</div>
+                            <div class="text text--white text--white__count">
+                              {{ answerIndex | alphabet }}.
+                            </div>
                           </div>
                           <input
-                          [class.text--error]="item.get('answerInput')?.hasError && formSubmitted"
+                            [class.text--error]="item.get('answerInput')?.hasError && formSubmitted"
                             class="input"
                             id="answerInput-{{ answerIndex }}"
                             type="text"
@@ -281,7 +297,9 @@
                         </button>
                       </div>
 
-                      <span [class.d-none]="$index == 5 || $index < 2" class="text text--white text--white__xslim"
+                      <span
+                        [class.d-none]="$index == 5 || $index < 2"
+                        class="text text--white text--white__xslim"
                         >you can add up to 6 answers fields.</span
                       >
                     </div>
@@ -296,8 +314,6 @@
               </div>
             </div>
           </div>
-
-          <!-- <button [hidden]="!$last" type="button" (click)="addQuestion()">Add next question</button> -->
         } @empty {
           <article class="form--meta__general form--half">
             <button
@@ -306,6 +322,7 @@
               (click)="addQuestion()"
             >
               Add next questions
+              <img src="/assets/img/add_circle_white.svg" alt="" />
             </button>
           </article>
         }
@@ -317,6 +334,7 @@
             (click)="addQuestion()"
           >
             Add next question
+            <img src="/assets/img/add_circle_white.svg" alt="plus-symbol" />
           </button>
         </article>
       </article>

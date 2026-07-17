@@ -12,12 +12,4 @@
 
 .hero-img {
   @include size($w: min(600px, 80%), $h: 320px);
-  background-image: url('/assets/img/hero_img_regular.svg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  border: unset;
-  &:hover {
-    background-image: url('/assets/img/hero_img_hover.svg');
-  }
 }

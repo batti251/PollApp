@@ -18,28 +18,13 @@
 
   &__primary {
     border-radius: 10px;
-    &--regular {
-      &:hover::after {
-        content: '';
-        @include size($w: 20px, $h: 20px);
-        background-image: url(/assets/img/add_circle.svg);
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
+    &-img {
+      @include size($w: 20px, $h: 20px);
     }
     &--secondary {
       height: 40px;
       padding: 8px 12px;
       background-color: #7b5b55;
-      &::after {
-        content: '';
-        @include size($w: 20px, $h: 20px);
-        background-image: url(/assets/img/add_circle_white.svg);
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-      }
     }
   }
 
@@ -105,18 +90,18 @@
       background-repeat: no-repeat;
     }
   }
-  &__active{
+  &__active {
     border-radius: 20px;
-    background-color: #FFB770;
+    background-color: #ffb770;
     height: 25px;
-    @include respond(m){
+    @include respond(m) {
       height: 42px;
     }
   }
-  &__past{
+  &__past {
     border-radius: 20px;
-    background-color: #FEE9D4;
-     @include respond(m){
+    background-color: #fee9d4;
+    @include respond(m) {
       height: 42px;
     }
   }
@@ -142,7 +127,7 @@
     }
     margin-bottom: 24px;
   }
-  &__close{
+  &__close {
     border-radius: 10px;
     justify-content: center;
     padding: 8px 12px;

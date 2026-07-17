@@ -8,9 +8,23 @@
       Create and share surveys in minutes – from team events to workplace culture. Collect opinions,
       engage your audience, and turn feedback into action.
     </p>
-    <a class="btn btn__primary btn__primary--regular" routerLink="newSurvey"> New survey </a>
+    <a
+      class="btn btn__primary btn__primary--regular"
+      routerLink="newSurvey"
+      (mouseenter)="hover_btn = true"
+      (mouseleave)="hover_btn = false"
+    >
+      New survey
+      <img class="btn__primary-img" [class.d-none]="!hover_btn" src="/assets/img/add_circle.svg" alt=""
+    /></a>
   </article>
-  <figure class="hero-img"></figure>
+  <img
+    class="hero-img"
+    [src]="hover_img ? '/assets/img/hero_img_hover.svg' : '/assets/img/hero_img_regular.svg'"
+    (mouseenter)="hover_img = true"
+    (mouseleave)="hover_img = false"
+    alt="cartoon picture of a phone with a survey on the display"
+  />
 </section>
 
 <h2 class="title title--small title--center">Your surveys</h2>
