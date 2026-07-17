@@ -1,11 +1,13 @@
 <header class="header">
   @if (!isHidden) {
-    <figure class="header-img">
+    <figure class="header-img" [routerLink]="['']">
+      <div class="header-wrap">
       <img [src]="imgSrc" alt="Pollapp header icon" />
       <figcaption [class.text--tertiary]="isInverted">
         Poll <br />
         App
       </figcaption>
+      </div>
     </figure>
   } @else {
     <div class="form--field">

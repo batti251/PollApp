@@ -14,16 +14,16 @@ export const routes: Routes = [
     {
         path: 'overview',
         component: SurveyOverview,
-        title: 'overview'
+        title: 'Poll App - Overview'
     }, 
     {
         path: 'newSurvey',
         component: FormSurvey,
-        title: 'overview'
+        title: 'Poll App - Create New Survey'
     }, 
     {
         path: 'survey/:id',
         component: SurveyView,
-        title: 'overview'
+        title: 'Poll App - Survey'
     }
 ];

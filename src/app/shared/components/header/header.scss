@@ -12,3 +12,8 @@
     letter-spacing: 3%;
     margin-inline-start: 0;
 } 
+
+.header-wrap{
+     @include dFlex($fd: unset, $jc: flex-start, $ai: flex-start, $g: 16px);
+     cursor: pointer;
+}
