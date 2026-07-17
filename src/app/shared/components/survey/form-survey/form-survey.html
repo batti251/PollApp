@@ -64,13 +64,13 @@
                   (click)="resetValue('endDate')"
                 ></button>
               </div>
-              <input class="input" id="end-date" type="date" formControlName="endDate" />
+              <input class="input" id="end-date" type="date" min="{{db.currentDate}}" formControlName="endDate" />
             </div>
           } @else {
             <div class="form--field">
               <label class="text text--white" for="end-date">Set end date <i>(optional)</i></label>
               <div class="form--field__input">
-                <input class="input" id="end-date" type="date" formControlName="endDate" />
+                <input class="input" id="end-date" type="date" min="db.currentDate" formControlName="endDate" />
                 <button
                   class="btn btn__delete"
                   type="button"
