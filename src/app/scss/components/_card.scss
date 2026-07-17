@@ -4,7 +4,11 @@
   @include dFlex($fd: unset, $g: 32px);
   flex-wrap: wrap;
   &--all {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
     @include respond(m) {
+      display: unset;
       flex-direction: column;
     }
   }
@@ -68,7 +72,7 @@
   }
 
   @include respond(m) {
-    width:90%;
+    width: 90%;
   }
 }
 
@@ -88,7 +92,7 @@
 
 .passed {
   border-radius: 0 14px 0 0;
-  background-color: #FEE9D4;
+  background-color: #fee9d4;
   padding: 3px 6px;
   @include font($fs: clamp(1rem, 0.875rem, 1vw), $fw: 600);
   width: fit-content;

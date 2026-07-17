@@ -20,6 +20,21 @@ body::-webkit-scrollbar-thumb {
   border: 2px solid #8e7099;
 }
 
+.card-carousel--all::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card-carousel--all::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.card-carousel--all::-webkit-scrollbar-thumb {
+  background: #FFB770;
+  border-radius: 5px;
+}
+
+
+
 @supports not selector(::-webkit-scrollbar) {
   body {
       scrollbar-color: var(--sb-thumb-color)
