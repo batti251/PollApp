@@ -25,5 +25,9 @@ export const routes: Routes = [
         path: 'survey/:id',
         component: SurveyView,
         title: 'Poll App - Survey'
+    },
+     {
+        path: '**',
+        redirectTo: ''
     }
 ];
