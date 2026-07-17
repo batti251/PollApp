@@ -155,7 +155,7 @@ export class SurveyService {
    */
   setDates() {
     this.currentDate = new Date().toISOString().split('T')[0]
-    this.expireSoonDate = new Date(new Date().setTime(new Date().getTime() + 5)).toISOString().split('T')[0]
+    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate() + 5 )).toISOString().split('T')[0]
   }
 
   ngOnDestroy() {

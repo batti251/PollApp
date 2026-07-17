@@ -1,5 +1,5 @@
 <main class="overview">
-  <p class="text text--info text--white">Ending soon surveys</p>
+  <p class="text text--info text--white overview">Ending soon surveys</p>
 
   <section class="surveys">
     <div class="card-carousel">
@@ -65,10 +65,8 @@
               >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
             >
           } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') < 0) {
-            <span class="passed text text--tertiary"
-              >closed Survey</span
-            >
-          } @else if (item.endDate == "") {
+            <span class="passed text text--tertiary">closed Survey</span>
+          } @else if (item.endDate == '') {
             <span>no End Date</span>
           } @else {
             <span>closed Survey</span>
