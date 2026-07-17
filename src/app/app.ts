@@ -15,9 +15,6 @@ export class App {
   db = inject(SurveyService)
 
   ngOnInit() {
-    this.db.readDB('surveys');
-    this.db.readDB('survey-questions');
-    this.db.readDB('survey-questions-answers');
     this.changeBackgroundColor();
   }
 
