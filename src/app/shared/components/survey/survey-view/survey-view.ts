@@ -61,7 +61,7 @@ export class SurveyView {
     this.detectScreenSize();
     await this.initLiveSurvey();
     this.buildSurveyForm()
-    this.surveyIsActive = this.db.calcExpiryDate(this.db.currentDate, this.db.survey().endDate) > 0
+    this.surveyIsActive = this.db.calcExpiryDate(this.db.currentDate, this.db.survey().endDate) >= 0
   }
 
   /**
