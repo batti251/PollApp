@@ -1,176 +1,22 @@
-<form [formGroup]="createSurvey.surveyForm" (ngSubmit)="createSurvey.formSubmit()" class="form--container">
+<form
+  [formGroup]="createSurvey.surveyForm"
+  (ngSubmit)="createSurvey.formSubmit()"
+  class="form--container"
+>
   <div class="form form--new-survey">
-    <section class="form--meta">
-      <article class="form--meta__general-column">
-        <div class="form--meta__section">
-          @if (isMobileBreakpoint) {
-            <div class="form--field">
-              <div class="form--field__input">
-                <label class="text text--white" for="survey-name">Survey Name</label>
-                <button
-                  class="btn btn__delete"
-                  type="button"
-                  (click)="createSurvey.resetValue('surveyName')"
-                ></button>
-              </div>
-              <input
-                class="input"
-                [class.text--error]="createSurvey.surveyForm.get('surveyName')?.hasError && createSurvey.formSubmitted"
-                id="survey-name"
-                type="text"
-                formControlName="surveyName"
-                placeholder="{{
-                  createSurvey.surveyForm.get('surveyName')?.hasError && createSurvey.formSubmitted
-                    ? 'This field is obligated !'
-                    : ''
-                }} "
-              />
-            </div>
-          } @else {
-            <div class="form--field">
-              <label class="text text--white" for="survey-name">Survey Name</label>
-              <div class="form--field__input">
-                <input
-                  class="input"
-                  [class.text--error]="createSurvey.surveyForm.get('surveyName')?.hasError && createSurvey.formSubmitted"
-                  id="survey-name"
-                  type="text"
-                  formControlName="surveyName"
-                  placeholder="{{
-                    createSurvey.surveyForm.get('surveyName')?.hasError && createSurvey.formSubmitted
-                      ? 'This field is obligated !'
-                      : ''
-                  }} "
-                />
-                <button
-                  class="btn btn__delete"
-                  type="button"
-                  (click)="createSurvey.resetValue('surveyName')"
-                ></button>
-              </div>
-            </div>
-          }
-        </div>
-        <div class="form--meta__section">
-          @if (isMobileBreakpoint) {
-            <div class="form--field">
-              <div class="form--field__input">
-                <label class="text text--white" for="end-date"
-                  >Set end date <i>(optional)</i></label
-                >
-                <button
-                  class="btn btn__delete"
-                  type="button"
-                  (click)="createSurvey.resetValue('endDate')"
-                ></button>
-              </div>
-              <input
-                class="input"
-                id="end-date"
-                type="date"
-                min="{{db.currentDate}}"
-                formControlName="endDate"
-              />
-            </div>
-          } @else {
-            <div class="form--field">
-              <label class="text text--white" for="end-date">Set end date <i>(optional)</i></label>
-              <div class="form--field__input">
-                <input
-                  class="input"
-                  id="end-date"
-                  type="date"
-                  min="{{db.currentDate}}"
-                  formControlName="endDate"
-                />
-                <button
-                  class="btn btn__delete"
-                  type="button"
-                  (click)="createSurvey.resetValue('endDate')"
-                ></button>
-              </div>
-            </div>
-          }
-
-          <label class="text text--white" for="category">
-            <select
-              class="dropdown"
-              [class.highlight-select]="createSurvey.isDirty"
-              id="category"
-              type="text"
-              formControlName="category"
-            >
-              <button>
-                <selectedcontent
-                  [class.text--error]="
-                    createSurvey.surveyForm.get('category')?.hasError &&
-                    createSurvey.formSubmitted &&
-                    createSurvey.surveyForm.get('category')?.pristine
-                  "
-                ></selectedcontent>
-              </button>
-              <option value="" disabled selected hidden>Choose category</option>
-              @for (item of createSurvey.categories; track $index) {
-                <option class="text text--tertiary" value="{{ item.value }}">{{ item.tag }}</option>
-              }
-            </select>
-          </label>
-        </div>
-      </article>
-
-      <article class="form--meta__general form--half">
-        @if (isMobileBreakpoint) {
-          <div class="form--field">
-            <div class="form--field__input-top">
-              <label class="text text--white" for="description"
-                >Describing text <i>(optional)</i></label
-              >
-
-              <button
-                class="btn btn__delete"
-                type="button"
-                (click)="createSurvey.resetValue('description')"
-              ></button>
-            </div>
-            <textarea
-              class="input input--textarea"
-              name="description"
-              id="description"
-              formControlName="description"
-            ></textarea>
-          </div>
-        } @else {
-          <div class="form--field">
-            <label class="text text--white" for="description"
-              >Describing text <i>(optional)</i></label
-            >
-            <div class="form--field__input-top">
-              <textarea
-                class="input input--textarea"
-                name="description"
-                id="description"
-                formControlName="description"
-              ></textarea>
-              <button
-                class="btn btn__delete"
-                type="button"
-                (click)="createSurvey.resetValue('description')"
-              ></button>
-            </div>
-          </div>
-        }
-      </article>
-    </section>
-
-
+    <app-survey-meta class="form--meta"></app-survey-meta>
     <app-survey-question class="form--meta"></app-survey-question>
   </div>
   <button type="submit" class="btn btn__submit">Publish</button>
 </form>
 
-
 @if (createSurvey.successMessage()) {
-  <dialog id="popover" popover="auto" class="overlay--published" [open]="createSurvey.successMessage()">
+  <dialog
+    id="popover"
+    popover="auto"
+    class="overlay--published"
+    [open]="createSurvey.successMessage()"
+  >
     <span>Your survey is now published</span>
   </dialog>
 }
