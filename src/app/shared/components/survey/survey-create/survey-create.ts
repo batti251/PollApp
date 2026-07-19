@@ -2,18 +2,18 @@ import { Component, HostListener, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SurveyService } from '../../../services/survey';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
-import { CreateSurvey } from '../../../services/create-survey';
+import { CreateSurveyService } from '../../../services/create-survey';
 
 @Component({
-  selector: 'app-form-survey',
+  selector: 'app-survey-create',
   imports: [ReactiveFormsModule, AlphabetPipe],
-  templateUrl: './form-survey.html',
-  styleUrl: './form-survey.scss',
-  providers:[CreateSurvey]
+  templateUrl: './survey-create.html',
+  styleUrl: './survey-create.scss',
+  providers:[CreateSurveyService]
 })
-export class FormSurvey {
+export class CreateSurvey {
   db = inject(SurveyService)
-  createSurvey = inject(CreateSurvey)
+  createSurvey = inject(CreateSurveyService)
   isMobileBreakpoint: boolean = false
 
   @HostListener("window:resize", [])

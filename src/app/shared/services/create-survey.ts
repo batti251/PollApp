@@ -8,14 +8,15 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class CreateSurvey {
+export class CreateSurveyService {
   formBuilder = inject(FormBuilder)
-  formSubmitted: boolean = false
   db = inject(SurveyService)
+  router = inject(Router);
   categories = this.db.category
+  
+  formSubmitted: boolean = false
   errorMessage = signal<boolean>(false)
   successMessage = signal<boolean>(false)
-  router = inject(Router);
 
   surveyForm = this.formBuilder.group({
     surveyName: ['', [

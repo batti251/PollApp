@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { FormSurvey } from './shared/components/survey/form-survey/form-survey';
 import { SurveyOverview } from './shared/components/survey/survey-overview/survey-overview'; 
 import { Hero } from './shared/components/hero/hero';
 import { SurveyView } from './shared/components/survey/survey-view/survey-view';
+import { CreateSurvey } from './shared/components/survey/survey-create/survey-create';
 
 export const routes: Routes = [
 
@@ -18,7 +18,7 @@ export const routes: Routes = [
     }, 
     {
         path: 'newSurvey',
-        component: FormSurvey,
+        component: CreateSurvey,
         title: 'Poll App - Create New Survey'
     }, 
     {
