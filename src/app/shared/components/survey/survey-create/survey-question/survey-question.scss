@@ -1,0 +1,12 @@
+@use '../../../../../scss/abstracts/index' as *;
+
+.text--white {
+  @include font($fs: clamp(1rem, 1.175rem, 2vw));
+  &__slim {
+    @include font($fs: clamp(1rem, 1rem, 1vw));
+    font-weight: 100;
+  }
+  &__count {
+    width: unset;
+  }
+}

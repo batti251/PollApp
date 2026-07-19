@@ -1,18 +1,16 @@
 import { Component, HostListener, inject } from '@angular/core';
+import { CreateSurveyService } from '../../../../services/create-survey';
+import { AlphabetPipe } from "../../../pipes/alphabet.pipe";
 import { ReactiveFormsModule } from '@angular/forms';
-import { SurveyService } from '../../../services/survey';
-import { CreateSurveyService } from '../../../services/create-survey';
-import { SurveyQuestion } from "./survey-question/survey-question";
 
 @Component({
-  selector: 'app-survey-create',
-  imports: [ReactiveFormsModule, SurveyQuestion],
-  templateUrl: './survey-create.html',
-  styleUrl: './survey-create.scss',
-  providers:[CreateSurveyService]
+  selector: 'app-survey-question',
+  imports: [AlphabetPipe, ReactiveFormsModule],
+  templateUrl: './survey-question.html',
+  styleUrl: './survey-question.scss',
 })
-export class CreateSurvey {
-  db = inject(SurveyService)
+export class SurveyQuestion {
+
   createSurvey = inject(CreateSurveyService)
   isMobileBreakpoint: boolean = false
 
@@ -34,5 +32,6 @@ export class CreateSurvey {
       this.isMobileBreakpoint = true
     } else this.isMobileBreakpoint = false;
   }
+
 
 }
