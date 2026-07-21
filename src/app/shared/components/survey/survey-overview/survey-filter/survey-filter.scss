@@ -1,0 +1,16 @@
+@use '../../../../../scss/abstracts/index' as *;
+
+
+.btn-wrap{
+  @include dFlex($fd: row, $jc: space-between);
+   @include respond(m){
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 24px;
+    }
+}
+
+
+.btn-group{
+  @include dFlex($fd: row, $jc: space-between, $g:10px );
+}

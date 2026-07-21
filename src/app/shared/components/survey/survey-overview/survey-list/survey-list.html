@@ -1,0 +1,23 @@
+    <div class="card-list--wrap">
+      @for (item of db.filteredSurveyList(); track $index) {
+        <div class="card-list" role="link" [routerLink]="['/survey', item.id]">
+          <div class="card-list--paragraph">
+            <p class="text text--secondary view--category">{{ item.category }}</p>
+            <p class="text view--title">{{ item.surveyName }}</p>
+          </div>
+          @if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') > 0) {
+            <span class="published text text--tertiary"
+              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
+            >
+          } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
+            <span class="published text text--tertiary"
+              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
+            >
+          } @else if (item.endDate == '') {
+            <span class="published published--indefinite text text--tertiary">Indefinite</span>
+          } @else {
+            <span class="expired text text--tertiary">Closed</span>
+          }
+        </div>
+      }
+    </div>

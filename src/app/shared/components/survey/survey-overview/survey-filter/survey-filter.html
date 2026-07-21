@@ -1,0 +1,22 @@
+<div class="btn-wrap">
+  <div class="btn-group">
+    <button class="btn btn__active" (click)="filterSurveyOverview(true)">Active surveys</button>
+    <button class="btn btn__past" (click)="filterSurveyOverview(false)">Closed surveys</button>
+    <button class="btn btn__active" (click)="filterSurveyOverview()">All surveys</button>
+  </div>
+  <select class="text--white dropdown" id="category" type="text" formControlName="category">
+    <button>
+      <selectedcontent></selectedcontent>
+    </button>
+    <option value="" disabled selected hidden>Sort by categories</option>
+    @for (item of db.category; track $index) {
+      <option
+        class="text text--tertiary"
+        value="{{ item.value }}"
+        (click)="filterSurveysByCategory(item.value)"
+      >
+        {{ item.tag }}
+      </option>
+    }
+  </select>
+</div>

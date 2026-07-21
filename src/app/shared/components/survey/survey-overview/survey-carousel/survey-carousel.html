@@ -1,0 +1,25 @@
+ <div class="carousel carousel--wrap">
+      <div class="carousel carousel--nowrap">
+        @for (item of db.toExpire(); track $index; let i = $index) {
+          <div class="card" role="link" [routerLink]="['/survey', item.id]">
+            <div class="card-list--paragraph">
+              <p class="text card--category">{{ item.category }}</p>
+              <p class="text card--title">{{ item.surveyName }}</p>
+            </div>
+            @if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
+              <span class="published"
+                >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
+              >
+            } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
+              <span class="published"
+                >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
+              >
+            } @else {
+              <span class="published published--today">Expires today</span>
+            }
+          </div>
+        } @empty {
+          <p class="text text--white">There are no Surveys expiring soon!</p>
+        }
+      </div>
+    </div>
