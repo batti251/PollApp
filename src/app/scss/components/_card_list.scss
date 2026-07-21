@@ -31,6 +31,7 @@
     @include respond(m) {
       justify-content: start;
       padding: unset;
+      scrollbar-width: none;
     }
   }
   &:hover {
@@ -42,6 +43,6 @@
   }
 
   @include respond(m) {
-    width: 90%;
+    width: 100%;
   }
 }

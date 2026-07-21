@@ -3,7 +3,7 @@
 .card {
   background-color: white;
   @include dFlex($ai: flex-start, $jc: unset, $g: 64px);
-  @include size($w: 260px, $h: 260px);
+  @include size($w: 273px, $h: 260px);
   @include font($fs: 1rem);
   padding: 40px 18px;
   border-radius: 0 80px 0 0;
@@ -23,6 +23,9 @@
     .published {
       background-color: #ffb770;
     }
+  }
+  @include respond(s){
+    width:200px;
   }
 }
 

@@ -127,6 +127,7 @@
     border-radius: 10px;
     justify-content: center;
     padding: 8px 12px;
+    @include size($w: 32px, $h: 32px);
   }
 
   @include respond(m) {
