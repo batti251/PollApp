@@ -14,3 +14,7 @@
 .btn-group{
   @include dFlex($fd: row, $jc: space-between, $g:10px );
 }
+
+.active{
+  background-color: #FFB770;
+}

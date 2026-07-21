@@ -9,7 +9,7 @@ import { SurveyService } from '../../../../services/survey';
 })
 export class SurveyFilter {
   db = inject(SurveyService)
-
+  btnIsClicked = false
 
   async ngOnInit() {
     await this.db.loadSurveyList('surveys')
@@ -23,6 +23,18 @@ export class SurveyFilter {
    */
   filterSurveysByCategory(categoryIndex: number) {
     this.db.filterSurveys(categoryIndex)
+  }
+
+  /**
+   * Adds to the clicked button the class ".active", to imply the current, active filter
+   * It removes from all buttons the class ".active", to prevent missleading UI-feedback
+   * @param index - the button-id
+   */
+  setBtnActive(index:any){
+    let btns = document.querySelectorAll('.btn')
+    let btn = document.getElementById(`btn-${index}`)
+    btns.forEach((btn) => btn?.classList.remove("active"));
+    btn?.classList.add("active")
   }
 
   /**

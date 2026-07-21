@@ -1,8 +1,8 @@
 <div class="btn-wrap">
   <div class="btn-group">
-    <button class="btn btn__active" (click)="filterSurveyOverview(true)">Active surveys</button>
-    <button class="btn btn__past" (click)="filterSurveyOverview(false)">Closed surveys</button>
-    <button class="btn btn__active" (click)="filterSurveyOverview()">All surveys</button>
+    <button class="btn btn__past" id="btn-0" [class.active]="btnIsClicked" (click)="filterSurveyOverview(true);setBtnActive(0)">Active surveys</button>
+    <button class="btn btn__past" id="btn-1" [class.active]="btnIsClicked"  (click)="filterSurveyOverview(false);setBtnActive(1)">Closed surveys</button>
+    <button class="btn btn__past" id="btn-2" [class.active]="btnIsClicked"  (click)="filterSurveyOverview();setBtnActive(2)">All surveys</button>
   </div>
   <select class="text--white dropdown" id="category" type="text" formControlName="category">
     <button>
