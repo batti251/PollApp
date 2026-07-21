@@ -126,6 +126,7 @@
   border-color: unset;
   &--textarea {
     @include size($h: 108px, $w: stretch);
+    resize: none;
   }
   &--checkbox {
     width: unset;
