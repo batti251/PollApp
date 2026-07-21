@@ -1,0 +1,16 @@
+@use './../abstracts/index' as *;
+
+.carousel {
+  @include dFlex($fd: unset, $jc: space-between, $g: 32px);
+  &--wrap {
+    flex-wrap: wrap;
+    @include dFlex($fd: row, $ai: unset, $jc: unset);
+    @include size($w: 100%, $h: 260px);
+    overflow-x: scroll;
+    scrollbar-width: none;
+  }
+  &--nowrap {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+}

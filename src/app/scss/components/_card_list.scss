@@ -1,0 +1,47 @@
+@use './../abstracts/index' as *;
+
+
+.card-list {
+  color: white;
+  @include dFlex($ai: flex-end, $jc: space-between);
+  @include size($w: min(720px, 47%), $h: 140px);
+  @include font($fs: 1rem);
+  padding: 12px 20px;
+  border-radius: 5px 50px 5px 5px;
+  background-color: #423547;
+  &--category {
+    width: 100%;
+    @include font($fs: clamp(1rem, 0.875rem, 1vw), $fw: 600);
+  }
+  &--title {
+    @include size($w:100%, $h: 60px);
+    @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
+  }
+  &--paragraph {
+    width: 100%;
+    @include dFlex($ai: unset, $g: 8px);
+  }
+  &--wrap {
+    @include dFlex($fd: unset, $jc: space-between, $ai: unset, $g: 32px);
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+    padding: 0 20px 0 0;
+    @include respond(m) {
+      justify-content: start;
+      padding: unset;
+    }
+  }
+  &:hover {
+    cursor: pointer;
+    background-color: #4f4353;
+    .published {
+      background-color: #ffcfa1;
+    }
+  }
+
+  @include respond(m) {
+    width: 90%;
+  }
+}

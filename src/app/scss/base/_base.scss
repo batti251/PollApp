@@ -3,6 +3,9 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
+}
+
+* {
   box-sizing: border-box;
 }
 
@@ -22,6 +25,7 @@ app-root {
 app-hero,
 app-survey-view,
 app-survey-create,
+app-overview,
 app-header {
   width: 90vw;
   max-width: 1920px;
@@ -47,7 +51,7 @@ ul {
   display: none !important;
 }
 
-.flex-end{
+.flex-end {
   display: flex;
   justify-content: flex-end;
 }

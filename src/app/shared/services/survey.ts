@@ -103,6 +103,7 @@ export class SurveyService {
    * @param dateB 
    * @returns 
    */
+  
   calcExpiryDate(dateA: string, dateB: string|undefined): number {
     if (dateB) {
       let newDateA = new Date(dateA)
@@ -114,6 +115,10 @@ export class SurveyService {
 
   async loadExpireSoonSurvey() {
     let dbResponse = await this.readExpireSoonDB('surveys');
+    console.log(dbResponse);
+    console.log(this.expireSoonDate);
+    console.log(this.currentDate);
+    
     dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
     this.toExpire.set(dbResponse)
   }

@@ -20,15 +20,15 @@ body::-webkit-scrollbar-thumb {
   border: 2px solid #8e7099;
 }
 
-.card-carousel--all::-webkit-scrollbar-track {
+.card-list--wrap::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.card-carousel--all::-webkit-scrollbar {
+.card-list--wrap::-webkit-scrollbar {
   width: var(--sb-size);
 }
 
-.card-carousel--all::-webkit-scrollbar-thumb {
+.card-list--wrap::-webkit-scrollbar-thumb {
   background: #FFB770;
   border-radius: 5px;
 }

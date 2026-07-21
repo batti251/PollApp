@@ -2,30 +2,31 @@
   <p class="text text--info text--white overview">Ending soon surveys</p>
 
   <section class="surveys">
-    <div class="card-carousel">
-      @for (item of db.toExpire(); track $index; let i = $index) {
-        <div class="card" role="link" [routerLink]="['/survey', item.id]">
-          <div class="card-list--paragraph">
-            <p class="text card--category">{{ item.category }}</p>
-            <p class="text card--title">{{ item.surveyName }}</p>
+    <div class="carousel carousel--wrap">
+      <div class="carousel carousel--nowrap">
+        @for (item of db.toExpire(); track $index; let i = $index) {
+          <div class="card" role="link" [routerLink]="['/survey', item.id]">
+            <div class="card-list--paragraph">
+              <p class="text card--category">{{ item.category }}</p>
+              <p class="text card--title">{{ item.surveyName }}</p>
+            </div>
+            @if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
+              <span class="published"
+                >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
+              >
+            } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
+              <span class="published"
+                >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
+              >
+            } @else {
+              <span class="published published--today">Expires today</span>
+            }
           </div>
-          @if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') > 1) {
-            <span class="published"
-              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Days</span
-            >
-          } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') == 1) {
-            <span class="published"
-              >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
-            >
-          } @else {
-            <span>ausgelaufen</span>
-          }
-        </div>
-      } @empty {
-        <p class="text text--white">There are no Surveys expiring soon!</p>
-      }
+        } @empty {
+          <p class="text text--white">There are no Surveys expiring soon!</p>
+        }
+      </div>
     </div>
-
     <div class="btn-wrap">
       <div class="btn-group">
         <button class="btn btn__active" (click)="filterSurveyOverview(true)">Active surveys</button>
@@ -49,7 +50,7 @@
       </select>
     </div>
 
-    <div class="card-carousel card-carousel--all">
+    <div class="card-list--wrap">
       @for (item of db.filteredSurveyList(); track $index) {
         <div class="card-list" role="link" [routerLink]="['/survey', item.id]">
           <div class="card-list--paragraph">
@@ -64,12 +65,10 @@
             <span class="published text text--tertiary"
               >Ends in {{ db.calcExpiryDate(db.currentDate, item.endDate ?? '1') }} Day</span
             >
-          } @else if (db.calcExpiryDate(db.currentDate, item.endDate ?? '1') < 0) {
-            <span class="passed text text--tertiary">closed Survey</span>
           } @else if (item.endDate == '') {
-            <span>no End Date</span>
+            <span class="published published--indefinite text text--tertiary">Indefinite</span>
           } @else {
-            <span>closed Survey</span>
+            <span class="expired text text--tertiary">Closed</span>
           }
         </div>
       }

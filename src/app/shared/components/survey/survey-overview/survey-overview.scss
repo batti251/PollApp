@@ -6,12 +6,17 @@
 
 .overview {
   margin-bottom: 24px;
+  padding: 0 150px;
+  @include respond(l){
+    padding: unset;
+  }
 }
 
 .btn-wrap{
   @include dFlex($fd: row, $jc: space-between);
    @include respond(m){
       flex-direction: column;
+      align-items: flex-start;
       gap: 24px;
     }
 }

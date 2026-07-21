@@ -18,6 +18,7 @@
 
   &__primary {
     border-radius: 10px;
+    height: 42px;
     &-img {
       @include size($w: 20px, $h: 20px);
     }
@@ -93,17 +94,12 @@
   &__active {
     border-radius: 20px;
     background-color: #ffb770;
-    height: 25px;
-    @include respond(m) {
-      height: 42px;
-    }
+    height: 42px;
   }
   &__past {
     border-radius: 20px;
     background-color: #fee9d4;
-    @include respond(m) {
-      height: 42px;
-    }
+    height: 42px;
   }
   &__wrap {
     margin-top: 24px;
