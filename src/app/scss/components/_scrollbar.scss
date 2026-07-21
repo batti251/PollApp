@@ -33,7 +33,18 @@ body::-webkit-scrollbar-thumb {
   border-radius: 5px;
 }
 
+.carousel--wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
 
+.carousel--wrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.carousel--wrap::-webkit-scrollbar-thumb {
+  background: #FFB770;
+  border-radius: 5px;
+}
 
 @supports not selector(::-webkit-scrollbar) {
   body {

@@ -5,9 +5,8 @@
   &--wrap {
     flex-wrap: wrap;
     @include dFlex($fd: row, $ai: unset, $jc: unset);
-    @include size($w: 100%, $h: 260px);
+    @include size($w: 100%, $h: 300px);
     overflow-x: scroll;
-    scrollbar-width: none;
   }
   &--nowrap {
     justify-content: flex-start;
