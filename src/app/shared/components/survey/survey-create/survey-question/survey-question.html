@@ -1,6 +1,6 @@
 <section class="form--meta" [formGroup]="createSurvey.surveyForm">
   <article class="form--meta__general-row form--wrap" formArrayName="questions">
-    @for (item of createSurvey.questions.controls; track $index; let questionIndex = $index) {
+    @for (item of createSurvey.questions.controls; track item; let questionIndex = $index) {
       <div [formGroupName]="questionIndex" class="form--group">
         <div class="form--field">
           <div class="form--field__input">

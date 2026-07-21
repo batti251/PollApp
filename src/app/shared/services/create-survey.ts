@@ -91,17 +91,22 @@ export class CreateSurveyService {
   /**
    * Removes the FormGroup-control at the given position and control-Array
    * It's used to delete either a question-field, or answer-field 
+   * It will never delete the first question control
    * @param control 
    * @param index 
    */
   deleteControlFromArray(targetArray: FormArray, index: number) {
     let isAnswer = targetArray.controls[0].get('answerInput') != null
-    console.log(isAnswer);
-    console.log(index);
-    if (isAnswer && targetArray.length > 2) {
+    if (!isAnswer && targetArray.length >= 2) {
       targetArray.removeAt(index)
     }
-    else if (isAnswer && index < 2) {
+    else if (!isAnswer && index == 0) {
+      targetArray.controls[index].reset()
+    }
+    else if (isAnswer && targetArray.length > 2) {
+      targetArray.removeAt(index)
+    }
+    else if (isAnswer && index <= 2) {
       targetArray.controls[index].reset()
     }
   }
