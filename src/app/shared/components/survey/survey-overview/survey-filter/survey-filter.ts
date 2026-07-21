@@ -15,6 +15,7 @@ export class SurveyFilter {
     await this.db.loadSurveyList('surveys')
     await this.db.loadExpireSoonSurvey()
     this.db.filteredSurveyList.set(this.db.surveyList())
+    this.setFirstBtnActive()
   }
 
   /**
@@ -25,12 +26,17 @@ export class SurveyFilter {
     this.db.filterSurveys(categoryIndex)
   }
 
+  setFirstBtnActive() {
+    let btn = document.getElementById(`btn-0`)
+    btn?.classList.add("active")
+  }
+
   /**
    * Adds to the clicked button the class ".active", to imply the current, active filter
    * It removes from all buttons the class ".active", to prevent missleading UI-feedback
    * @param index - the button-id
    */
-  setBtnActive(index:any){
+  setBtnActive(index: any) {
     let btns = document.querySelectorAll('.btn')
     let btn = document.getElementById(`btn-${index}`)
     btns.forEach((btn) => btn?.classList.remove("active"));
