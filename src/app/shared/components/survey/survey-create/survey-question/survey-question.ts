@@ -2,6 +2,7 @@ import { Component, HostListener, inject } from '@angular/core';
 import { CreateSurveyService } from '../../../../services/create-survey';
 import { AlphabetPipe } from "../../../pipes/alphabet.pipe";
 import { ReactiveFormsModule } from '@angular/forms';
+import { DeferBlockBehavior } from '@angular/core/testing';
 
 @Component({
   selector: 'app-survey-question',

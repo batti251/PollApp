@@ -55,9 +55,21 @@
     </div>
     <div class="form--meta__section">
       @if (isMobileBreakpoint) {
+        @if (
+          createSurvey.surveyForm.controls.endDate.hasError('endDateError') &&
+          createSurvey.formSubmitted
+        ) {
+          <span class="error--endDate text--secondary text--error"
+            >Date must not be in the past!</span
+          >
+        } @else {
+          <span class="error--endDate"></span>
+        }
         <div class="form--field">
           <div class="form--field__input">
-            <label class="text text--white" for="end-date">Set end date <i class="text--optional">(optional)</i></label>
+            <label class="text text--white" for="end-date"
+              >Set end date <i class="text--optional">(optional)</i></label
+            >
             <button
               class="btn btn__delete"
               type="button"
@@ -74,13 +86,15 @@
         </div>
       } @else {
         <div class="form--field">
-          <label class="text text--white" for="end-date">Set end date <i class="text--optional">(optional)</i></label>
+          <label class="text text--white" for="end-date"
+            >Set end date <i class="text--optional">(optional)</i></label
+          >
           <div class="form--field__input">
             <input
               class="input"
               id="end-date"
               type="date"
-              min="{{ db.currentDate }}"
+              [min]="db.currentDate"
               formControlName="endDate"
             />
             <button
@@ -89,6 +103,16 @@
               (click)="createSurvey.resetValue('endDate')"
             ></button>
           </div>
+          @if (
+            createSurvey.surveyForm.controls.endDate.hasError('endDateError') &&
+            createSurvey.formSubmitted
+          ) {
+            <span class="error--endDate text--secondary text--error"
+              >Date must not be in the past!</span
+            >
+          } @else {
+            <span class="error--endDate"></span>
+          }
         </div>
       }
 
@@ -141,7 +165,9 @@
       </div>
     } @else {
       <div class="form--field">
-        <label class="text text--white" for="description">Describing text <i class="text--optional">(optional)</i></label>
+        <label class="text text--white" for="description"
+          >Describing text <i class="text--optional">(optional)</i></label
+        >
         <div class="form--field__input-top">
           <textarea
             class="input input--textarea"

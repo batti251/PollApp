@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Survey } from '../interfaces/survey';
 import { SurveyModel } from '../models/surveymodel';
 import { SurveyService } from './survey';
@@ -9,32 +9,48 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class CreateSurveyService {
-  formBuilder = inject(FormBuilder)
-  db = inject(SurveyService)
+  formBuilder = inject(FormBuilder);
+  db = inject(SurveyService);
   router = inject(Router);
-  categories = this.db.category
-  
-  formSubmitted: boolean = false
-  errorMessage = signal<boolean>(false)
-  successMessage = signal<boolean>(false)
+  categories = this.db.category;
+  formSubmitted: boolean = false;
+  errorMessage = signal<boolean>(false);
+  successMessage = signal<boolean>(false);
+  endDateError = false;
 
   surveyForm = this.formBuilder.group({
     surveyName: ['', [
       Validators.required
     ]],
-    endDate: [''],
+
+    endDate: ['', [
+      this.validateEndDate()
+    ]],
     category: ['', [
       Validators.required
     ]],
     description: [''],
     questions: this.formBuilder.array([
-      this.createNewQuestion()])
-  })
+      this.createNewQuestion()
+    ])
+  });
 
   /**
- * Creates a new FormBuild-group for Question
- * @returns 
- */
+   * Validates control field endDate, to ensure proper validation on entering manual date 
+   * @returns - null if validation is valid, or an Object to indicate error
+   */
+  validateEndDate() {
+  return  (control: AbstractControl) =>
+      !control.value || control.value >= this.db.currentDate
+        ? null
+        : { endDateError: true }
+  }
+
+
+  /**
+  * Creates a new FormBuild-group for Question
+  * @returns 
+  */
   createNewQuestion() {
     return this.formBuilder.group({
       questionInput: ['', [
@@ -111,7 +127,7 @@ export class CreateSurveyService {
   resetValue(FormGroup: String) {
     console.log(FormGroup);
     console.log(this.surveyForm.controls.surveyName);
-    
+
     switch (FormGroup) {
       case 'surveyName':
         this.surveyForm.controls.surveyName.setValue("");
@@ -145,11 +161,11 @@ export class CreateSurveyService {
   }
 
 
-/**
- * Handler to show Popover, when new survey form is submitted successfully
- * Afterwards it navigates the user to the recent created survey 
- * @returns 
- */
+  /**
+   * Handler to show Popover, when new survey form is submitted successfully
+   * Afterwards it navigates the user to the recent created survey 
+   * @returns 
+   */
   showPopover() {
     let dialog = document.getElementById('popover')
     dialog?.showPopover();
