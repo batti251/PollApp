@@ -40,7 +40,7 @@ export class CreateSurveyService {
    * @returns - null if validation is valid, or an Object to indicate error
    */
   validateEndDate() {
-  return  (control: AbstractControl) =>
+    return (control: AbstractControl) =>
       !control.value || control.value >= this.db.currentDate
         ? null
         : { endDateError: true }
@@ -57,7 +57,7 @@ export class CreateSurveyService {
         Validators.required
       ]],
       multipleChoice: [false],
-      answers: this.formBuilder.array([this.createNewAnswer()],
+      answers: this.formBuilder.array([this.createNewAnswer(), this.createNewAnswer()],
         Validators.maxLength(6)
       )
     })
@@ -95,9 +95,15 @@ export class CreateSurveyService {
    * @param index 
    */
   deleteControlFromArray(targetArray: FormArray, index: number) {
-    if (index == 0) {
-      targetArray.reset()
-    } else targetArray.removeAt(index)
+    let isAnswer = targetArray.controls[0].get('answerInput') != null
+    console.log(isAnswer);
+    console.log(index);
+    if (isAnswer && targetArray.length > 2) {
+      targetArray.removeAt(index)
+    }
+    else if (isAnswer && index < 2) {
+      targetArray.controls[index].reset()
+    }
   }
 
   /**
@@ -125,9 +131,6 @@ export class CreateSurveyService {
    * @param FormGroup 
    */
   resetValue(FormGroup: String) {
-    console.log(FormGroup);
-    console.log(this.surveyForm.controls.surveyName);
-
     switch (FormGroup) {
       case 'surveyName':
         this.surveyForm.controls.surveyName.setValue("");

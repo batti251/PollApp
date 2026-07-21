@@ -115,10 +115,6 @@ export class SurveyService {
 
   async loadExpireSoonSurvey() {
     let dbResponse = await this.readExpireSoonDB('surveys');
-    console.log(dbResponse);
-    console.log(this.expireSoonDate);
-    console.log(this.currentDate);
-    
     dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
     this.toExpire.set(dbResponse)
   }
