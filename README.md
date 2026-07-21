@@ -101,7 +101,7 @@ This project was created primarily to gain hands-on experience with:
 
 ## 🖥️ Preview
 
-![Preview Image](/assets/img/preview.png)
+![Preview Image](public/assets/img/preview.png)
 
 ---
 
