@@ -1,10 +1,11 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { CreateSurveyService } from '../../../../services/create-survey';
 import { SurveyService } from '../../../../services/survey';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-survey-meta',
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './survey-meta.html',
   styleUrl: './survey-meta.scss',
 })

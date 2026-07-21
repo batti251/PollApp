@@ -65,7 +65,7 @@
               <section class="form--group w-100" id="section__answer" [formGroupName]="answerIndex">
                 @if (isMobileBreakpoint) {
                   <div class="form--field">
-                    <label for="answerInput-{{ answerIndex }}"></label>
+                    <label for="answerInput-{{questionIndex}}.{{answerIndex}}"></label>
                     <div class="form--field__input">
                       <div>
                         <div class="text text--white text--white__count">
@@ -85,7 +85,7 @@
                     </div>
                     <input
                       class="input"
-                      id="answerInput-{{ answerIndex }}"
+                      id="answerInput-{{questionIndex}}.{{answerIndex}}"
                       type="text"
                       formControlName="answerInput"
                       placeholder="{{
@@ -97,7 +97,7 @@
                   </div>
                 } @else {
                   <div class="form--field">
-                    <label for="answerInput-{{ answerIndex }}"></label>
+                    <label for="answerInput-{{questionIndex}}.{{answerIndex}}"></label>
                     <div class="form--field__input">
                       <div>
                         <div class="text text--white text--white__count">
@@ -109,7 +109,7 @@
                           item.get('answerInput')?.hasError && createSurvey.formSubmitted
                         "
                         class="input"
-                        id="answerInput-{{ answerIndex }}"
+                        id="answerInput-{{questionIndex}}.{{answerIndex}}"
                         type="text"
                         formControlName="answerInput"
                         placeholder="{{

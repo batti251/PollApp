@@ -109,6 +109,9 @@ export class CreateSurveyService {
    * @param FormGroup 
    */
   resetValue(FormGroup: String) {
+    console.log(FormGroup);
+    console.log(this.surveyForm.controls.surveyName);
+    
     switch (FormGroup) {
       case 'surveyName':
         this.surveyForm.controls.surveyName.setValue("");
