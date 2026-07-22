@@ -44,7 +44,7 @@ export class SurveyFilter {
 
 
   /**
-   * 
+   * Inits filter function {@link applyFilters()} and sets category and activeBtn-flags 
    * @param event - the change-Event from the select-tag
    */
   setCategoryFilter(event: Event) {
@@ -63,7 +63,7 @@ export class SurveyFilter {
   }
 
   /**
-   * Filtersall survey from surveyList according to the set Filters by the user
+   * Filters all survey from surveyList according to the set Filters by the user
    * Sets matched surveys into filteredSurveyList-Signal  
    */
   applyFilters() {
