@@ -121,7 +121,6 @@
       <label class="text text--white" for="category">
         <select
           class="dropdown"
-          (change)="createSurvey.formSubmitted = false"
           [class.highlight-select]="createSurvey.isDirty"
           id="category"
           type="text"
@@ -130,9 +129,10 @@
           <button>
             <selectedcontent
               [class.text--error]="
-                createSurvey.surveyForm.get('category')?.hasError &&
-                createSurvey.formSubmitted &&
-                createSurvey.surveyForm.get('category')?.pristine
+                createSurvey.surveyForm.get('category')?.touched &&
+                createSurvey.surveyForm.get('category')?.pristine &&
+                createSurvey.surveyForm.get('category')?.invalid &&
+                createSurvey.formSubmitted 
               "
             ></selectedcontent>
           </button>
