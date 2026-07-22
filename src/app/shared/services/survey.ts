@@ -22,7 +22,9 @@ export class SurveyService {
   currentSurveyId = signal<string>("");
   toExpire = signal<Survey[]>([])
   newSurveyId = signal<number>(0)
-  filteredSurveyList = signal<Survey[]>([])
+  activeCategory = signal<number>(-1);
+  /* activeBtn = signal<number>(0); */
+  filteredSurveyList = signal<Survey[]>([]);
 
   survey = signal<Survey>({
     surveyName: "",
@@ -62,17 +64,6 @@ export class SurveyService {
     this.setDates();
   }
 
-  /**
-   * Sets a filteredSurveyList() according to given @param categoryIndex
-   * @param categoryIndex  - index from category
-   */
-  filterSurveys(categoryIndex: number) {
-    let filteredTag = this.category[categoryIndex]
-    let tempFilteredList = this.surveyList().filter((categoryIndex) => {
-      return categoryIndex.category == filteredTag.tag
-    })
-    this.filteredSurveyList.set(tempFilteredList)
-  }
 
   /**
    * Sorts and sets the survey Signal to the according db-read
@@ -103,8 +94,8 @@ export class SurveyService {
    * @param dateB 
    * @returns 
    */
-  
-  calcExpiryDate(dateA: string, dateB: string|undefined): number {
+
+  calcExpiryDate(dateA: string, dateB: string | undefined): number {
     if (dateB) {
       let newDateA = new Date(dateA)
       let newDateB = new Date(dateB)
@@ -156,7 +147,7 @@ export class SurveyService {
    */
   setDates() {
     this.currentDate = new Date().toISOString().split('T')[0]
-    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate() + 5 )).toISOString().split('T')[0]
+    this.expireSoonDate = new Date(new Date().setDate(new Date().getDate() + 5)).toISOString().split('T')[0]
   }
 
   ngOnDestroy() {

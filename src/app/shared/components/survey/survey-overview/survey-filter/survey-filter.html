@@ -1,19 +1,24 @@
 <div class="btn-wrap">
   <div class="btn-group">
-    <button class="btn btn__past" id="btn-0" [class.active]="btnIsClicked" (click)="filterSurveyOverview(true);setBtnActive(0)">Active surveys</button>
-    <button class="btn btn__past" id="btn-1" [class.active]="btnIsClicked"  (click)="filterSurveyOverview(false);setBtnActive(1)">Closed surveys</button>
-    <button class="btn btn__past" id="btn-2" [class.active]="btnIsClicked"  (click)="filterSurveyOverview();setBtnActive(2)">All surveys</button>
+    <button type="button" class="btn btn__past" [class.active]="activeBtn == 0" (click)="setBtnFilter(0)">Active surveys</button>
+    <button type="button" class="btn btn__past" [class.active]="activeBtn == 1" (click)="setBtnFilter(1)">Closed surveys</button>
+    <button type="button" class="btn btn__past" [class.active]="activeBtn == 2" (click)="setBtnFilter(2)">All surveys</button>
   </div>
-  <select class="text--white dropdown" id="category" type="text" formControlName="category">
-    <button>
-      <selectedcontent></selectedcontent>
-    </button>
-    <option value="" disabled selected hidden>Sort by categories</option>
-    @for (item of db.category; track $index) {
+
+  <select
+    class="text--white dropdown"
+    id="category"
+    [value]="selectedCategory ?? ''"
+    (change)="setCategoryFilter($event)"
+  >
+    <option value="">
+      Sort by all categories
+    </option>
+
+    @for (item of db.category; track item.value) {
       <option
         class="text text--tertiary"
-        value="{{ item.value }}"
-        (click)="filterSurveysByCategory(item.value)"
+        [value]="item.value"
       >
         {{ item.tag }}
       </option>
