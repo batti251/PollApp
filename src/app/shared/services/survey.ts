@@ -23,7 +23,6 @@ export class SurveyService {
   toExpire = signal<Survey[]>([])
   newSurveyId = signal<number>(0)
   activeCategory = signal<number>(-1);
-  /* activeBtn = signal<number>(0); */
   filteredSurveyList = signal<Survey[]>([]);
 
   survey = signal<Survey>({

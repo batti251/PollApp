@@ -18,13 +18,19 @@
             <input
               class="input"
               [class.text--error]="
-                createSurvey.surveyForm.get('questions')?.hasError && createSurvey.formSubmitted
+                item.get('questionInput')?.invalid &&
+                item.get('questionInput')?.pristine &&
+                item.get('questionInput')?.touched &&
+                createSurvey.formSubmitted
               "
               id="questionInput-{{ questionIndex }}"
               type="text"
               formControlName="questionInput"
               placeholder="{{
-                createSurvey.surveyForm.get('questions')?.hasError && createSurvey.formSubmitted
+                item.get('questionInput')?.invalid &&
+                item.get('questionInput')?.pristine &&
+                item.get('questionInput')?.touched &&
+                createSurvey.formSubmitted
                   ? 'This field is obligated !'
                   : ''
               }}"
@@ -38,18 +44,11 @@
             <div class="form--field__checkbox">
               <label for="multiple-choice-{{ questionIndex }}"></label>
               <input
-                [class.text--error]="
-                  createSurvey.surveyForm.get('questions')?.hasError && createSurvey.formSubmitted
-                "
                 class="input input--checkbox"
                 id="multiple-choice-{{ questionIndex }}"
                 type="checkbox"
                 formControlName="multipleChoice"
-                placeholder="{{
-                  createSurvey.surveyForm.get('questions')?.hasError && createSurvey.formSubmitted
-                    ? 'This field is obligated !'
-                    : ''
-                }}"
+               
               />
               <span class="text text--white text--white__slim">Allow multiple answers.</span>
             </div>
@@ -58,14 +57,14 @@
           <div formArrayName="answers" class="form--group__answers">
             @for (
               item of createSurvey.getAnswers(questionIndex).controls;
-              track item.value;
+              track item;
               let answerIndex = $index;
               let last = $last
             ) {
               <section class="form--group w-100" id="section__answer" [formGroupName]="answerIndex">
                 @if (isMobileBreakpoint) {
                   <div class="form--field">
-                    <label for="answerInput-{{questionIndex}}.{{answerIndex}}"></label>
+                    <label for="answerInput-{{ questionIndex }}.{{ answerIndex }}"></label>
                     <div class="form--field__input">
                       <div>
                         <div class="text text--white text--white__count">
@@ -85,11 +84,20 @@
                     </div>
                     <input
                       class="input"
-                      id="answerInput-{{questionIndex}}.{{answerIndex}}"
+                      [class.text--error]="
+                        item.get('answerInput')?.invalid &&
+                        item.get('answerInput')?.pristine &&
+                        item.get('answerInput')?.touched &&
+                        createSurvey.formSubmitted
+                      "
+                      id="answerInput-{{ questionIndex }}.{{ answerIndex }}"
                       type="text"
                       formControlName="answerInput"
                       placeholder="{{
-                        item.get('answerInput')?.hasError && createSurvey.formSubmitted
+                        item.get('answerInput')?.invalid &&
+                        item.get('answerInput')?.pristine &&
+                        item.get('answerInput')?.touched &&
+                        createSurvey.formSubmitted
                           ? 'This field is obligated !'
                           : ''
                       }}"
@@ -97,7 +105,7 @@
                   </div>
                 } @else {
                   <div class="form--field">
-                    <label for="answerInput-{{questionIndex}}.{{answerIndex}}"></label>
+                    <label for="answerInput-{{ questionIndex }}.{{ answerIndex }}"></label>
                     <div class="form--field__input">
                       <div>
                         <div class="text text--white text--white__count">
@@ -106,14 +114,20 @@
                       </div>
                       <input
                         [class.text--error]="
-                          item.get('answerInput')?.hasError && createSurvey.formSubmitted
+                          item.get('answerInput')?.invalid &&
+                          item.get('answerInput')?.pristine &&
+                          item.get('answerInput')?.touched &&
+                          createSurvey.formSubmitted
                         "
                         class="input"
-                        id="answerInput-{{questionIndex}}.{{answerIndex}}"
+                        id="answerInput-{{ questionIndex }}.{{ answerIndex }}"
                         type="text"
                         formControlName="answerInput"
                         placeholder="{{
-                          item.get('answerInput')?.hasError && createSurvey.formSubmitted
+                          item.get('answerInput')?.invalid &&
+                          item.get('answerInput')?.pristine &&
+                          item.get('answerInput')?.touched &&
+                          createSurvey.formSubmitted
                             ? 'This field is obligated !'
                             : ''
                         }}"

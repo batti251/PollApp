@@ -69,7 +69,7 @@ export class CreateSurveyService {
    */
   createNewAnswer(): FormGroup {
     return this.formBuilder.group({
-      answerInput: ['']
+      answerInput: ['', Validators.required]
     })
   }
 
@@ -159,6 +159,8 @@ export class CreateSurveyService {
    */
   async formSubmit() {
     this.formSubmitted = true
+     this.surveyForm.markAsPristine();
+     this.surveyForm.markAllAsTouched();
     if (this.surveyForm.invalid) {
       return
     } else {
@@ -166,6 +168,7 @@ export class CreateSurveyService {
       await this.db.addRowDB(survey)
       this.showPopover()
     }
+
   }
 
 
