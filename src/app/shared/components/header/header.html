@@ -9,6 +9,8 @@
       </figcaption>
       </div>
     </figure>
+
+    <a routerLink="/newSurvey" class="btn btn__primary" [class.d-none]="isMobileBreakpoint || !isInverted && !isHidden " >Create survey</a>
   } @else {
     <div class="form--field">
       <span class="survey--status published published--draft">Draft</span>

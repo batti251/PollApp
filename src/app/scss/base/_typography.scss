@@ -4,7 +4,7 @@
   @include font($ff: NerkoOne, $fw: 600);
   text-align: start;
   color: #ffb770;
-  word-break: break-all;
+  word-break: break-word;
   &--medium {
     margin-bottom: unset;
     font-size: clamp(3.5rem, 6.25rem, 6vw);
