@@ -2,11 +2,11 @@
 
 .progress {
   @include dFlex($ai: flex-start, $g: 24px);
-
+  margin-bottom: 24px;
   &--section {
-  @include dFlex($g: 4px, $ai: flex-start);
-}
-  &--empty{
+    @include dFlex($g: 4px, $ai: flex-start);
+  }
+  &--empty {
     gap: 90px;
   }
 }
@@ -17,8 +17,8 @@
 
 .progress-bar {
   height: 14px;
-  @include respond(m){
-    width: 70vw
+  @include respond(m) {
+    width: 70vw;
   }
 }
 
@@ -47,4 +47,3 @@
   background: #ffb770;
   border-radius: 0 10px 10px 0;
 }
-
