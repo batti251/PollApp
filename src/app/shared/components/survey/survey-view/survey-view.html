@@ -66,6 +66,7 @@
                       <label for="question-{{ questionIndex }}"></label>
                       <input
                         class="checkbox--purple"
+                        (change)="updateSingleChoiceAnswers(questionIndex, answers.id, $event)"
                         id="answer-{{ i }}"
                         type="radio"
                         [value]="answers.id"

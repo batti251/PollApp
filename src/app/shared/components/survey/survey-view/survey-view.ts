@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } fr
 import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
+import { SurveyLive } from '../../../services/survey-live';
 
 @Component({
   selector: 'app-survey-view',
@@ -16,6 +17,7 @@ export class SurveyView {
   private route = inject(ActivatedRoute)
   private router = inject(Router)
   db = inject(SurveyService)
+  live = inject(SurveyLive)
   errorMessage = signal<boolean>(false)
   successMessage = signal<boolean>(false)
   submitted = false
@@ -136,12 +138,36 @@ export class SurveyView {
    * @param event - the click event from the checkbox
    */
   updateMultipleChoiceAnswers(questionIndex: number, answerId: number, event: Event) {
-    let input = event.target as HTMLInputElement
-    let array = this.surveyResponseForm.controls.responses.controls
-    let answerState = array[questionIndex].get('selectedAnswerIds') as FormArray
-    let checkedIndex = answerState.getRawValue().findIndex((id) => id == answerId)
-    input.checked ? answerState.push(this.formBuilder.control(answerId)) : answerState.removeAt(checkedIndex)
+    let input = event.target as HTMLInputElement;
+    let responses = this.surveyResponseForm.controls.responses.controls;
+    let answerStates = responses[questionIndex].get('selectedAnswerIds') as FormArray;
+    let checkedIndex = answerStates.getRawValue().findIndex((id: number) => id === answerId);
+    if (input.checked) {
+      if (checkedIndex === -1) {
+        answerStates.push(this.formBuilder.control(answerId));
+      }
+    } else {
+      if (checkedIndex !== -1) {
+        answerStates.removeAt(checkedIndex);
+      }
+    }
+    this.live.updateSelectedAnswer(questionIndex, answerId, input.checked);
   }
+
+  /**
+   * Picks and delivers the questionIndex and answerId from the checked input-field to servey-live-service
+   * @param questionIndex - index from survey().questions
+   * @param answerId - answerId from the db
+   * @param event - the current change-event
+   */
+  updateSingleChoiceAnswers(questionIndex: number, answerId: number, event: Event) {
+    let input = event.target as HTMLInputElement;
+    if (!input.checked) {
+      return;
+    }
+    this.live.updateSingleChoiceAnswer(questionIndex, answerId);
+  }
+
 
   /**
    * Submit-Handler, when survey was submitted by the user
@@ -161,14 +187,18 @@ export class SurveyView {
    * Depending on the promise state {@link showUIFeedback} triggers an equivalent UI-Feedback
    * @param dialog
    */
-  sendDataToDB(dialog: HTMLDialogElement) {
+  sendDataToDB(dialog?: HTMLDialogElement) {
     let surveyId = this.db.survey().id as number
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
       .then(() => {
-        this.initUIFeedback(dialog, false)
+        if (dialog) {
+          this.initUIFeedback(dialog, false)
+        }
       })
       .catch((error) => {
-        this.initUIFeedback(dialog, true)
+        if (dialog) {
+          this.initUIFeedback(dialog, true)
+        }
       })
   }
 
@@ -202,9 +232,9 @@ export class SurveyView {
    */
   showDialogMessage(errorFromDB: boolean) {
     if (errorFromDB) {
-        this.errorMessage.set(true);
+      this.errorMessage.set(true);
     } else {
-        this.successMessage.set(true);
+      this.successMessage.set(true);
     }
   }
 

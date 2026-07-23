@@ -4,10 +4,10 @@
 
 <article class="progress">
   @if (db.survey().totalSubmitsCount != null) {
-    @for (question of db.survey().questions; track $index; let i = $index) {
+    @for (question of db.survey().questions; track $index; let questionIndex = $index) {
       <section class="progress--section">
         <h3 class="text text--secondary text--tertiary">
-          {{ i + 1 }}. {{ question.questionInput }}
+          {{ questionIndex + 1 }}. {{ question.questionInput }}
         </h3>
 
         @for (answer of question.answers; track $index) {
@@ -17,12 +17,12 @@
             <progress
               id="bar"
               class="progress-bar"
-              [max]="totalAnswerCounts[i]?.total"
-              [value]="answer.checkedCount"
+              [max]="live.getDisplayedTotal(questionIndex)"
+              [value]="live.getDisplayedCount(questionIndex, answer)"
             ></progress>
-            <span class="number--percent">{{
-              (answer?.checkedCount || 0) / (totalAnswerCounts[i]?.total || 1) | percent
-            }}</span>
+            <span class="number--percent">
+              {{ live.getDisplayedPercentage(questionIndex, answer) | percent }}
+            </span>
           </div>
         }
       </section>
