@@ -49,31 +49,51 @@
               <div class="form--field">
                 @for (answers of item.answers; track $index; let i = $index) {
                   @if (item.multipleChoice) {
-                    <div class="form--field__answer">
+                    <div class="form--field__answer" [class.disabled]="disableSurvey()">
                       <label for="question-{{ answers.questionId }}"></label>
                       <input
+                        [class.d-none]="disableSurvey()"
                         class="checkbox--purple"
                         (change)="updateMultipleChoiceAnswers(questionIndex, answers.id, $event)"
+                        [disabled]="disableSurvey()"
                         id="answer-{{ i }}"
                         type="checkbox"
                         [value]="answers.id"
                       />
-                      <span class="text--tertiary__highlight">{{ i | alphabet }}. </span>
-                      <span class="text--tertiary__purple">{{ answers.answerInput }}</span>
+                      <span
+                        class="text--tertiary__highlight"
+                        [class.disabled--text]="disableSurvey()"
+                        >{{ i | alphabet }}.
+                      </span>
+                      <span
+                        class="text--tertiary__purple"
+                        [class.disabled--text]="disableSurvey()"
+                        >{{ answers.answerInput }}</span
+                      >
                     </div>
                   } @else {
-                    <div class="form--field__answer">
+                    <div class="form--field__answer" [class.disabled]="disableSurvey()">
                       <label for="question-{{ questionIndex }}"></label>
                       <input
+                        [class.d-none]="disableSurvey()"
                         class="checkbox--purple"
                         (change)="updateSingleChoiceAnswers(questionIndex, answers.id, $event)"
+                        [disabled]="disableSurvey()"
                         id="answer-{{ i }}"
                         type="radio"
                         [value]="answers.id"
                         formControlName="selectedAnswerId"
                       />
-                      <span class="text--tertiary__highlight">{{ i | alphabet }}. </span>
-                      <span class="text--tertiary__purple">{{ answers.answerInput }}</span>
+                      <span
+                        class="text--tertiary__highlight"
+                        [class.disabled--text]="disableSurvey()"
+                        >{{ i | alphabet }}.
+                      </span>
+                      <span
+                        class="text--tertiary__purple"
+                        [class.disabled--text]="disableSurvey()"
+                        >{{ answers.answerInput }}</span
+                      >
                     </div>
                   }
                 }
@@ -89,18 +109,37 @@
       </fieldset>
       <div class="flex-end btn__wrap">
         @if (isMobileBreakpoint && surveyIsActive) {
-          <button type="submit" class="btn btn__submit">Complete</button>
+          <button
+            type="submit"
+            class="btn btn__submit"
+            [disabled]="disableSurvey()"
+            [class.d-none]="disableSurvey()"
+          >
+            Complete
+          </button>
         } @else if (surveyIsActive) {
-          <button type="submit" class="btn btn__submit">Complete survey</button>
+          <button
+            type="submit"
+            class="btn btn__submit"
+            [disabled]="disableSurvey()"
+            [class.d-none]="disableSurvey()"
+          >
+            Complete survey
+          </button>
         }
       </div>
     </form>
 
-    <dialog id="popover-loader" popover="manual" closedby="none" class="overlay--loader" [open]="errorMessage() || successMessage()">
+    <dialog
+      id="popover-loader"
+      popover="manual"
+      closedby="none"
+      class="overlay--loader"
+      [open]="errorMessage() || successMessage()"
+    >
       @if (!errorMessage() && !successMessage()) {
         <span class="loader"></span>
-      }
-      @else if (errorMessage() && !successMessage()) {
+      } @else if (errorMessage() && !successMessage()) {
         <div id="popover-feedback" closedby="none" class="overlay--published">
           <h2>Uuuups, that didn't work!</h2>
           <p>Please try again later</p>
@@ -112,6 +151,19 @@
         </div>
       }
     </dialog>
+{{disableSurvey()}}
+{{showDisableDialog()}}
+    @if (disableSurvey() && showDisableDialog()) {
+      <dialog id="popover" popover="auto" class="overlay--published" [open]="disableSurvey()">
+        <div id="popover-feedback" class=" overlay--center">
+          <h2>Thank You !</h2>
+          <p>
+            Your already submit this survey! <br> You can't submit again, but view the current results!
+          </p>
+          <button class="btn btn__past" (click)="closeDialog($event); markDisableDialogAsShown()">Got it !</button>
+        </div>
+      </dialog>
+    }
 
     <div [class.d-none]="!isMobileBreakpoint">
       <button

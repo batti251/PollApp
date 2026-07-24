@@ -6,6 +6,7 @@ import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 import { SurveyLive } from '../../../services/survey-live';
+import { LocalService } from '../../../services/local';
 
 @Component({
   selector: 'app-survey-view',
@@ -18,17 +19,21 @@ export class SurveyView {
   private router = inject(Router)
   db = inject(SurveyService)
   live = inject(SurveyLive)
+  local = inject(LocalService)
+  formBuilder = inject(FormBuilder)
+ 
   errorMessage = signal<boolean>(false)
   successMessage = signal<boolean>(false)
+  disableSurvey = signal<boolean>(false)
+  showDisableDialog = signal<boolean>(false)
+  
   submitted = false
-  formBuilder = inject(FormBuilder)
   isMobileBreakpoint = false
   toggleSurveyResultComponent = false
   surveyResponseForm = this.formBuilder.group({
     responses: this.formBuilder.array<FormGroup>([])
   })
   surveyIsActive = false
-
 
   @HostListener("window:resize", [])
   onResize() {
@@ -63,6 +68,28 @@ export class SurveyView {
     await this.initLiveSurvey();
     this.buildSurveyForm()
     this.surveyIsActive = this.db.calcExpiryDate(this.db.currentDate, this.db.survey().endDate) >= 0
+    this.checkLocalStorage()
+  }
+
+
+  /**
+   * Queries localStorage to search for match surveyId and dialog-state
+   * Sets disableSurvey and showDialog-signal to true, when functions return according state
+   */
+  checkLocalStorage() {
+    let surveyId = Number(this.db.currentSurveyId());
+    let disableSurvey = this.local.matchSubmittedSurveyId(surveyId);
+    let showDialog = disableSurvey && this.local.shouldShowDialog(surveyId);
+    this.disableSurvey.set(disableSurvey);
+    this.showDisableDialog.set(showDialog);
+  }
+
+  /**
+   * Sets the showedDialog-state from the local storage
+   */
+  markDisableDialogAsShown() {
+    let surveyId = Number(this.db.currentSurveyId());
+    this.local.markDialogAsShown(surveyId);
   }
 
   /**
@@ -192,6 +219,7 @@ export class SurveyView {
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
       .then(() => {
         if (dialog) {
+          this.local.addSurveyToLocalStorage(surveyId);
           this.initUIFeedback(dialog, false)
         }
       })
@@ -201,6 +229,7 @@ export class SurveyView {
         }
       })
   }
+
 
   /**
    * Initial Function to show the appropriate UI-Feedback, depending on @param errorFromDB 
@@ -245,5 +274,12 @@ export class SurveyView {
     setTimeout(() => {
       this.router.navigate([''])
     }, 1500)
+  }
+
+
+  closeDialog(event: Event) {
+    let dialogRef = event.target as HTMLElement
+    let dialog = dialogRef.offsetParent as HTMLDialogElement
+    dialog.close()
   }
 }

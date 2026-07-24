@@ -10,6 +10,22 @@
   }
 }
 
+.disabled {
+  background: linear-gradient(to right,rgba(128, 128, 128, 0.3),rgba(128, 128, 128, 0.1));
+  font-style: italic;
+  border-radius: 30px 60px 20px 10px;
+  cursor: default;
+  &--text {
+    color: rgba(128, 128, 128, 0.637);
+    &:hover {
+      filter: brightness(1);
+    }
+    &:hover {
+      filter: brightness(1);
+    }
+  }
+}
+
 .text--tertiary {
   font-size: 1rem;
   color: #35273a;
