@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Local } from '../interfaces/local';
+import { LocalStorageObj } from '../interfaces/localStorageObj';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LocalService {
+export class LocalSStorageService {
   storageKey = 'attendSurvey';
 
   /**
@@ -12,7 +12,7 @@ export class LocalService {
    * @param key - the localStorage-Key 
    * @param data - the according data to the @param key
    */
-  saveDataToLocalStorage(key: string, data: Local[]) {
+  saveDataToLocalStorage(key: string, data: LocalStorageObj[]) {
     localStorage.setItem(key, JSON.stringify(data));
   }
 
@@ -21,7 +21,7 @@ export class LocalService {
    * @param key - the localStorage key to read
    * @returns 
    */
-  getDataFromLocalStorage(key: string): Local[] {
+  getDataFromLocalStorage(key: string): LocalStorageObj[] {
     let storedData = localStorage.getItem(key);
     if (!storedData) {
       return [];
@@ -30,7 +30,7 @@ export class LocalService {
     if (!localData) {
       return []
     }
-    return localData as Local[]
+    return localData as LocalStorageObj[]
   }
 
   /**
@@ -44,7 +44,7 @@ export class LocalService {
     if (alreadyExists) {
       return;
     }
-    let newEntry: Local = {
+    let newEntry: LocalStorageObj = {
       surveyId, stored: {
         showedDialog: false,
       },

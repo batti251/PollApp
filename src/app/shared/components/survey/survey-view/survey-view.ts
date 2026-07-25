@@ -6,7 +6,7 @@ import { SurveyQuestions } from '../../../interfaces/survey-questions';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 import { SurveyLive } from '../../../services/survey-live';
-import { LocalService } from '../../../services/local';
+import { LocalSStorageService } from '../../../services/localStorage';
 
 @Component({
   selector: 'app-survey-view',
@@ -19,7 +19,7 @@ export class SurveyView {
   private router = inject(Router)
   db = inject(SurveyService)
   live = inject(SurveyLive)
-  local = inject(LocalService)
+  localStorage = inject(LocalSStorageService)
   formBuilder = inject(FormBuilder)
 
   errorMessage = signal<boolean>(false)
@@ -86,8 +86,8 @@ export class SurveyView {
    */
   checkLocalStorage() {
     let surveyId = Number(this.db.currentSurveyId());
-    let disableSurvey = this.local.matchSubmittedSurveyId(surveyId);
-    let showDialog = disableSurvey && this.local.shouldShowDialog(surveyId);
+    let disableSurvey = this.localStorage.matchSubmittedSurveyId(surveyId);
+    let showDialog = disableSurvey && this.localStorage.shouldShowDialog(surveyId);
     this.disableSurvey.set(disableSurvey);
     this.showDisableDialog.set(showDialog);
   }
@@ -101,7 +101,7 @@ export class SurveyView {
   markDisableDialogAsShown(dialog:HTMLDialogElement) {
     dialog.close()
     let surveyId = Number(this.db.currentSurveyId());
-    this.local.markDialogAsShown(surveyId);
+    this.localStorage.markDialogAsShown(surveyId);
   }
 
   /**
@@ -230,7 +230,7 @@ export class SurveyView {
     let surveyId = this.db.survey().id as number
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
       .then(() => {
-        this.local.addSurveyToLocalStorage(surveyId);
+        this.localStorage.addSurveyToLocalStorage(surveyId);
         if (dialog) {
           this.initUIFeedback(dialog, false);
         }

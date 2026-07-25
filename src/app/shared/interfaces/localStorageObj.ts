@@ -1,4 +1,4 @@
-export interface Local {
+export interface LocalStorageObj {
     surveyId: number
     stored: {
         showedDialog: boolean,
