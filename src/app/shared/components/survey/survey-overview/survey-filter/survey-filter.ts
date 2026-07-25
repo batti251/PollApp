@@ -73,8 +73,6 @@ export class SurveyFilter {
       let matchesStatus = this.matchesStatus(survey);
       return matchesCategory && matchesStatus;
     });
-    console.log(filteredSurveys);
-    
     this.db.filteredSurveyList.set(filteredSurveys);
   }
 

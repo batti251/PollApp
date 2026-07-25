@@ -130,7 +130,7 @@ export class SurveyView {
    * Handler, to Build a Answer-Form-Control depending on the @param question multipleChoice-state
    * It builds either two different FormControl: MultipleChoice or SingleChoice FormControl
    * @param question - the SurveyQuestion
-   * @returns 
+   * @returns - the new FormGroup
    */
   createAnswerFormGroup(question: SurveyQuestions): FormGroup {
     if (question.multipleChoice) {
@@ -143,10 +143,10 @@ export class SurveyView {
   /**
    * Builds FormControl for MultipleChoice questions
    * The initial FormArray is empty and will be filled by {@link changeArray()}
-   * @param question  - the SurveyQuestion
-   * @returns 
+   * @param question - the SurveyQuestion
+   * @returns - the new FormGroup
    */
-  buildMultipleChoiceFormControl(question: SurveyQuestions) {
+  buildMultipleChoiceFormControl(question: SurveyQuestions):FormGroup {
     return this.formBuilder.group({
       questionId: question.id,
       selectedAnswerIds: this.formBuilder.array([], Validators.required)
@@ -155,10 +155,10 @@ export class SurveyView {
 
   /**
    * Builds FormControl for SingleChoice questions
-   * @param question  - the SurveyQuestion
-   * @returns 
+   * @param question - the SurveyQuestion
+   * @returns - the new FormGroup
    */
-  buildSingleChoiceFormControl(question: SurveyQuestions) {
+  buildSingleChoiceFormControl(question: SurveyQuestions):FormGroup {
     return this.formBuilder.group({
       questionId: question.id,
       selectedAnswerId: this.formBuilder.control('', Validators.required)
@@ -257,7 +257,7 @@ export class SurveyView {
 
   /**
    * Dialog-Handler to show/close the dialog according to the current dialog-state
-   * @param dialog 
+   * @param dialog - the given Dialog-Element
    */
   toggleLoaderDialog(dialog: HTMLDialogElement) {
     if (!dialog.open) {

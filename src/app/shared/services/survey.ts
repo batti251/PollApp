@@ -31,21 +31,6 @@ export class SurveyService {
     questions: []
   })
 
-
-  questionSignal = signal<SurveyQuestions>({
-    questionInput: "",
-    multipleChoice: false,
-    answers: [],
-    surveyId: 0
-  })
-
-  answerSignal = signal<SurveyQuestionsAnswers>({
-    answerInput: "",
-    questionId: 0,
-    id: 0,
-    checkedCount: 0
-  })
-
   category = [
     { value: 0, tag: "Health & Wellness" },
     { value: 1, tag: "Team Activities" },
@@ -86,11 +71,10 @@ export class SurveyService {
 
   /**
    * Calculates the difference between both given date-strings
-   * @param dateA 
-   * @param dateB 
-   * @returns 
+   * @param dateA - date-parameter as string
+   * @param dateB - date-parameter as string
+   * @returns - the result as in "left days"
    */
-
   calcExpiryDate(dateA: string, dateB: string | undefined): number {
     if (dateB) {
       let newDateA = new Date(dateA)
@@ -100,6 +84,9 @@ export class SurveyService {
     } else return 0
   }
 
+  /**
+   * Reads and Sets all soon-to-expire survey into toExpire-Signal.
+   */
   async loadExpireSoonSurvey() {
     let dbResponse = await this.readExpireSoonDB('surveys');
     dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
@@ -180,12 +167,12 @@ export class SurveyService {
    * Reads all rows from the DB
    * It filters only surveys, that are between the currentDate and expireSoonDate range
    * expireSoonDate is defined here: {@link setDates()}
-   * @param db - the fetched supabase-table
-   * @returns  - the fetched data-rows according to @param db 
+   * @param dbTable - the fetched supabase-table
+   * @returns  - the fetched data-rows according to @param dbTable 
    */
-  async readExpireSoonDB(db: string): Promise<Survey[]> {
+  async readExpireSoonDB(dbTable: string): Promise<Survey[]> {
     let { data: surveys, error } = await this.supabase
-      .from(db)
+      .from(dbTable)
       .select('*')
       .gte('endDate', `${this.currentDate}`)
       .lte('endDate', `${this.expireSoonDate}`)
@@ -223,7 +210,7 @@ export class SurveyService {
    * called Function from {@link addRowDB} 
    * Inserts the SurveyQuestions-Object to Supabase DB
    * Adds the data to table 'survey-questions' 
-   * @param question -
+   * @param question - the according Question-Interface
    * @param surveyId - given Id from Supabase table [surveys]
    */
   async insertSurveyQuestions(question: SurveyQuestions, surveyId: number) {
