@@ -3,7 +3,8 @@
 </h2>
 
 <article class="progress">
-  @if (db.survey().totalSubmitsCount != null) {
+  @if ((db.survey().totalSubmitsCount ?? 0) > 0 ||
+  live.hasSelectedAnswers()) {
     @for (question of db.survey().questions; track $index; let questionIndex = $index) {
       <section class="progress--section">
         <h3 class="text text--secondary text--tertiary">

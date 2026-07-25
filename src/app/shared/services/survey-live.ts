@@ -10,11 +10,6 @@ export class SurveyLive {
 
   selectedAnswerIds: number[][] = [];
   submissionPending = false;
-  totalAnswerCounts: {
-    id: number;
-    total: number;
-  }[] = [];
-
 
   /**
    * Updates the multiple Answers on questionIndex position
@@ -79,9 +74,13 @@ export class SurveyLive {
    * @returns - the addition of the originalTotal from the db and the addedVote, when answer was picked
    */
   getDisplayedTotal(questionIndex: number): number {
-    let currentTotal = this.totalAnswerCounts[questionIndex]?.total ?? 0;
-    let addedVotes = this.selectedAnswerIds[questionIndex]?.length ?? 0;
-    return currentTotal + addedVotes;
+    let question = this.db.survey().questions[questionIndex];
+    if (!question) {
+      return 0;
+    }
+    let storedTotal = question.answers.reduce((sum, answer) => sum + (answer.checkedCount ?? 0), 0);
+    let previewTotal = this.selectedAnswerIds[questionIndex]?.length ?? 0;
+    return storedTotal + previewTotal;
   }
 
   /**
@@ -99,14 +98,18 @@ export class SurveyLive {
   }
 
   /**
-   * Adds all total answers and pushes it to totalAnswerCounts[]
+   * Checks whether the user has selected at least one answer.
+   * @returns - (true, when at least one answer is selected ; false: when no answers are selected)
    */
-  getTotalsPerAnswer() {
-    this.totalAnswerCounts = [];
-    this.db.survey().questions.forEach((question) => {
-      let total = question.answers.reduce(
-        (sum, answer) => sum + (answer.checkedCount ?? 0), 0);
-      this.totalAnswerCounts.push({ id: question.id ?? 0, total });
-    });
+  hasSelectedAnswers(): boolean {
+    return this.selectedAnswerIds.some(selectedIds => selectedIds.length > 0);
   }
+
+  /**
+   * Clears all locally selected answers.
+   * Called after a successful survey submission to prevent double counting
+   */
+  resetSelectedAnswers() {
+  this.selectedAnswerIds = [];
+}
 }

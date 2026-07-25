@@ -42,11 +42,11 @@ export class SurveyView {
 
   @ViewChild('disableDialog')
   set disableDialog(element: ElementRef<HTMLDialogElement>) {
-  const dialog = element?.nativeElement;
-  if (dialog && !dialog.open) {
-    dialog.showModal();
+    const dialog = element?.nativeElement;
+    if (dialog && !dialog.open) {
+      dialog.showModal();
+    }
   }
-}
 
   /**
    * Live detection on the screen width, to detect mobile Breakpoint 
@@ -92,13 +92,13 @@ export class SurveyView {
     this.showDisableDialog.set(showDialog);
   }
 
-      
+
 
   /**
    * Sets the showedDialog-state from the local storage
    * Closes the dialog modal
    */
-  markDisableDialogAsShown(dialog:HTMLDialogElement) {
+  markDisableDialogAsShown(dialog: HTMLDialogElement) {
     dialog.close()
     let surveyId = Number(this.db.currentSurveyId());
     this.localStorage.markDialogAsShown(surveyId);
@@ -146,7 +146,7 @@ export class SurveyView {
    * @param question - the SurveyQuestion
    * @returns - the new FormGroup
    */
-  buildMultipleChoiceFormControl(question: SurveyQuestions):FormGroup {
+  buildMultipleChoiceFormControl(question: SurveyQuestions): FormGroup {
     return this.formBuilder.group({
       questionId: question.id,
       selectedAnswerIds: this.formBuilder.array([], Validators.required)
@@ -158,7 +158,7 @@ export class SurveyView {
    * @param question - the SurveyQuestion
    * @returns - the new FormGroup
    */
-  buildSingleChoiceFormControl(question: SurveyQuestions):FormGroup {
+  buildSingleChoiceFormControl(question: SurveyQuestions): FormGroup {
     return this.formBuilder.group({
       questionId: question.id,
       selectedAnswerId: this.formBuilder.control('', Validators.required)
@@ -229,8 +229,9 @@ export class SurveyView {
   sendDataToDB(dialog?: HTMLDialogElement) {
     let surveyId = this.db.survey().id as number
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
-      .then(() => {
+      .then(async () => {
         this.localStorage.addSurveyToLocalStorage(surveyId);
+        await this.updateLiveResults(surveyId);
         if (dialog) {
           this.initUIFeedback(dialog, false);
         }
@@ -240,6 +241,11 @@ export class SurveyView {
           this.initUIFeedback(dialog, true)
         }
       })
+  }
+
+  async updateLiveResults(surveyId:number) {
+    this.live.resetSelectedAnswers();
+    await this.db.loadLiveSurvey('surveys', String(surveyId));
   }
 
   /**
@@ -262,7 +268,7 @@ export class SurveyView {
   toggleLoaderDialog(dialog: HTMLDialogElement) {
     if (!dialog.open) {
       dialog.showModal()
-    } 
+    }
   }
 
   /**
@@ -286,10 +292,10 @@ export class SurveyView {
     }, 1500)
   }
 
-/**
- * Closes the dialog modal from the referenced target 
- * @param event - the click event
- */
+  /**
+   * Closes the dialog modal from the referenced target 
+   * @param event - the click event
+   */
   closeDialog(event: Event) {
     let dialogRef = event.target as HTMLElement
     let dialog = dialogRef.offsetParent as HTMLDialogElement
