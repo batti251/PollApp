@@ -5,8 +5,9 @@
 }
 
 .overview {
+  @include dFlex($ai: unset, $jc: unset, $g: 32px);
   margin-bottom: 24px;
-  padding: 0 150px;
+  padding: 0 130px;
   @include respond(l){
     padding: unset;
   }
