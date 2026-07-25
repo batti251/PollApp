@@ -1,5 +1,5 @@
 import { Survey } from "../interfaces/survey";
-import { SurveyQuestions } from "../interfaces/survey-questions";
+import { SurveyQuestions } from "../interfaces/survey";
 
 export class SurveyModel implements Survey{
     surveyName: string;

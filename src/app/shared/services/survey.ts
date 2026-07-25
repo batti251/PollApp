@@ -2,8 +2,8 @@ import { inject, Injectable, signal } from '@angular/core';
 import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { Key } from './key';
 import { Survey } from '../interfaces/survey';
-import { SurveyQuestions } from '../interfaces/survey-questions';
-import { SurveyQuestionsAnswers } from '../interfaces/survey-questions-answers';
+import { SurveyQuestions } from '../interfaces/survey';
+import { SurveyQuestionsAnswers } from '../interfaces/survey';
 import { SurveyResponse } from '../interfaces/survey-response';
 
 @Injectable({

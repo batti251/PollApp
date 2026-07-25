@@ -2,7 +2,7 @@ import { Component, ElementRef, HostListener, inject, signal, ViewChild } from '
 import { SurveyService } from '../../../services/survey';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
-import { SurveyQuestions } from '../../../interfaces/survey-questions';
+import { SurveyQuestions } from '../../../interfaces/survey';
 import { SurveyResultsLive } from '../survey-results-live/survey-results-live';
 import { AlphabetPipe } from '../../pipes/alphabet.pipe';
 import { SurveyLive } from '../../../services/survey-live';
