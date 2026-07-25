@@ -9,7 +9,7 @@ export class SurveyLive {
   db = inject(SurveyService);
 
   selectedAnswerIds: number[][] = [];
-
+  submissionPending = false;
   totalAnswerCounts: {
     id: number;
     total: number;
@@ -58,12 +58,12 @@ export class SurveyLive {
     return this.isAnswerSelected(questionIndex, answer.id) ? originalCount + 1 : originalCount;
   }
 
-/**
- * Tests if an possible answer was chosen, properly
- * @param questionIndex - index from survey().questions
- * @param answer - the answer Object
- * @returns - (true: when answer was chosen; false when no answer was chosen, yet)
- */
+  /**
+   * Tests if an possible answer was chosen, properly
+   * @param questionIndex - index from survey().questions
+   * @param answer - the answer Object
+   * @returns - (true: when answer was chosen; false when no answer was chosen, yet)
+   */
   isAnswerSelected(questionIndex: number, answerId?: number): boolean {
     if (answerId == undefined) {
       return false;
@@ -106,7 +106,7 @@ export class SurveyLive {
     this.db.survey().questions.forEach((question) => {
       let total = question.answers.reduce(
         (sum, answer) => sum + (answer.checkedCount ?? 0), 0);
-      this.totalAnswerCounts.push({id: question.id ?? 0,total});
+      this.totalAnswerCounts.push({ id: question.id ?? 0, total });
     });
   }
 }

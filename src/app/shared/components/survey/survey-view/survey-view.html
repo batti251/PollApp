@@ -151,8 +151,7 @@
         </div>
       }
     </dialog>
-{{disableSurvey()}}
-{{showDisableDialog()}}
+
     @if (disableSurvey() && showDisableDialog()) {
       <dialog id="popover" popover="auto" class="overlay--published" [open]="disableSurvey()">
         <div id="popover-feedback" class=" overlay--center">

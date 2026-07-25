@@ -5,20 +5,29 @@
   margin-bottom: 24px;
   &--section {
     @include dFlex($g: 4px, $ai: flex-start);
+    @include respond(m){
+    width: 100%;
+  }
   }
   &--empty {
     gap: 90px;
+  }
+  @include respond(m){
+    align-items: center;
   }
 }
 
 .progress-element {
   @include dFlex($fd: row, $g: 8px);
+  @include respond(m){
+    width: 100%;
+  }
 }
 
 .progress-bar {
   height: 14px;
   @include respond(m) {
-    width: 70vw;
+    width: 100%;
   }
 }
 

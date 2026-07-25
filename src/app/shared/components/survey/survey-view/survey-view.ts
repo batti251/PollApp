@@ -21,12 +21,12 @@ export class SurveyView {
   live = inject(SurveyLive)
   local = inject(LocalService)
   formBuilder = inject(FormBuilder)
- 
+
   errorMessage = signal<boolean>(false)
   successMessage = signal<boolean>(false)
   disableSurvey = signal<boolean>(false)
   showDisableDialog = signal<boolean>(false)
-  
+
   submitted = false
   isMobileBreakpoint = false
   toggleSurveyResultComponent = false
@@ -218,9 +218,9 @@ export class SurveyView {
     let surveyId = this.db.survey().id as number
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
       .then(() => {
+        this.local.addSurveyToLocalStorage(surveyId);
         if (dialog) {
-          this.local.addSurveyToLocalStorage(surveyId);
-          this.initUIFeedback(dialog, false)
+          this.initUIFeedback(dialog, false);
         }
       })
       .catch((error) => {
@@ -229,7 +229,6 @@ export class SurveyView {
         }
       })
   }
-
 
   /**
    * Initial Function to show the appropriate UI-Feedback, depending on @param errorFromDB 

@@ -3,9 +3,7 @@ import { createClient, RealtimeChannel } from '@supabase/supabase-js'
 import { Key } from './key';
 import { Survey } from '../interfaces/survey';
 import { SurveyQuestions } from '../interfaces/survey-questions';
-import { SurveyModel } from '../models/surveymodel';
 import { SurveyQuestionsAnswers } from '../interfaces/survey-questions-answers';
-import { FormArray } from '@angular/forms';
 import { SurveyResponse } from '../interfaces/survey-response';
 
 @Injectable({
@@ -13,7 +11,6 @@ import { SurveyResponse } from '../interfaces/survey-response';
 })
 export class SurveyService {
   keys = inject(Key);
-
   supabase = createClient(this.keys.supabaseURL, this.keys.supabaseKey)
   allEvents!: RealtimeChannel;
   surveyList = signal<Survey[]>([])

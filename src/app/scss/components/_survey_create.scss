@@ -31,6 +31,7 @@
   }
   @include respond(m) {
     padding: 40px 24px;
+    width: 100%;
   }
   @include respond(s) {
     padding: 40px 12px;
