@@ -18,8 +18,8 @@
     @include font($fs: clamp(1.5rem, 1.625rem, 2vw), $fw: 700);
   }
   &--paragraph {
-    width: 100%;
-    @include dFlex($ai: unset, $g: 8px);
+    @include size($w: 100%, $h: 80px);
+    @include dFlex($ai: unset, $jc: unset, $g: 8px);
   }
   &--wrap {
     @include dFlex($fd: unset, $jc: space-between, $ai: unset, $g: 32px);

@@ -73,6 +73,8 @@ export class SurveyFilter {
       let matchesStatus = this.matchesStatus(survey);
       return matchesCategory && matchesStatus;
     });
+    console.log(filteredSurveys);
+    
     this.db.filteredSurveyList.set(filteredSurveys);
   }
 
@@ -97,14 +99,15 @@ export class SurveyFilter {
    * @returns 
    */
   matchesStatus(survey: Survey): boolean {
-    let currentDate = new Date().getTime();
-    if (!survey.endDate && this.activeBtn == 2) {
+    if (!survey.endDate && this.activeBtn == 0){
+      return true
+    } else if (!survey.endDate && this.activeBtn == 2) {
       return true;
-    } else if (!survey.endDate){
+    } else if (!survey.endDate) {
       return false
     }
+    let currentDate = new Date().setHours(0,0,0,0);
     let surveyEnd = new Date(survey.endDate).getTime()
-
     return this.matchActiveBtn(surveyEnd, currentDate)
   }
 
@@ -120,7 +123,7 @@ export class SurveyFilter {
       return surveyEnd > currentDate;
     } else if (this.activeBtn == 1) {
       return surveyEnd < currentDate;
-    } else
+    }  else
     return true
   }
 }
