@@ -164,9 +164,9 @@ export class CreateSurveyService {
     if (this.surveyForm.invalid) {
       return
     } else {
+      this.showPopover()
       let survey = new SurveyModel(this.surveyForm.value as Partial<Survey>)
       await this.db.addRowDB(survey)
-      this.showPopover()
     }
 
   }
@@ -178,8 +178,8 @@ export class CreateSurveyService {
    * @returns 
    */
   showPopover() {
-    let dialog = document.getElementById('popover')
-    dialog?.showPopover();
+    let dialog = document.getElementById('popover-loader') as HTMLDialogElement
+    dialog?.showModal();
     if (this.surveyForm.invalid) {
       this.successMessage.set(false)
       return

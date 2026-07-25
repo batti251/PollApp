@@ -257,7 +257,7 @@ export class SurveyView {
     this.toggleLoaderDialog(dialog)
     this.showDialogMessage(errorFromDB)
     if (this.successMessage() == true) {
-      this.navigateToHomepage()
+      /* this.navigateToHomepage() */
     }
   }
 

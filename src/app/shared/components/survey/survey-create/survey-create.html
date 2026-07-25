@@ -10,13 +10,18 @@
   <button type="submit" class="btn btn__submit">Publish</button>
 </form>
 
+<dialog
+id="popover-loader"
+popover="manual"
+closedby="none"
+class="overlay--loader"
+[open]="createSurvey.successMessage()"
+>
+<span class="loader"></span>
 @if (createSurvey.successMessage()) {
-  <dialog
-    id="popover"
-    popover="auto"
-    class="overlay--published"
-    [open]="createSurvey.successMessage()"
-  >
-    <span>Your survey is now published</span>
-  </dialog>
-}
+    <div id="popover-feedback" closedby="none" class="overlay--published">
+          <h2>Your survey is now published</h2>
+        </div>
+  } @else {
+  }
+</dialog>
