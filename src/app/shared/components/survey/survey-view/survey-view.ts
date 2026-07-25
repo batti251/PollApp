@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, signal, ViewChild } from '@angular/core';
 import { SurveyService } from '../../../services/survey';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
@@ -39,6 +39,14 @@ export class SurveyView {
   onResize() {
     this.detectScreenSize();
   }
+
+  @ViewChild('disableDialog')
+  set disableDialog(element: ElementRef<HTMLDialogElement>) {
+  const dialog = element?.nativeElement;
+  if (dialog && !dialog.open) {
+    dialog.showModal();
+  }
+}
 
   /**
    * Live detection on the screen width, to detect mobile Breakpoint 
@@ -84,10 +92,14 @@ export class SurveyView {
     this.showDisableDialog.set(showDialog);
   }
 
+      
+
   /**
    * Sets the showedDialog-state from the local storage
+   * Closes the dialog modal
    */
-  markDisableDialogAsShown() {
+  markDisableDialogAsShown(dialog:HTMLDialogElement) {
+    dialog.close()
     let surveyId = Number(this.db.currentSurveyId());
     this.local.markDialogAsShown(surveyId);
   }
@@ -250,8 +262,7 @@ export class SurveyView {
   toggleLoaderDialog(dialog: HTMLDialogElement) {
     if (!dialog.open) {
       dialog.showModal()
-    } else
-      dialog.close()
+    } 
   }
 
   /**
@@ -275,7 +286,10 @@ export class SurveyView {
     }, 1500)
   }
 
-
+/**
+ * Closes the dialog modal from the referenced target 
+ * @param event - the click event
+ */
   closeDialog(event: Event) {
     let dialogRef = event.target as HTMLElement
     let dialog = dialogRef.offsetParent as HTMLDialogElement

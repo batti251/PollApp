@@ -137,8 +137,8 @@
       class="overlay--loader"
       [open]="errorMessage() || successMessage()"
     >
-      @if (!errorMessage() && !successMessage()) {
         <span class="loader"></span>
+      @if (!errorMessage() && !successMessage()) {
       } @else if (errorMessage() && !successMessage()) {
         <div id="popover-feedback" closedby="none" class="overlay--published">
           <h2>Uuuups, that didn't work!</h2>
@@ -153,13 +153,13 @@
     </dialog>
 
     @if (disableSurvey() && showDisableDialog()) {
-      <dialog id="popover" popover="auto" class="overlay--published" [open]="disableSurvey()">
-        <div id="popover-feedback" class=" overlay--center">
+      <dialog #disableDialog id="popover" class="overlay--published">
+        <div id="popover-feedback" class="overlay--center">
           <h2>Thank You !</h2>
           <p>
             Your already submit this survey! <br> You can't submit again, but view the current results!
           </p>
-          <button class="btn btn__past" (click)="closeDialog($event); markDisableDialogAsShown()">Got it !</button>
+          <button class="btn btn__past" (click)="closeDialog($event); markDisableDialogAsShown(disableDialog)">Got it !</button>
         </div>
       </dialog>
     }
