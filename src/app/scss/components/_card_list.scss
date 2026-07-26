@@ -3,6 +3,7 @@
 
 .card-list {
   color: white;
+  cursor: pointer !important;
   @include dFlex($ai: flex-end, $jc: space-between);
   @include size($w: min(720px, 47%), $h: 140px);
   @include font($fs: 1rem);
@@ -35,7 +36,6 @@
     }
   }
   &:hover {
-    cursor: pointer;
     background-color: #4f4353;
     .published {
       background-color: #ffcfa1;

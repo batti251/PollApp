@@ -4,7 +4,7 @@
   appearance: base-select;
   border: 0;
   padding: 4px;
-  
+  cursor: pointer;
   @include dFlex($fd: row, $jc: unset, $ai: center, $g: 24px);
   @include font($fs: clamp(1rem, 1.175rem, 2vw));
   &::active {
@@ -19,6 +19,9 @@
     &:open::picker {
       @include dFlex($jc: unset, $ai: center, $g: 4px);
     }
+  }
+  & > option {
+    cursor: pointer;
   }
 }
 

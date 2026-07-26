@@ -1,6 +1,7 @@
 @use './../abstracts/index' as *;
 
 .card {
+  cursor: pointer;
   background-color: white;
   @include dFlex($ai: flex-start, $jc: unset, $g: 64px);
   @include size($w: 273px, $h: 260px);
@@ -19,7 +20,6 @@
 
   &:hover {
     background-color: #f4e9fb;
-    cursor: pointer;
     .published {
       background-color: #ffb770;
     }

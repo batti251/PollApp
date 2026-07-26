@@ -132,4 +132,7 @@
   &--checkbox {
     width: unset;
   }
+  &:hover{
+    cursor: pointer;
+  }
 }

@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100%;
+  cursor: default;
 }
 
 * {
@@ -60,6 +61,7 @@ ul {
 }
 
 input {
+  cursor: pointer;
   ::after {
     content: ' ';
     width: fit-content;
