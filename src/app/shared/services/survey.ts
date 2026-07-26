@@ -89,6 +89,8 @@ export class SurveyService {
    */
   async loadExpireSoonSurvey() {
     let dbResponse = await this.readExpireSoonDB('surveys');
+    console.log(dbResponse);
+    
     dbResponse.forEach((survey, index) => this.setCategoryName(dbResponse[index]))
     this.toExpire.set(dbResponse)
   }
@@ -176,6 +178,7 @@ export class SurveyService {
       .select('*')
       .gte('endDate', `${this.currentDate}`)
       .lte('endDate', `${this.expireSoonDate}`)
+      .order('endDate', {ascending: false})
     return surveys ?? []
   }
 
