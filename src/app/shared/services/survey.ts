@@ -21,6 +21,7 @@ export class SurveyService {
   newSurveyId = signal<number>(0)
   activeCategory = signal<number>(-1);
   filteredSurveyList = signal<Survey[]>([]);
+  unavailableSurveyId = signal(false)
 formSubmitted = false
   survey = signal<Survey>({
     surveyName: "",
@@ -54,6 +55,11 @@ formSubmitted = false
   async loadLiveSurvey(db: string, surveyId: string) {
     this.currentSurveyId.set(surveyId)
     let dbResponse = await this.readSingleSurveyDB(db, surveyId) as Survey[]
+    if (dbResponse.length == 0 ) {
+      this.unavailableSurveyId.set(true)
+      return
+    }
+    this.unavailableSurveyId.set(false)
     this.sortSurveyResponse(dbResponse)
     this.setCategoryName(dbResponse[0])
     this.survey.set(dbResponse[0])

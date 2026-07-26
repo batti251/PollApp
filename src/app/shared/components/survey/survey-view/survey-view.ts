@@ -74,9 +74,16 @@ export class SurveyView {
   async ngOnInit() {
     this.detectScreenSize();
     await this.initLiveSurvey();
+    this.checkValidSurveyId()
     this.buildSurveyForm()
     this.surveyIsActive = this.db.calcExpiryDate(this.db.currentDate, this.db.survey().endDate) >= 0
     this.checkLocalStorage()
+  }
+
+  checkValidSurveyId() {
+    if (this.db.unavailableSurveyId()) {
+     this.router.navigate([''])
+    }
   }
 
 
@@ -95,7 +102,7 @@ export class SurveyView {
   /**
    * Updates the showedDialogState according to the checkbox.checked status
    */
-  markDisableDialogAsShown(event:Event) {
+  markDisableDialogAsShown(event: Event) {
     let checkbox = event.target as HTMLInputElement
     let checkedStatus = checkbox.checked
     this.localStorage.markDialogAsShown(checkedStatus);
@@ -106,6 +113,11 @@ export class SurveyView {
    */
   async initLiveSurvey() {
     let surveyId = this.route.snapshot.paramMap.get('id') as string;
+    let numberSurveyId = Number(surveyId)
+    if (Number.isNaN(numberSurveyId)) {
+      this.router.navigate([''])
+      return
+    }
     await this.db.loadLiveSurvey('surveys', surveyId)
   }
 
@@ -245,7 +257,7 @@ export class SurveyView {
    * Updates the Live-Results and resets formSubmitted-State
    * @param surveyId - the given surveyId from the db
    */
-  async updateLiveResults(surveyId:number) {
+  async updateLiveResults(surveyId: number) {
     this.live.resetSelectedAnswers();
     await this.db.loadLiveSurvey('surveys', String(surveyId));
     this.db.formSubmitted = false
