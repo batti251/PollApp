@@ -19,7 +19,6 @@ export class SurveyResultsLive {
   async ngOnInit() {
     let surveyId = this.activatedRoute.snapshot.paramMap.get('id') as string
     await this.db.loadLiveSurvey('surveys', surveyId)
-    
   }
 
   ngOnDestroy(){
