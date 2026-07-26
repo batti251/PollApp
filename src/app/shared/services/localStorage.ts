@@ -6,7 +6,7 @@ import { LocalStorageObj } from '../interfaces/localStorageObj';
 })
 export class LocalSStorageService {
   storageKey = 'attendSurvey';
-
+  showedDialogState = false
   /**
    * Stores localStorage-JSON to the according @param key
    * @param key - the localStorage-Key 
@@ -77,19 +77,24 @@ export class LocalSStorageService {
     return !surveyEntry.stored.showedDialog;
   }
 
-  /**
-   * Sets showedDialog-State to true, when it matches the given surveyId
-   * Stores the showedDialog-State accordingly.
-   * @param surveyId - the given surveyId from the current Survey
-   * @returns (true: when the showedDialog-state was found in the localStorage; false: when no surveyEntry was found in the local Storage)
+ /**
+  * Sets showedDialogState according to isChecked-State
+  * @param isChecked - checked status from HTLMInputElement
   */
-  markDialogAsShown(surveyId: number): void {
+  markDialogAsShown(isChecked: boolean) {
+    this.showedDialogState = isChecked
+  }
+/**
+  * Stores the showedDialogState to the localStorage-Entry
+  * @param surveyId - the given surveyId from the current Survey
+  */
+  saveDialogAsShownState(surveyId: number) {
     let localData = this.getDataFromLocalStorage(this.storageKey);
     let surveyEntry = localData.find(entry => entry.surveyId == surveyId);
     if (!surveyEntry) {
       return;
     }
-    surveyEntry.stored.showedDialog = true;
+    surveyEntry.stored.showedDialog = this.showedDialogState
     this.saveDataToLocalStorage(this.storageKey, localData);
   }
 }

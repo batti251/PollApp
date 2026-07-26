@@ -92,16 +92,13 @@ export class SurveyView {
     this.showDisableDialog.set(showDialog);
   }
 
-
-
   /**
-   * Sets the showedDialog-state from the local storage
-   * Closes the dialog modal
+   * Updates the showedDialogState according to the checkbox.checked status
    */
-  markDisableDialogAsShown(dialog: HTMLDialogElement) {
-    dialog.close()
-    let surveyId = Number(this.db.currentSurveyId());
-    this.localStorage.markDialogAsShown(surveyId);
+  markDisableDialogAsShown(event:Event) {
+    let checkbox = event.target as HTMLInputElement
+    let checkedStatus = checkbox.checked
+    this.localStorage.markDialogAsShown(checkedStatus);
   }
 
   /**
@@ -284,7 +281,7 @@ export class SurveyView {
   }
 
   /**
-   * Sends the user to the root-page
+   * Navigates the user to the root-page
    */
   navigateToHomepage() {
     setTimeout(() => {
@@ -293,10 +290,13 @@ export class SurveyView {
   }
 
   /**
-   * Closes the dialog modal from the referenced target 
+   * Closes the dialog modal from the referenced target
+   * Saves the localStorage entry changes 
    * @param event - the click event
    */
   closeDialog(event: Event) {
+    let surveyId = Number(this.db.currentSurveyId());
+    this.localStorage.saveDialogAsShownState(surveyId)
     let dialogRef = event.target as HTMLElement
     let dialog = dialogRef.offsetParent as HTMLDialogElement
     dialog.close()

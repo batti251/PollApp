@@ -159,7 +159,11 @@
           <p>
             Your already submit this survey! <br> You can't submit again, but view the current results!
           </p>
-          <button class="btn btn__past" (click)="closeDialog($event); markDisableDialogAsShown(disableDialog)">Got it !</button>
+         <div class="form--field__checkbox">
+          <input type="checkbox" name="unsubscribeMessage" id="unsubscribeMessage" (change)="markDisableDialogAsShown($event)">
+          <label class="text text--tertiary" for="unsubscribeMessage">Don't show this message again</label>
+        </div>
+          <button class="btn btn__past" (click)="closeDialog($event)">Got it !</button>
         </div>
       </dialog>
     }

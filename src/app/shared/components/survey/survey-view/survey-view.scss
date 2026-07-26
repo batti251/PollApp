@@ -11,7 +11,7 @@
 }
 
 .disabled {
-  background: linear-gradient(to right,rgba(128, 128, 128, 0.3),rgba(128, 128, 128, 0.1));
+  background: linear-gradient(to right, rgba(128, 128, 128, 0.3), rgba(128, 128, 128, 0.1));
   font-style: italic;
   border-radius: 30px 60px 20px 10px;
   cursor: default;
@@ -33,6 +33,10 @@
 
 #popover-loader {
   overflow: hidden;
+}
+
+.form--field__checkbox {
+  padding-bottom: 12px;
 }
 
 .loader {
