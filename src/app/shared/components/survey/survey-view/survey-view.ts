@@ -225,6 +225,7 @@ export class SurveyView {
    */
   sendDataToDB(dialog?: HTMLDialogElement) {
     let surveyId = this.db.survey().id as number
+    this.db.formSubmitted = true
     this.db.sendSurveyResponseToDB(this.surveyResponses.getRawValue(), surveyId)
       .then(async () => {
         this.localStorage.addSurveyToLocalStorage(surveyId);
@@ -240,9 +241,14 @@ export class SurveyView {
       })
   }
 
+  /**
+   * Updates the Live-Results and resets formSubmitted-State
+   * @param surveyId - the given surveyId from the db
+   */
   async updateLiveResults(surveyId:number) {
     this.live.resetSelectedAnswers();
     await this.db.loadLiveSurvey('surveys', String(surveyId));
+    this.db.formSubmitted = false
   }
 
   /**

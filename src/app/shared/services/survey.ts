@@ -21,7 +21,7 @@ export class SurveyService {
   newSurveyId = signal<number>(0)
   activeCategory = signal<number>(-1);
   filteredSurveyList = signal<Survey[]>([]);
-
+formSubmitted = false
   survey = signal<Survey>({
     surveyName: "",
     endDate: "",
@@ -365,6 +365,9 @@ export class SurveyService {
   startChannel(channel: RealtimeChannel, event: '*' | 'INSERT' | 'UPDATE' | 'DELETE') {
     channel = this.supabase.channel('custom-all-channel').on('postgres_changes', { event: event, schema: 'public' },
       (payload) => {
+        if (this.currentSurveyId() && this.formSubmitted) {
+          return
+        }
         if (this.currentSurveyId()) {
           this.loadLiveSurvey('surveys', this.currentSurveyId())
         }
